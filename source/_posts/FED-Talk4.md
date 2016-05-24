@@ -9,9 +9,7 @@ FED-Talk月刊是由 **微信公众号：前端Talk** 维护的一月为一期�
 
 微信公众号 **扫二维码** 或搜索 **fed-talk**
 
-<div align="center">
-<img src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" alt=""/><br>
-</div>
+![](https://raw.githubusercontent.com/mulgore/mulgore.github.io/master/preimgs/sand-dunes-691431_640.jpg)
 
 ## 月刊
 
