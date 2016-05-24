@@ -557,8 +557,8 @@ code {
   display: none;
 }
 #sidebar .sidebar-top {
-  background: #006bde;
   padding: 15px 30px;
+  height: 160px;
 }
 #sidebar .sidebar-top:before,
 #sidebar .sidebar-top:after {
@@ -567,6 +567,10 @@ code {
 }
 #sidebar .sidebar-top:after {
   clear: both;
+}
+#sidebar .sidebar-top .wechat-code {
+  width: 160px;
+  margin-top: 6px;
 }
 #sidebar .sidebar-top .sidebar-top-inner:before,
 #sidebar .sidebar-top .sidebar-top-inner:after {
@@ -577,8 +581,6 @@ code {
   clear: both;
 }
 #sidebar .sidebar-top p {
-  float: left;
-  color: rgba(255,255,255,0.8);
   font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
