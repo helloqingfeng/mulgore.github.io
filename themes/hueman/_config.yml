@@ -4,6 +4,7 @@ menu:
     # Delete this row if you don't want categories in your header nav bar
     Categories:
     Monthly: /monthly/index.html
+    Lessons: /lesson/index.html
     About: /about/index.html
 
 # Customize
