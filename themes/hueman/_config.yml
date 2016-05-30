@@ -3,6 +3,7 @@ menu:
     Home: /
     # Delete this row if you don't want categories in your header nav bar
     Categories:
+    Article: '/article/index.html'  
     Monthly: /monthly/index.html
     Lessons: /lesson/index.html
     About: /about/index.html

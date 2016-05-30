@@ -1,6 +1,7 @@
 index:
     home: '首页'
     about: '关于'
+    article: '前端Talk'
     monthly: 'FED-Talk月刊'
     lessons: '实战课程'
     search: '搜索'
