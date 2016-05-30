@@ -1,7 +1,6 @@
 title: Swift的期待
 date: 2016-04-16 18:17:36
 tags: Swift
-banner: https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-3
 ---
 
 > 会当凌绝顶，一览众山小。
