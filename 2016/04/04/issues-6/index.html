@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1d25f2a1077359921740604b649a2dea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <title>我的编程之路 | Mulgore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="光阴荏苒，岁月蹉跎；
+
+前些日子看电视剧翻到了刘烨的《血色浪漫》，其实我是一个很感性的人，电视剧中的人物：钟跃民，张海洋，周晓白，一幕一幕的从脑中闪过，很钦佩钟跃民对于人生的感悟，他有着无拘无束，散漫自由的天性。同时又善于在逆境中寻找乐趣（在陕北插队时），他很坚强，也很勇猛，可以用不文明对待不文明的方式来解决很多问题。他也很讲义气，可以在患难中把一张烧饼分给朋友吃的那种人。或多，或少，我和钟跃民">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的编程之路">
+<meta property="og:url" content="https://mulgore.github.io/2016/04/04/issues-6/index.html">
+<meta property="og:site_name" content="Mulgore">
+<meta property="og:description" content="光阴荏苒，岁月蹉跎；
+
+前些日子看电视剧翻到了刘烨的《血色浪漫》，其实我是一个很感性的人，电视剧中的人物：钟跃民，张海洋，周晓白，一幕一幕的从脑中闪过，很钦佩钟跃民对于人生的感悟，他有着无拘无束，散漫自由的天性。同时又善于在逆境中寻找乐趣（在陕北插队时），他很坚强，也很勇猛，可以用不文明对待不文明的方式来解决很多问题。他也很讲义气，可以在患难中把一张烧饼分给朋友吃的那种人。或多，或少，我和钟跃民">
+<meta property="og:image" content="https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-6.jpg">
+<meta property="og:updated_time" content="2016-05-30T11:16:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我的编程之路">
+<meta name="twitter:description" content="光阴荏苒，岁月蹉跎；
+
+前些日子看电视剧翻到了刘烨的《血色浪漫》，其实我是一个很感性的人，电视剧中的人物：钟跃民，张海洋，周晓白，一幕一幕的从脑中闪过，很钦佩钟跃民对于人生的感悟，他有着无拘无束，散漫自由的天性。同时又善于在逆境中寻找乐趣（在陕北插队时），他很坚强，也很勇猛，可以用不文明对待不文明的方式来解决很多问题。他也很讲义气，可以在患难中把一张烧饼分给朋友吃的那种人。或多，或少，我和钟跃民">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-6.jpg">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mulgore</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/Archives">温故而知新</a>
+                
+                    <a class="main-nav-link" href="/monthly/index.html">FED-Talk月刊</a>
+                
+                    <a class="main-nav-link" href="/lesson/index.html">实战课程</a>
+                
+                    <a class="main-nav-link" href="/about">关于我们</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/Archives">温故而知新</a></td>
+                
+                    <td><a class="main-nav-link" href="/monthly/index.html">FED-Talk月刊</a></td>
+                
+                    <td><a class="main-nav-link" href="/lesson/index.html">实战课程</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我们</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+            <h2 id="name">Mulgore</h2>
+            <h3 id="title">欢迎关注mulgore组织运营的 [前端Talk] 公众号 -- 内容起于前端而不止于前端，探索技术深邃的灵光。</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/mulgore/">SEGUIR</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                11
+                <span>Entradas</span>
+            </div>
+            <div class="article-info-block">
+                6
+                <span>Etiquetas</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/mulgore" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="http://weibo.com/2455876310/" target="_blank" title="weibo"><i class="fa fa-weibo"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-issues-6" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-6.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            我的编程之路
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/04/04/issues-6/">
+            <time datetime="2016-04-04T10:50:37.000Z" itemprop="datePublished">2016-04-04</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/前端漫谈/">前端漫谈</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>光阴荏苒，岁月蹉跎；</p>
+</blockquote>
+<p>前些日子看电视剧翻到了刘烨的《血色浪漫》，其实我是一个很感性的人，电视剧中的人物：钟跃民，张海洋，周晓白，一幕一幕的从脑中闪过，很钦佩钟跃民对于人生的感悟，他有着无拘无束，散漫自由的天性。同时又善于在逆境中寻找乐趣（在陕北插队时），他很坚强，也很勇猛，可以用不文明对待不文明的方式来解决很多问题。他也很讲义气，可以在患难中把一张烧饼分给朋友吃的那种人。或多，或少，我和钟跃民的性格有大部分的相像，怀旧，又对于“新生活“而憧憬。</p>
+<p>说到编程其实我是半路出身的人，在很多年之前编程对于我形同“在塔克拉玛干中找绿洲一般”，撞上完全看概率。在很小的时候家里没有电脑，但是却有小霸王，（还是父亲从广州托人邮寄回来的）虽然父亲希望我能用它学习打字，不过多数情况下，我都用它在玩《魂斗罗》了。最开始接触编程（有意识的）还是在读高中的时候，学校对于市里的《电脑比赛》很重视，虽然是打字，以及基础的C语言（题目我还记得很清楚，输出一个乘法表）。但是我没有继续学习，比赛完之后就抛之脑后了。不过可喜的是，我竟然发现自己很喜欢电脑课老师推荐学习的python，坚持阅读完了一本书：</p>
+<p><a href="https://book.douban.com/subject/2137490/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s2604186.jpg" alt=""></a></p>
+<p>高中读完（没有去念大学），一直在雪峰山里的老家，过着自己的隐居生活，一过既是三年。</p>
+<p>至今我都还能想到那一年刚到长沙（2011年）的夏天，穿着短袖站在长沙火车站，脸油油的一夜未睡，从怀化到长沙的绿皮火车需要开一个通宵才能到长沙。（去找第一份工作，当时还叫网页制作），那时候的我如同一个小白，大约知道一些标签（去面试之前，临时看了看百度的信息，不要问我Google是什么，当时真只知道百度。）面试我的大哥姓周，现在我们还是很好的朋友（他在长沙结婚，生子，有了自己的事业和家庭，过的很幸福），就这样误打误撞的得到了一份工作（有人教，真的很爽），不过自己也够上进，知道该怎么去学习真的很重要。人生的第一站，都要经过很多挫折，痛苦，也可能是磨难才能有成长，成长虽然伴随着阵痛，这大概就是人生的无奈了吧。我很庆幸自己没有经过太多的挫折，一路走来在不同的阶段都有不同的人给予了帮助。在长沙的三个月里，我学习了很多东西（华声在线）。</p>
+<ul>
+<li>div+css布局（position布局和float布局）</li>
+<li>了解到了基础的语义化（比如超链接的时候用a标签，标题用h系列标签，按钮用button，行内用span）</li>
+<li>学习了JavaScript基础（比如大量的使用函数，俗称面向过程编程，一个功能一个函数，大的功能用很多个小函数组合而成）</li>
+<li>接触了jQuery（会用DOM选择器，那个年代没有比jQuery更好的解决方案）</li>
+<li>了解到了IE6兼容性的问题（虽然，我现在都忘记的差不多了）</li>
+</ul>
+<p>阅读到的书有：</p>
+<p><a href="https://book.douban.com/subject/4861462/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s4380650.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/3082278/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s3103215.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/4111399/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s24398905.jpg" alt=""></a></p>
+<p><a href=""><img src="http://ec4.images-amazon.com/images/I/51hoD75E26L._SX397_BO1,204,203,200_.jpg" alt=""></a></p>
+<p>PS：这四本书有些年头了。</p>
+<p>真正开始有意识的对编程的认知还是要从珠海开始，那时候在自己的心里才建立起了体系。不得不说，从长沙到珠海的跨越对于自己的职业和专业有了非常大的促进作用。远光软件是一家企业管理和社会服务信息系统供应商，以国家电网，南方电网做为主要的服务客户（当然还有五大发电集团以及珠海市市政系统的研发）。到远光软件，做的第一个项目就是《费用报销系统》，这是一个典型的单页应用（SAP），在客户端层面进行了MVC分层，模块化，以及大量的操作表格（编辑费用报销流程）和Ajax的交互。在珠海认识了博士（我的导师，远光软件对于新入职的员工都会安排一个专职的导师来辅助新员工展开工作，博士后来自己去创业了，他一直想开一家属于自己的咖啡店，虽然经历了挫折，最后加入了魅族）。要说到如何加入远光软件，不得不说（平时的兴趣爱好说不定在某些时候真能有所帮助）。我们部门的总经理是一个很nice的茶友和网友（当时玩博客园），这样看来帮助还真是无声无息之间就发生了，我得到了一次机会，回过头来看，这真的是人生的转折。</p>
+<ul>
+<li>了解到了MVC，参与了公司内部MVC框架的开发（seeker.js）</li>
+<li>重新学习了JavaScript，对于这门语言有了更深刻的体会</li>
+<li>了解到了Ajax以及网络传输层的通信（HTTP）</li>
+<li>开始认识到构建一个大型项目，模块化的重要性</li>
+<li>开始了解到有Grunt这么一个构建工具</li>
+<li>学习了Node.js</li>
+</ul>
+<p>在珠海的日子里现在想起来自己的状态：就是一个只会学习的机器。那段时间，我对Objective-C产生了浓厚的兴趣，开始自己倒腾黑苹果，学习Objective-C，CocoaTouch框架，参与部门内部项目的开发（虽然半途夭折了），接触到了UNIX操作系统，这才发现自己一直使用的windows好low啊。那个时候的自己真让自己怀念，其实学习它真的是一种精神（不断的探索，不断的吸取），坚持下来之后，才能知道雨后会不会是彩虹。也是在这一段时间里，我加入了一个网友组织的前端分享网站（2012年）：<a href="http://www.w3cplus.com/" target="_blank" rel="external">w3cplus</a>，认识了大漠，为之，99，993，也有了一个不常用的ID《文人》，多数情况下，我一直用着自己的icepy（直到后来我才认识到ID混乱带来的麻烦，就索性一直用着icepy了。），只是现在和为之联系的比较少了，知道他去了腾讯。在生活里，人与人的相处分阶段，天下没有不散的宴席，这是真的。</p>
+<p>在珠海这一过就是两年，阅读的书籍非常多，多到自己都数不清楚了，大体上来说分为了两个部分，语言类的和编程思想类的，印象中大约还能记得的就只有这些了：</p>
+<p><em>JavaScript</em></p>
+<p><a href="https://book.douban.com/subject/2228378/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s5860151.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/3590768/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s3651235.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/3329540/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s3398900.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/10546125/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s8958650.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/5362856/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s6245861.jpg" alt=""></a></p>
+<p><em>iOS</em></p>
+<p><a href="https://book.douban.com/subject/3864073/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s3885296.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/6920082/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s28020216.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/3870385/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s3890550.jpg" alt=""></a></p>
+<p><em>编程思想类</em></p>
+<p><a href="https://book.douban.com/subject/10746113/" target="_blank" rel="external"><img src="http://ec4.images-amazon.com/images/I/51L3vC93PEL._SX383_BO1,204,203,200_.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/1152912/" target="_blank" rel="external"><img src="http://ec4.images-amazon.com/images/I/51yWNzHYyUL._SX357_BO1,204,203,200_.jpg" alt=""></a></p>
+<p><a href="http://www.amazon.cn/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E7%B2%BE%E9%AB%93%E4%B8%8E%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86-%E6%96%AF%E6%89%98%E6%9E%97%E6%96%AF/dp/B0041859AI/ref=sr_1_2?ie=UTF8&amp;qid=1459746651&amp;sr=8-2&amp;keywords=%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%B2%BE%E9%AB%93%E4%B8%8E%E8%AE%BE%E8%AE%A1%E5%8E%9F%E7%90%86" target="_blank" rel="external"><img src="http://ec4.images-amazon.com/images/I/51yo0pczfbL._SX340_BO1,204,203,200_.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/1139426/" target="_blank" rel="external"><img src="http://ec4.images-amazon.com/images/I/51U7%2BI63eWL._SX354_BO1,204,203,200_.jpg" alt=""></a></p>
+<p>阅读完那三本书（iOS）之后其他时间学习iOS开发就靠官方文档以及Google了，其实中间很长一段时间内自己并不清楚自己到底喜欢哪一个，索性两个都比较深入的学习了，当时自己都不知道这个决定对于今后有多大的影响，后来我才发现我特别的适合做混合应用（Hybrid App）或者手机端的开发，因为我对Native（iOS端）的熟悉程度不亚于前端（HTML,CSS,JavaScript）。慢慢的对于应用我更关注代码的层次维护性与可读性，使用Instruments来分析优化iOS应用，抓包分析HTTP，在设计（软件设计模式）与编写之际找到一个平衡。真的还要感谢网易公司（黄易^_^）推出了《网易公开课》<a href="http://open.163.com/" target="_blank" rel="external">http://open.163.com/</a>补全了我大量计算机方面的基础知识。</p>
+<p>2013年底，我去了上海住在为之家中，有一段时间里都快不知道该去做些什么。后来经过大漠的推荐，我去了携程无线事业部面试，这是一个很棒的团队。有幸加入其中，真觉得自己的选择和方向是对的。虽然，我们最后解散分拆了（很可惜）。携程的App和手机网站全部使用Hybrid技术来构建，一套代码运行在三端（iOS，Android，Mobile）。在无线事业部感觉每一天都过的很新鲜，因为我能做很多事情，一是验证自己的想法，二是积累了大量的实践经验，三是我可以做更多混合编程的东西。我的leader有泉帮助我很快的适应了携程的技术栈（当时使用的是requirejs，zepto，backbone，underscore搭建起来的技术栈），至今我都还能想起来在携程认识的那些人，跟着张老虎跑门票的业务（还有汗巾一起），听刘大师吹牛皮，张爸爸讲UI组件，帮助淳敏用python写了一个打包工具，看磊BB（叶小钗）指点江山，意气风发。大格子汉卿聊上海话，左盟主策笑傲江湖，明星弄《酒店》。是的，就是这样的一个团队，虽然每天都很“苦逼”（几乎每天都很正能量的忙到十点，十一点），却也收获了更多。</p>
+<ul>
+<li>通过bridge（自定义协议）与Native进行交互</li>
+<li>研究了phoneGap的技术，比如在“后台”相对于前端Native就是后台，进行网络，线程的优化</li>
+<li>研究了辅助前端调试的工具，比如远程代理，客户端App代理</li>
+<li>对JavaScript语言有了更深刻的理解</li>
+<li>使用Node.js跑SEO页面，对Node.js掌握的比较全面了，采用新的技术解决回调过深的问题</li>
+</ul>
+<p>在携程一直到无线事业部解散，分拆陆陆续续待了十个月，虽然很短暂，但是却印证了自己所想，在心底一直坚持的信念，有了一次很充分的肯定：使用前端技术开发手机App。</p>
+<p><a href="https://book.douban.com/subject/22190840/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s25933771.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/10608238/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s9066310.jpg" alt=""></a></p>
+<p><a href="https://book.douban.com/subject/25768396/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s27269296.jpg" alt=""></a></p>
+<p>这一年里一共买了三本书，不知道为什么后面这些年买书买的比较少了，更多的是通过开源社区来获取资料，学习。虽然我在珠海的时候就注册了<a href="https://github.com/icepy" target="_blank" rel="external">Github icepy</a>，但是开始玩起来还是去了携程之后。</p>
+<p>三月份（2015年）我去了每日优鲜，当时我们七个人（两个纯前端，我和小袁，现在和我一起在《音悦台》，凤鸣偶尔会帮助我们，四个python服务端，一个切图的女同学）在望京对面的麒麟社（看起来很像家居楼，比较破），用<a href="http://ionicframework.com/" target="_blank" rel="external">ionic</a>快速搭建了跑在三端（iOS，Android，微信端）的每日优鲜App。中间经历了很多很痛苦的试验阶段，包括有兼容微信（JS SDK），ionic是一套基于AngularJS的混合应用开发框架，在每日优鲜即将搬入望京SOHO的前三天，我离开了。其实，当时我并不知道自己想要去做些什么，但是又不得不去做些什么。（现在的每日优鲜App早已经用原生语言重写了一套，部分混合了一些前端页面，他们发展的很不错。）</p>
+<p>在外面的世界混了一圈，心里有了些疲惫，特别是听到了《去大理》，《一人一花》，想起了雪峰山的家乡，于是就回去了。本来应该很满意的过着自己的隐居生活，和同学开始筹备了一个养殖场和果园，也写好了相应的微信网站和运营计划，我想我们原生态的农业产品，在长沙，怀化等城市中应该会有很大的需求，因为人们对于食品安全的关注度比以往都高了很多很多。很不幸，因为合伙人理念的冲突，我又失败了。</p>
+<p>九月份（2015年），我又去北京找了一个工作，负责乐家园社区O2O项目的前端设计，两个人搭起来了一个社区App，我们采用backbone很快堆出了原形，看起来发展势头很良好，可是这一年资本寒冬来了，12月份老板调整了方向，开始做物业管理系统基本放弃了to C的产品，物业管理系统使用了react，es2015，webpack来搭建，可是我依然选择了离开。</p>
+<p>从携程离职之后的2015年并不是很顺利，起伏经历了很多，但是这一年里却是买书读书读的非常多的一年（<a href="https://github.com/icepy/_posts/issues/20" target="_blank" rel="external">2015年我阅读的书籍</a>），这是一个很有趣的现象，当然我闲下来的时候（我并不知道该去做些什么，只剩读书了。），读书成了我唯一的爱好。</p>
+<ul>
+<li>学习了react，es2015，webpack</li>
+<li>开始去了解和掌握react native的知识</li>
+<li>更深入的学习了iOS，包括有新推出的Swift语言</li>
+<li>关注的点更多的是在于编程思想方面，比如最佳的实践，如何采用合适的技术栈搭建产品，编程的规范，自动化CI方面等基础设施的研究</li>
+<li>对于开源社区的依赖程度更高了，比如现今成了Github的重度用户</li>
+</ul>
+<p><a href="https://book.douban.com/subject/4826290/" target="_blank" rel="external"><img src="https://img3.doubanio.com/lpic/s6164140.jpg" alt=""></a></p>
+<h2 id="2016年（如今）"><a href="#2016年（如今）" class="headerlink" title="2016年（如今）"></a>2016年（如今）</h2><p>总的来说我依然很看好JavaScript的应用范围，也打算继续耕耘在这个领域中，努力使自己的知识结构体系可以保持与世界趋势的同步。</p>
+<p>现在我是音悦台的一名软件开发工程师（2016年2月），主要的工作就是Web开发，虽然我做了很多基础决策方面的事情以及帮助团队成长（三个臭皮匠顶一个诸葛亮）。今后的很长的时间里，我依然会保持对技术的敏感与同步，其实写到最后，千言万语貌似还有很多话未说完。我很不希望，像很多前辈说的那样，编程是一个青春饭，人到了一定的年龄（你在知乎上搜索，很多都是30岁之后该如何转型的帖子），这是国情吗？于是，我拒绝了管理岗位，我更希望自己可以做一个纯粹热爱技术的人。</p>
+<p>下一个阶段（主要给刚入行的同学看）：</p>
+<p><strong>保持对新技术的敏感</strong></p>
+<p>对技术的热爱是你保持对新技术的敏感正确姿势。</p>
+<p><strong>遇到问题该怎么办</strong></p>
+<p>其实大部分的问题真的都是小问题，首先自己不能害怕问题，先在Google中搜索一下可以解决掉80%以上的问题，其次对于复杂的问题可能需要分解一下源代码，从其逻辑中查找问题，最后自己实在不爽（造个轮子）。</p>
+<p><strong>组织自己的开发环境</strong></p>
+<p>建议大家熟练的使用一套自己的开发环境，比如快捷键，oh-my-zsh，IDE。前端首推的IDE是Webstorm，然后是Atom，最后是Sublime Text 3。</p>
+<p>不要问我为什么没有Vim，因为大家可以使用这些编辑器或者IDE的vim插件，比如我就使用Atom的vim-mode。</p>
+<p><strong>老生常谈的如何学习</strong></p>
+<p>保持对技术的热爱，你有兴趣才可能去学习，勉强（强扭的瓜不甜）是会很痛苦的，如果你有兴趣，Github上大量的资源会让你根本学不完。</p>
+<p><strong>弄个云服务器</strong></p>
+<p>如果有兴趣和有时间弄一个阿里云或者其他任何云服务器，自己去捣腾一下，能更清楚认识Web开发。</p>
+<hr>
+<p>写在最后：</p>
+<p>如果你对《音悦台》有兴趣，可以先读<a href="https://github.com/icepy/_posts/issues/29" target="_blank" rel="external">《浅谈音悦台PC端（前端开发）的改造，告别刀耕火种 》</a>对我们即将做的事情有一些了解，我们需要优秀的开发者加入，一起来完善这些，有兴趣的朋友，可以将简历发送到<a href="">xiangwenwe@foxmail.com</a>，期待～。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/04/04/issues-6/" data-id="ciotwbenb000l6mjrjq948ais" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/04/04/issues-6/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/04/04/issues-6/">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/04/07/issues-5/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    使用Travis-CI+Coveralls让你的Github开源项目持续集成
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/03/29/FED-Talk3/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">FED-Talk月刊第三期（2016年3月）</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/04/04/issues-6/" data-title="我的编程之路" data-url="https://mulgore.github.io/2016/04/04/issues-6/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/23/follow-react-lesson/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/follow-react-lesson.jpg)" alt="和我一起实战react" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/23/follow-react-lesson/" class="title">和我一起实战react</a></p>
+                            <p class="item-date"><time datetime="2016-05-23T07:24:24.000Z" itemprop="datePublished">2016-05-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/16/issues-1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-1.jpg)" alt="我是这样学习前端的" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/16/issues-1/" class="title">我是这样学习前端的</a></p>
+                            <p class="item-date"><time datetime="2016-05-16T07:49:38.000Z" itemprop="datePublished">2016-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/29/FED-Talk4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/sand-dunes-691431_640.jpg)" alt="FED-Talk月刊第四期（2016年4月）" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/29/FED-Talk4/" class="title">FED-Talk月刊第四期（2016年4月）</a></p>
+                            <p class="item-date"><time datetime="2016-04-29T06:00:40.000Z" itemprop="datePublished">2016-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/27/issues-2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://www.npmjs.com/static/images/npm-logo.svg)" alt="玩转NPM" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/27/issues-2/" class="title">玩转NPM</a></p>
+                            <p class="item-date"><time datetime="2016-04-27T10:13:44.000Z" itemprop="datePublished">2016-04-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/16/issues-3/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/icepy/_posts/master/img/swift.png)" alt="Swift的期待" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/16/issues-3/" class="title">Swift的期待</a></p>
+                            <p class="item-date"><time datetime="2016-04-16T10:17:36.000Z" itemprop="datePublished">2016-04-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Etiquetas</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/FED-Talk月刊/">FED-Talk月刊</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Nube de etiquetas</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/FED-Talk月刊/" style="font-size: 20px;">FED-Talk月刊</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 icepy,yuanxj1024<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'icepy'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

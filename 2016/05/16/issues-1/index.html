@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1d25f2a1077359921740604b649a2dea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <title>我是这样学习前端的 | Mulgore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="前沿
+算算时间今年（2016年）是进入前端开发这个领域第五个年头，自从上次总结完《我的编程之路》后，还想从更细节的方向上写一写自己是如何学习前端开发，并且还能够保持进步和对技术的敏感。
+
+对于现在进入这个领域的朋友们来说，很多东西其实你都可以选择放弃了，因为你的起点比之以前要提高了不少，但相对来说知识点又多了很多。PS：至少你不用去兼容IE6了。
+来看一看JavaScript的趋势图：
+
+Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我是这样学习前端的">
+<meta property="og:url" content="https://mulgore.github.io/2016/05/16/issues-1/index.html">
+<meta property="og:site_name" content="Mulgore">
+<meta property="og:description" content="前沿
+算算时间今年（2016年）是进入前端开发这个领域第五个年头，自从上次总结完《我的编程之路》后，还想从更细节的方向上写一写自己是如何学习前端开发，并且还能够保持进步和对技术的敏感。
+
+对于现在进入这个领域的朋友们来说，很多东西其实你都可以选择放弃了，因为你的起点比之以前要提高了不少，但相对来说知识点又多了很多。PS：至少你不用去兼容IE6了。
+来看一看JavaScript的趋势图：
+
+Java">
+<meta property="og:image" content="https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-1.jpg">
+<meta property="og:updated_time" content="2016-05-30T10:12:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我是这样学习前端的">
+<meta name="twitter:description" content="前沿
+算算时间今年（2016年）是进入前端开发这个领域第五个年头，自从上次总结完《我的编程之路》后，还想从更细节的方向上写一写自己是如何学习前端开发，并且还能够保持进步和对技术的敏感。
+
+对于现在进入这个领域的朋友们来说，很多东西其实你都可以选择放弃了，因为你的起点比之以前要提高了不少，但相对来说知识点又多了很多。PS：至少你不用去兼容IE6了。
+来看一看JavaScript的趋势图：
+
+Java">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-1.jpg">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mulgore</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/Archives">温故而知新</a>
+                
+                    <a class="main-nav-link" href="/monthly/index.html">FED-Talk月刊</a>
+                
+                    <a class="main-nav-link" href="/lesson/index.html">实战课程</a>
+                
+                    <a class="main-nav-link" href="/about">关于我们</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/Archives">温故而知新</a></td>
+                
+                    <td><a class="main-nav-link" href="/monthly/index.html">FED-Talk月刊</a></td>
+                
+                    <td><a class="main-nav-link" href="/lesson/index.html">实战课程</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我们</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+            <h2 id="name">Mulgore</h2>
+            <h3 id="title">欢迎关注mulgore组织运营的 [前端Talk] 公众号 -- 内容起于前端而不止于前端，探索技术深邃的灵光。</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/mulgore/">SEGUIR</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                11
+                <span>Entradas</span>
+            </div>
+            <div class="article-info-block">
+                6
+                <span>Etiquetas</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/mulgore" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="http://weibo.com/2455876310/" target="_blank" title="weibo"><i class="fa fa-weibo"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-issues-1" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-1.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            我是这样学习前端的
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/05/16/issues-1/">
+            <time datetime="2016-05-16T07:49:38.000Z" itemprop="datePublished">2016-05-16</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/前端漫谈/">前端漫谈</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h1 id="前沿"><a href="#前沿" class="headerlink" title="前沿"></a>前沿</h1><blockquote>
+<p>算算时间今年（2016年）是进入前端开发这个领域第五个年头，自从上次总结完《我的编程之路》后，还想从更细节的方向上写一写自己是如何学习前端开发，并且还能够保持进步和对技术的敏感。</p>
+</blockquote>
+<p>对于现在进入这个领域的朋友们来说，很多东西其实你都可以选择放弃了，因为你的起点比之以前要提高了不少，但相对来说知识点又多了很多。PS：<em>至少你不用去兼容IE6了。</em></p>
+<p>来看一看JavaScript的趋势图：</p>
+<blockquote>
+<p>JavaScript 2016年5月 TOP 10</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/icepy/_posts/master/img/top20.png" alt=""></p>
+<blockquote>
+<p>JavaScript 趋势图</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/icepy/_posts/master/img/index.png" alt=""></p>
+<blockquote>
+<p>Github 2008-2015统计</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/icepy/_posts/master/img/github-languages.jpg" alt=""></p>
+<p><a href="http://mp.weixin.qq.com/s?__biz=MjM5Mjg4NDMwMA==&amp;mid=405412226&amp;idx=1&amp;sn=3bc7a9c6afd166591a90723a1802ed99&amp;scene=4#wechat_redirect" target="_blank" rel="external">最流行的编程语言JavaScript能做什么？</a></p>
+<p>虽然前端领域属于一个比较新的领域，但是至少它也发展了有很多年了。回顾从前，Web前端开发最基础核心的三剑客：<em>HTML</em>，<em>CSS</em>，<em>JavaScript</em>，可能还需要包括<em>Flash系列</em>，而现在除了<em>Flash</em>（如果你不是直播视频领域的话），基本上还扩充了<em>HTML5</em>，<em>CSS3</em>，<em>ES2015</em>，以及各种框架（backbone,react,angular等）。</p>
+<a id="more"></a>
+<h2 id="角色的定义"><a href="#角色的定义" class="headerlink" title="角色的定义"></a>角色的定义</h2><p>前端开发也应该是<strong>软件开发工程</strong>，所以优秀的软件开发工程需要具备的知识，你也应该需要具备。</p>
+<ol>
+<li>良好的数学逻辑</li>
+<li>良好的数据结构与算法</li>
+<li>操作系统</li>
+<li>编译原理</li>
+<li>计算机系统体系</li>
+</ol>
+<p>当你具备良好的基础知识时，对于<strong>编程</strong>二字才可能理解的更透彻。后续你才能进一步的去学习软件设计模式，标准，这些哲学范畴的思想，就好比你认识了汉字，才能阅读完一篇文章。</p>
+<p>当然如果你在学校学习的非常好，下列的学习资源推荐就当是复习吧。</p>
+<p><strong>学习资源推荐</strong></p>
+<ol>
+<li>数学逻辑可以观看 <em>网易公开课</em> 或者 <em>iTunes U</em></li>
+<li>算法或者数据结构，你可以在<a href="https://leetcode.com/" target="_blank" rel="external">https://leetcode.com/</a>上刷题来练习</li>
+<li>操作系统，我建议你阅读 <strong>《操作系统精髓与设计原理》</strong> 即可，如果理解起来费劲你可以继续去<em>公开课</em> 或者 <em>iTunes U</em>上搜索视频资源。PS：放心吧，肯定有。</li>
+<li>编译原理，推荐在 <em>iTunes U</em> 搜索 <strong>冯博琴老师</strong> 的教学视频。</li>
+<li>计算机系统体系有非常多的知识点，你可以继续搜索教学视频来观看。</li>
+</ol>
+<p>无论何时你都不能丢掉 <em>HTML</em>，<em>CSS</em>，这个问题在我的身上也出现过，过去很长的时间内我基本不怎么会 <em>CSS</em>，这也意味着当我需要去绘制UI时往往效率不高。</p>
+<p>其实，这个问题还是牵扯到了如何分配学习资源的问题，欢迎大家来讨论<a href="https://github.com/icepy/_posts/issues/38" target="_blank" rel="external">《JS开发和重构这样的分工是否正确，JS开发者还需要继续深入学习CSS吗？》</a>。</p>
+<p>如果你的基础知识还不够牢固，我推荐你阅读一下 <strong>角色的定义</strong> ，看一看你需要补全哪些方面的知识。如果你感觉你的基础知识还可以，请往下看：</p>
+<p>首先，我推荐大家先阅读一下 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/A_re-introduction_to_JavaScript" target="_blank" rel="external">重新介绍 JavaScript（JS 教程）</a> 和 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS" target="_blank" rel="external">层叠样式表 (Cascading Style Sheets)</a></p>
+<p><strong>无经验的同学</strong> 我推荐你先使用 <a href="https://www.freecodecamp.com/challenges/learn-how-free-code-camp-works" target="_blank" rel="external">freeCodeCamp</a>来学习基础的语法，配合 <a href="http://jsbin.com/tixoyutata/edit?html,css,js,console" target="_blank" rel="external">JS bin</a>来练习。另外，你还可以观看 <a href="http://www.imooc.com/" target="_blank" rel="external">慕课网</a> 中的 <strong>HTML/CSS/JavaScript入门教学视频</strong>来提高你的运用水平。</p>
+<p><strong>有其他语言开发经验的同学</strong> 我推荐你直接学习一门框架，比如React或者Vue，先做一个小项目，比如React官方提供的To do应用，在这个过程中，你也基本熟悉了JS的语法，使用方式等。你可能还需要 <a href="http://devdocs.io/" target="_blank" rel="external">Devdocs</a> 来查看Api，这一点非常重要。</p>
+<p>当你渡过了入门阶段之后，如何提升可能会是你目前迫在眉睫的需求。回到Web领域，我们来看它的本质。本质是你所有的工作都在围绕着 <strong>请求</strong> 在处理逻辑。我认为提升的第一步是去研究 HTTP ，当你熟练掌握了 HTTP 以及它身后的 TCP之后，你才会真正理解Web开发的含义。（多线程处理，事件循环，缓存等等这些手段，不都是在如何处理请求么？）没事翻一翻《HTTP权威指南》还是有好处的。</p>
+<p><strong>套用一句老话，如果你的基础不扎实，一切都是“浮云”。</strong></p>
+<h2 id="具备良好的视野"><a href="#具备良好的视野" class="headerlink" title="具备良好的视野"></a>具备良好的视野</h2><blockquote>
+<p>良好的视野是你能看清楚趋势</p>
+</blockquote>
+<p>如果你现在还准备去学习 <em>Flash</em> ，那我只能说你的视野都被狗吃了。至少你可以通过社区来了解 <em>前端</em> 的发展动态，去了解出现了哪些新的框架，更新了哪些新的Api或者属性。未来一段时间内，国内或者国际厂商会使用哪些技术等等。</p>
+<p>最次一些的，你还可以关注 <strong>Github</strong> 来了解<a href="https://github.com/explore" target="_blank" rel="external">项目</a>的趋势。当然，你也可以阅读<a href="https://www.awesomes.cn/rank?sort=trend" target="_blank" rel="external">https://www.awesomes.cn/rank?sort=trend</a></p>
+<p>瞧瞧这些年里前端发展的变化：</p>
+<ol>
+<li>从框架层面开始：backbone -&gt; angular -&gt; react</li>
+<li>工具生态：grunt -&gt; gulp -&gt; webpack</li>
+<li>语言：JavaScript 1.3 -&gt; ECMA 5 -&gt; ECMA 2015，CSS2.1 -&gt; CSS3.0，XHTML -&gt; HTML4.0 -&gt; HTML5.0</li>
+<li>Firefox OS （虽然它挂了）</li>
+<li>桌面应用：NW.js -&gt; Electron</li>
+<li>出现了Node.js和Mongodb</li>
+<li>服务端框架：Express -&gt; koa</li>
+<li>移动应用：PhoneGap -&gt; Cordova | ionic -&gt; React Native | weex</li>
+<li>语法检查：jslint -&gt; eslint</li>
+<li>模块化：AMD | CMD -&gt; Commonjs -&gt; import export</li>
+<li>语法增强：CoffeeScript -&gt; Dart -&gt; TypeScript</li>
+</ol>
+<p>… <strong>旧技术虽然消亡了，但它们留下的思维启发永在。说不完的变化与发展，拥抱变化用心去体会吧。</strong></p>
+<h2 id="戒浮躁，定乾坤"><a href="#戒浮躁，定乾坤" class="headerlink" title="戒浮躁，定乾坤"></a>戒浮躁，定乾坤</h2><blockquote>
+<p>随着前端生态圈的繁荣出产了更多的框架和解决方案。</p>
+</blockquote>
+<p>更久远之前我们是这样写前端的：</p>
+<p>使用jQuery来编写大量的业务逻辑和效果，圆角我需要四个图来拼接。</p>
+<p>2010-2016年的三个阶段：</p>
+<ul>
+<li>使用<em>backbone</em>的MVC组织源代码，大量的使用jQuery插件的形式来构建UI界面，那个年代仅用了<em>Grunt</em> 来处理一些合并，压缩的事情。</li>
+<li>构建工具换成了Gulp，对于业务进行了模块化分层（requirejs），研究angular.js来编写富应用程序。</li>
+<li>通过组件（react）来构建我们的Web页面，使用webpack来构建模块化和优化，平台向移动迁移，研究React Native这样的混合开发方式，并且使用上了ES6。</li>
+</ul>
+<p>生态圈的繁荣也容易让人产生选择困难症，东西越多越难选择，害怕今天刚学习了就被淘汰的心理。这个时候，我想最好的方式就是要戒浮躁，看着东西很多，其实选择一项，也足以。当你成为一个框架的大师时，你还害怕不能成为另一框架的大师吗？专业这个东西除了经验的积累和沉淀，最重要的本质是它们都是互相通顺的。</p>
+<p>目前，我选择了研究和使用react这样的生态做为自己的框架技术栈，从中学习也应用在公司的产品中，随着深挖它的源码，反而发现自己对于技术的理解又有了一次提升。</p>
+<h2 id="做事更要学会思考"><a href="#做事更要学会思考" class="headerlink" title="做事更要学会思考"></a>做事更要学会思考</h2><p>对于刚刚参加工作的同学来说，思考比做事更重要。如果你为了业务而业务，不停的去堆积，只能说过些年你还是如此。去好好的想一想，编程到底是在做什么？</p>
+<p><strong>提出问题自问</strong></p>
+<ol>
+<li>怎么才能写好代码，有时候洁癖或者说强迫症很可能会是你的原动力。</li>
+<li>是不是该主动的去重构代码</li>
+<li>我们需要对于业务代码进行一些分层吗？</li>
+<li>我写的代码有没有符合团队制定的编程风格</li>
+<li>我是不是该使用语言提供的Api，比如数组中的push，pop等。</li>
+<li>公司使用的框架，我理解了吗？</li>
+</ol>
+<p>只有自己主动了，去思考了，才可能发现自己的很多问题，有时候自省也非常的重要。</p>
+<p><strong>学习Node</strong></p>
+<p>说真的Node.js在公司内部用于Web开发的场景并不是很多，仅仅是有一些尝试前后分离的项目，体验上来说依然不够友好。但是，这样的一个环境运行时，我认为是有必要学习的。更多的不谈，做为一个技术补充，它也是非常棒的。你可以先阅读 <a href="http://nqdeng.github.io/7-days-nodejs/" target="_blank" rel="external">七天学会NodeJS</a> 来入门，至少有一个普遍的了解。其次，建议你学习一个Web开发框架，比如 <a href="https://github.com/guo-yu/koa-guide" target="_blank" rel="external">koa</a>，然后，学习一下 <a href="http://mongoosejs.com/" target="_blank" rel="external">Mongoose</a> 来驱动数据。</p>
+<p>重要的是你应该一无既往的深入学习服务端的思想与知识。</p>
+<h2 id="坚持写作"><a href="#坚持写作" class="headerlink" title="坚持写作"></a>坚持写作</h2><blockquote>
+<p>坚持写作，是沉淀经验的最好机会</p>
+</blockquote>
+<p>所谓的温故而知新，专业在向前发展，接收的大量信息，在人脑中是有局限性的。很多知识，只会存在于一个印象或者一个引子，而写作不仅仅是分享，也是在沉淀你自己的经验。（这一个部分就不浪费篇幅了，我相信做为一个技术专业者，你应该懂的。）</p>
+<p>而且写作还能让你和其他开发者针对一个问题展开讨论，何乐而不为呢？</p>
+<h2 id="提高工作或者学习的效率"><a href="#提高工作或者学习的效率" class="headerlink" title="提高工作或者学习的效率"></a>提高工作或者学习的效率</h2><p>提高工作或者学习效率应该是一件非常重要的事情，首先应该需要合理的制定任务与时间，我相信 <a href="https://trello.com/" target="_blank" rel="external">trello</a>应该会是一个非常好的工具，来制定Task。</p>
+<p>其次，你还应该纪录自己的编程时间，用来了解每天都在编写哪些代码。你可以使用<a href="https://wakatime.com" target="_blank" rel="external">WakaTime</a>来分析你的编程。</p>
+<p>在学习过程中，你也可以使用<a href="http://jsbin.com/" target="_blank" rel="external">jsbin</a>来运行你的代码，观察结果。</p>
+<p>最后我认为你需要善用Chrome的书签，将一些资源进行合理的分类。</p>
+<p><strong>推荐列表</strong></p>
+<ol>
+<li><a href="https://getpocket.com/" target="_blank" rel="external">Pocket</a>：收集和分类文章资源</li>
+<li>在Chrome商店中搜索 <strong>DHC</strong> ，<strong>Postman</strong>，<strong>JSON Editor</strong> ：处理请求测试，JSON编辑和格式化</li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web" target="_blank" rel="external">Web 技术文档</a> ：火狐提供的Web技术文档，查询的好帮手</li>
+<li><a href="http://caniuse.com/" target="_blank" rel="external">http://caniuse.com/</a> ：查询CSS3,HTML5的支持度</li>
+<li><a href="https://kangax.github.io/compat-table/es6/" target="_blank" rel="external">https://kangax.github.io/compat-table/es6/</a> ：查询ES6的支持度</li>
+<li><a href="http://devdocs.io/" target="_blank" rel="external">Devdocs</a> ：框架文档集合</li>
+<li><a href="https://travis-ci.org/" target="_blank" rel="external">Travis-CI</a> ：持续集成，我认为如果你善用它，可以帮助你解决很多事情</li>
+<li><a href="http://html5test.com/" target="_blank" rel="external">HTML5 Test</a> ：打开这个网页可以将你使用的浏览器对HTML5的支持情况打印出来</li>
+</ol>
+<p>@guonanci 推荐 <a href="https://github.com/buunguyen/octotree" target="_blank" rel="external">https://github.com/buunguyen/octotree</a></p>
+<p>学习任何一门技术，最重要的是要有耐心和恒心，不然一切都是“浮云”。</p>
+<p>工具篇，我建议大家阅读<a href="https://github.com/icepy/_posts/blob/master/blog/2015%E5%B9%B4%E5%89%8D%E7%AB%AF%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87%E7%9A%84%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7.md" target="_blank" rel="external">《总结个人2015提高前端效率的方法和工具》</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/05/16/issues-1/" data-id="ciotwbemy000b6mjr1k4htep9" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/05/16/issues-1/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/05/16/issues-1/">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/05/23/follow-react-lesson/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    和我一起实战react
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/04/29/FED-Talk4/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">FED-Talk月刊第四期（2016年4月）</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/05/16/issues-1/" data-title="我是这样学习前端的" data-url="https://mulgore.github.io/2016/05/16/issues-1/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/23/follow-react-lesson/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/follow-react-lesson.jpg)" alt="和我一起实战react" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/23/follow-react-lesson/" class="title">和我一起实战react</a></p>
+                            <p class="item-date"><time datetime="2016-05-23T07:24:24.000Z" itemprop="datePublished">2016-05-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/16/issues-1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-1.jpg)" alt="我是这样学习前端的" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/16/issues-1/" class="title">我是这样学习前端的</a></p>
+                            <p class="item-date"><time datetime="2016-05-16T07:49:38.000Z" itemprop="datePublished">2016-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/29/FED-Talk4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/sand-dunes-691431_640.jpg)" alt="FED-Talk月刊第四期（2016年4月）" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/29/FED-Talk4/" class="title">FED-Talk月刊第四期（2016年4月）</a></p>
+                            <p class="item-date"><time datetime="2016-04-29T06:00:40.000Z" itemprop="datePublished">2016-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/27/issues-2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://www.npmjs.com/static/images/npm-logo.svg)" alt="玩转NPM" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/27/issues-2/" class="title">玩转NPM</a></p>
+                            <p class="item-date"><time datetime="2016-04-27T10:13:44.000Z" itemprop="datePublished">2016-04-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/16/issues-3/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/icepy/_posts/master/img/swift.png)" alt="Swift的期待" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/16/issues-3/" class="title">Swift的期待</a></p>
+                            <p class="item-date"><time datetime="2016-04-16T10:17:36.000Z" itemprop="datePublished">2016-04-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Etiquetas</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/FED-Talk月刊/">FED-Talk月刊</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Nube de etiquetas</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/FED-Talk月刊/" style="font-size: 20px;">FED-Talk月刊</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 icepy,yuanxj1024<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'icepy'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
