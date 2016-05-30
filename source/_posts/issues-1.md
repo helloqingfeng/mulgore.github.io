@@ -1,7 +1,7 @@
 title: 我是这样学习前端的
-date: 2016-05-30 15:49:38
+date: 2016-05-16 15:49:38
 tags: 前端漫谈
-banner: https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/preimgs/issues-1.jpg
+banner: https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-1.jpg
 ---
 
 # 前沿
