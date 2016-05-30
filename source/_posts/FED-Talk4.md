@@ -9,7 +9,7 @@ FED-Talk月刊是由 **微信公众号：前端Talk** 维护的一月为一期�
 
 微信公众号 搜索 **fed-talk**
 
-![](https://raw.githubusercontent.com/mulgore/mulgore.github.io/master/preimgs/sand-dunes-691431_640.jpg)
+![](https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/sand-dunes-691431_640.jpg)
 
 ## 月刊
 

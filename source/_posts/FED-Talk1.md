@@ -10,7 +10,7 @@ FED-Talk月刊是由 **微信公众号：前端Talk** 维护的一月为一期�
 微信公众号 搜索 **fed-talk**
 
 
-![](https://raw.githubusercontent.com/mulgore/mulgore.github.io/master/preimgs/crocus-1261310_640.jpg)
+![](https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/crocus-1261310_640.jpg)
 
 ## 月刊
 
@@ -86,4 +86,3 @@ FED-Talk月刊是由 **微信公众号：前端Talk** 维护的一月为一期�
 - [Web开发学习之路是否有尽头](http://www.ganiks.me/how-to-avoid-listing-everything-but-carrying-out-little/)
 - [近几年前端技术盘点以及 2016 年技术发展方向](http://www.barretlee.com/blog/2015/12/10/after-framework-we-gonna-to-hug-data/)
 - [2015前端生态发展回顾](https://github.com/kuitos/kuitos.github.io/issues/32)
-
