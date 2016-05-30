@@ -1,4 +1,4 @@
-title: 关于前端Talk
+title: 关于 Mulgore Organization
 date: 2016-05-24 14:41:49
 ---
 
