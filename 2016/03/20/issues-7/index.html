@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1d25f2a1077359921740604b649a2dea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <title>浅谈音悦台PC端（前端开发）的改造，告别刀耕火种 | Mulgore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="架构非一朝一夕，且要紧贴业务。
+
+选择一个行业确实挺难的，特别是对于我们程序员来说。试错的机会，在某些阶段比较容易，但人到了一定的年龄，谨慎会更可靠。加入音悦台，我要做的第一件事情，就是要改造之前PC端的架构。如何去紧贴业务，在改造的过程中又不至于让业务开发停滞，这对于我而言是一件非常大的考量。
+了解业务与开发方式我们的业务
+在开始设计架构之前，我决定先去充分的了解我们的业务特点，音悦台是一家以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈音悦台PC端（前端开发）的改造，告别刀耕火种">
+<meta property="og:url" content="https://mulgore.github.io/2016/03/20/issues-7/index.html">
+<meta property="og:site_name" content="Mulgore">
+<meta property="og:description" content="架构非一朝一夕，且要紧贴业务。
+
+选择一个行业确实挺难的，特别是对于我们程序员来说。试错的机会，在某些阶段比较容易，但人到了一定的年龄，谨慎会更可靠。加入音悦台，我要做的第一件事情，就是要改造之前PC端的架构。如何去紧贴业务，在改造的过程中又不至于让业务开发停滞，这对于我而言是一件非常大的考量。
+了解业务与开发方式我们的业务
+在开始设计架构之前，我决定先去充分的了解我们的业务特点，音悦台是一家以">
+<meta property="og:image" content="http://o80ub63i5.bkt.clouddn.com/image/texture-1362879_640.jpg">
+<meta property="og:updated_time" content="2016-05-31T03:50:33.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="浅谈音悦台PC端（前端开发）的改造，告别刀耕火种">
+<meta name="twitter:description" content="架构非一朝一夕，且要紧贴业务。
+
+选择一个行业确实挺难的，特别是对于我们程序员来说。试错的机会，在某些阶段比较容易，但人到了一定的年龄，谨慎会更可靠。加入音悦台，我要做的第一件事情，就是要改造之前PC端的架构。如何去紧贴业务，在改造的过程中又不至于让业务开发停滞，这对于我而言是一件非常大的考量。
+了解业务与开发方式我们的业务
+在开始设计架构之前，我决定先去充分的了解我们的业务特点，音悦台是一家以">
+<meta name="twitter:image" content="http://o80ub63i5.bkt.clouddn.com/image/texture-1362879_640.jpg">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mulgore</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives/index.html">温故而知新</a>
+                
+                    <a class="main-nav-link" href="/weekly/index.html">课多周刊</a>
+                
+                    <a class="main-nav-link" href="/lesson/index.html">实战课程</a>
+                
+                    <a class="main-nav-link" href="/about">关于我们</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives/index.html">温故而知新</a></td>
+                
+                    <td><a class="main-nav-link" href="/weekly/index.html">课多周刊</a></td>
+                
+                    <td><a class="main-nav-link" href="/lesson/index.html">实战课程</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我们</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+            <h2 id="name">Mulgore</h2>
+            <h3 id="title">欢迎关注mulgore组织运营的 [前端Talk] 公众号 -- 内容起于前端而不止于前端，探索技术深邃的灵光。</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/mulgore/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                29
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                8
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/mulgore" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="http://weibo.com/2455876310/" target="_blank" title="weibo"><i class="fa fa-weibo"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-issues-7" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="http://o80ub63i5.bkt.clouddn.com/image/texture-1362879_640.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            浅谈音悦台PC端（前端开发）的改造，告别刀耕火种
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/03/20/issues-7/">
+            <time datetime="2016-03-20T03:01:01.000Z" itemprop="datePublished">2016-03-20</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/前端漫谈/">前端漫谈</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>架构非一朝一夕，且要紧贴业务。</p>
+</blockquote>
+<p>选择一个行业确实挺难的，特别是对于我们程序员来说。试错的机会，在某些阶段比较容易，但人到了一定的年龄，谨慎会更可靠。加入音悦台，我要做的第一件事情，就是要改造之前PC端的架构。如何去紧贴业务，在改造的过程中又不至于让业务开发停滞，这对于我而言是一件非常大的考量。</p>
+<h2 id="了解业务与开发方式"><a href="#了解业务与开发方式" class="headerlink" title="了解业务与开发方式"></a>了解业务与开发方式</h2><p><strong>我们的业务</strong></p>
+<p>在开始设计架构之前，我决定先去充分的了解我们的业务特点，音悦台是一家以高清MV视频播放起家的公司，现在它的业务呈现于服务粉丝，包括（商城，V榜）等一系列的产品。就技术场景的特点而言，包括了有PC，Mobile，混合APP，专题页，活动页等等，它涵盖了几乎所有的技术场景，提供了一套服务粉丝的解决方案。</p>
+<p><strong>刀耕火种的年代</strong></p>
+<p>很不幸，在我来之前，我们公司的前端属于“刀耕火种”的年代，所有的代码使用<code>Spring MVC</code>来套模板，手机端项目属于WAP站点（也是<code>Spring MVC</code>）。如何最小程度的脱离（JSP）或者说最少套JSP模板的架构，是我应该最优先的考量，适量的面向接口，Ajax开发也许会有很大的改变，当然，我所面临的问题还不仅仅是这些。</p>
+<p>由于特殊原因，音悦台的前端代码是由各时期的前辈去完成的，几乎都是在赶的状态，hack了很多不一样的功能，每一个时期都风格迥异，可维护性差。对于后来者，就像一根鱼刺咔在喉咙一般，我怎么感觉到灾难，来的这么快呢。</p>
+<ul>
+<li>缺少统一的项目管理（第三方库随便乱放，光jQuery就有几个地方同时存在）</li>
+<li>部署困难，没有版本号，而且严重依赖Java环境，编写一个代码就需要重新编译Java重启服务器（配置过于复杂）</li>
+<li>缺少统一的编程规范</li>
+<li>很多函数，变量起名很随意，出现了这种<code>asdf</code>的变量名</li>
+<li>几乎没有模块化（除了WAP页使用了requirejs）</li>
+<li>组件化概念无从谈起，大量的重复代码在搭积木般的堆业务</li>
+<li>虽然我们使用git版本控制，但是却缺少工作流，大家几乎都往master分支内push代码</li>
+</ul>
+<h2 id="建模设计与技术选型"><a href="#建模设计与技术选型" class="headerlink" title="建模设计与技术选型"></a>建模设计与技术选型</h2><blockquote>
+<p>老板都觉得现在的前端很不科学，很痛苦（因为铁打的营盘，流水的兵。无任何文档沉淀，修改任何东西都非常困难）</p>
+</blockquote>
+<p>变革迫在眉睫，PC端的重新梳理对于我个人而言，成了我很好的练兵之所。于是，我决定将我们公司眼下PC端的需求分解出来。</p>
+<ul>
+<li>必须完美支持IE8（这个是没办法的事情）<ul>
+<li>模块化机制的引入，解决如何维护文件</li>
+<li>组件化引入，与业务隔离，解决松耦合的复用</li>
+<li>不支持编译(js)中间语言（比如TypeScript,es2015）</li>
+<li>按需打包，以及自动构建<ul>
+<li>引入less或者sass，解决CSS的复用</li>
+<li>引入PostCSS解决CSS代码的健壮性（比如添加前缀-ms -webkit）</li>
+<li>文档沉淀，解决（铁打的营盘，流水的兵）</li>
+<li>浏览器自动刷新，项目管理，版本控制</li>
+<li>统一编程规范与最佳实践</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>视频行业有其特殊性，必须完美支持与Flash的交互，封装一个统一的SDK</li>
+<li>必须要支持SEO，（最少程度达标）</li>
+<li>重新定义发布部署流程</li>
+</ul>
+<a id="more"></a>
+<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><p>根据需求分解的特征进行选型，所有的子项目都依赖于<code>完美支持IE8</code>，所以对于我的选择局限性就比较大了。</p>
+<p><strong>Vue.js</strong></p>
+<ul>
+<li><a href="http://vuejs.org/unit/" target="_blank" rel="external">Vue.js unit tests</a></li>
+<li><a href="https://saucelabs.com/u/vuejs" target="_blank" rel="external">Vue.js Sauce Labs</a></li>
+</ul>
+<p>unit tests在IE上跑不起来，我所认知的结果是：不支持IE8</p>
+<p><strong>React.js</strong></p>
+<p>虽然FB提供了运行在旧浏览器上的解决方案：<a href="https://facebook.github.io/react/docs/working-with-the-browser.html" target="_blank" rel="external">Working With the Browser</a>，但是，对于未来，博客上明确书写了将不在支持，可查看<a href="https://facebook.github.io/react/blog/2016/01/12/discontinuing-ie8-support.html" target="_blank" rel="external">Discontinuing IE 8 Support in React DOM</a>，后来我在Github上找到一个<a href="https://github.com/xcatliu/react-ie8" target="_blank" rel="external">react-ie8</a>项目，对于商业公司而言，这个解决方案还是有很大的风险，于是：放弃。</p>
+<p><strong>Angular1.x</strong></p>
+<p>对于即将到来的Angular2.x以及Angular1.x庞大而臃肿的身躯（总不能我的专题页，活动页也用上Angular1.x吧），这是我最快放弃考察的一个项目。</p>
+<h2 id="那么问题来了，我该怎么办？"><a href="#那么问题来了，我该怎么办？" class="headerlink" title="那么问题来了，我该怎么办？"></a>那么问题来了，我该怎么办？</h2><p>对于基础库而言，我选择了老三项，对于一个既需要复杂业务模型（复杂交互类型的页面），又有适当简单的特点业务（活动页面），MVC分层将有助于我们分解业务编程。而且，这些也有足够的中文资料，以及文档让团队中（没有接触过MVC）的同学去学习和适应。</p>
+<ul>
+<li><a href="">jQuery 1.x</a></li>
+<li><a href="">underscore</a></li>
+<li><a href="">backbone</a></li>
+</ul>
+<p>当然到这里我们的设计还远远不够，我们还缺少模块化，组件化，以及对backbone适当的改造。首先，我必须对开发方式进行隔离，分为了dev和build两个环境（当然，它是我既定的目标），以及引入一些表现良好的工具来辅助开发（比如browser-sync自动刷新页面）。为了更好的管理项目以及优化代码，我选择了npm系统来管理我的第三方依赖，npm脚本钩子来帮助我执行start，dev，build，test等环境，以及webpack来完成系统内的模块化构建。老实说，首先我们用它解决了js模块化的问题，至少commonjs的风格看起来可以保持一致（但是我还需要去协助大家避免循环引用），然后处理按需打包的问题（至少很长一段时间里我们的PC端还将是传统的页面而不是webapp）。</p>
+<p>关于webpack的应用以及多资源打包，推荐大家阅读我的另一篇文章：<a href="https://github.com/icepy/_posts/issues/25" target="_blank" rel="external">webpack在PC项目中的应用</a></p>
+<h3 id="目录结构设计"><a href="#目录结构设计" class="headerlink" title="目录结构设计"></a>目录结构设计</h3><p>对于传统的项目（<code>Spring MVC</code>），我们进行了一些适当的改变。当然，我们总体的目标，是在向面向接口开发来靠近。</p>
+<pre><code>Project_dev  根目录
+    dist 经过编译之后可发布的目录
+    flash 内部swf文件放置的目录
+    link 内部自己开发或者未兼容Commonjs的库（未建立私人NPM服务仓库）
+    static 切图的静态页面放置的目录
+    web 入口页面（用户访问的地址）
+    test 单元测试
+    img 图片资源
+    mock 本地模拟数据
+    cross-url 跨域url（兼容老Spring MVC）
+    js //经过webpack打包之后的文件
+    src //js源文件
+        view 视图目录
+            index  业务模块
+                topbar.view.js
+        model 模型目录
+            index
+                topbar.model.js
+        template 模板
+            index
+                topbar.html
+        config.js    //项目配置文件
+        index.main.js  //入口文件
+    style
+        css //less编译之后的文件
+        less //less源代码文件
+        reset.css  //公共文件
+    .eslintrc
+    .gitignore
+    README.md
+    gulpfile.js
+    package.json
+    map.json
+    tools.js //提供的工具，快速生成view，model文件
+    webpack.dev.config.js
+</code></pre><p>最后可发布的目录结构：</p>
+<pre><code>Project_build
+
+    js //处理过后的js文件
+    style //处理过后的css文件
+    web //用户访问的真实页面
+    link //处理过后的第三方库或内部自己开发的库
+    flash //swf文件
+    cross-url //兼容（Spring MVC）的跨域
+</code></pre><p>对于我们的git则启用了一个基础的git flow工作流，避免大家push到master分支，每一次的发布都必须有足够的备份。</p>
+<h3 id="第三方库整合"><a href="#第三方库整合" class="headerlink" title="第三方库整合"></a>第三方库整合</h3><p>针对第三方库的整合是规避了一些基础控件（除非有自己研发的需求），列表如下：</p>
+<ul>
+<li>Swipe（轮播图）</li>
+<li>腾讯云 SDK</li>
+<li>artTemplate</li>
+<li>amazeui（参考较多）</li>
+</ul>
+<h3 id="backbone改造"><a href="#backbone改造" class="headerlink" title="backbone改造"></a>backbone改造</h3><p>原始的<code>backbone</code>并不能很好适应我们的业务产品，它虽然有backbone.Router，但是却缺少基于路由的生命周期，它的Model也不是很健壮（可配置性以及数据的本地缓存），当然它的View是我们经常要使用的，但是却缺少相应的钩子方法，于是对于它们适当的改造，有助于公司产品的业务开发（便捷）以及稳定性。</p>
+<ul>
+<li>baseView</li>
+<li>baseModel</li>
+<li>baseRouter</li>
+</ul>
+<p><code>baseView</code>实现了相应的钩子方法，比如<code>rawLoader</code>，<code>beforeMount</code>，<code>afterMount</code>，<code>ready</code>等，对于参数传递也有了一些规范性的定义，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	<span class="string">"props"</span>:&#123;&#125;,  </span><br><span class="line">	<span class="string">"methods"</span>:&#123;&#125;,</span><br><span class="line">	<span class="string">"state"</span>:&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>UI渲染依赖的数据通过<code>props</code>传递，外部可能用到的方法通过<code>methods</code>传递，内部需要维护的状态可以通过<code>state</code>传递，规范参数的目标是对一些写法进行约束，在排错时可以更容易定位到错误。</p>
+<p><code>baseModel</code>除了实现了一个beforeEmit钩子外，基本上扩展和包装了一些便捷的存取方法，比如<code>$get</code>，<code>$set</code>，<code>$filter</code>，<code>$sort</code>，以及发送请求的便捷方式。</p>
+<p><code>baseRouter</code>主要是实现了基于路由的生命周期（为了webapp准备的，可能未来会有要求兼容IE8的Webapp）。</p>
+<h3 id="编写组件"><a href="#编写组件" class="headerlink" title="编写组件"></a>编写组件</h3><p>组件化从开发的角度来看，由于每个组件的相对独立性，开发者在开发期间不会产生依赖冲突，只需专注于自身的模块开发，提高开发效率；从维护的角度来看，于模块相关的资源均组织在一起，十分便于维护和整理。对于组件，我们进行了一些额外的处理，一个组件最少需要包含template.html以及index.js两个文件，比如：</p>
+<pre><code>loginBox //目录
+    template //目录
+        close.html
+        login.html
+    index.js
+</code></pre><p>我们的css文件放置在style目录下，它是一个less文件，当业务编程需要时，自己在自己的业务less文件中<code>@import url(&#39;common/footer.less&#39;);</code>即可，毕竟我们最终需要一个link css文件，而不是内嵌在html中，webpack帮助我们在dev环境中，既对这些东西进行了处理。</p>
+<p>在index.js文件中，只需要根据我们指定好的一些规则书写即可：</p>
+<p>规则一，继承baseView的组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> BaseView = <span class="built_in">require</span>(<span class="string">'BaseView'</span>);</span><br><span class="line"><span class="keyword">var</span> closeTemp = <span class="built_in">require</span>(<span class="string">'./template/close.html'</span>);</span><br><span class="line"><span class="keyword">var</span> loginTemp = <span class="built_in">require</span>(<span class="string">'./template/login.html'</span>);</span><br><span class="line"><span class="keyword">var</span> LoginBox = BaseView.extend(&#123;</span><br><span class="line">	events:&#123;</span><br><span class="line"></span><br><span class="line">	&#125;,</span><br><span class="line">	beforeMount:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;,</span><br><span class="line">	afterMount:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;,</span><br><span class="line">	ready:<span class="function"><span class="keyword">function</span>(<span class="params">options</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">var</span> props = options.props;</span><br><span class="line">		<span class="keyword">var</span> state = options.state;</span><br><span class="line">		<span class="keyword">var</span> methods = options.methods;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">var</span> shared = <span class="literal">null</span>;</span><br><span class="line">LoginBox.sharedInstanceLoginBox = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!shared)&#123;</span><br><span class="line">		shared = <span class="keyword">new</span> LoginBox(options);</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">return</span> shared;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">module</span>.exports = LoginBox;</span><br></pre></td></tr></table></figure>
+<p>规则二，不继承baseView的组件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> closeTemp = <span class="built_in">require</span>(<span class="string">'./template/close.html'</span>);</span><br><span class="line"><span class="keyword">var</span> loginTemp = <span class="built_in">require</span>(<span class="string">'./template/login.html'</span>);</span><br><span class="line"><span class="keyword">var</span> LoginBox = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> props = options.props;</span><br><span class="line">	<span class="keyword">var</span> state = options.state;</span><br><span class="line">	<span class="keyword">var</span> methods = options.methods;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">var</span> shared = <span class="literal">null</span>;</span><br><span class="line">LoginBox.sharedInstanceLoginBox = <span class="function"><span class="keyword">function</span>(<span class="params">options</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!shared)&#123;</span><br><span class="line">		shared = <span class="keyword">new</span> LoginBox(options);</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">return</span> shared;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">module</span>.exports = LoginBox;</span><br></pre></td></tr></table></figure>
+<p>个人非常建议给每一个类配置一个单例选项，这非常有用。</p>
+<h3 id="Flash-SDK"><a href="#Flash-SDK" class="headerlink" title="Flash SDK"></a>Flash SDK</h3><p>如何统一的与Flash交互，也是我们需要考虑的方向。第一版的简化，在很短的时间内做了出来。主要用来区分IE和非IE的情况，IE下只识别object标签，而非IE只识别embed标签。每一个Flash注入的方法，为了方便业务开发，都进行了封装，目标是：调用简单。</p>
+<h3 id="进入愉快的业务编程阶段"><a href="#进入愉快的业务编程阶段" class="headerlink" title="进入愉快的业务编程阶段"></a>进入愉快的业务编程阶段</h3><p>在前期的准备工作完成之后，我们针对某一项业务进行了Test编程。</p>
+<p>一个PC站点的界面基本上是由header,content,footer构成的，在header中可能还有一些其他的业务，这些我们不管，针对具体的业务，我们需要进一步的分析界面的构成，在进入编程阶段之前，良好的分析会对进度有良好的帮助。</p>
+<p>是的，分析应该是你要做的第一件事情。</p>
+<p>我提供了一个tools.js脚本用于快速的生成view，model文件，大量重复性的代码，将由工具来辅助生成，业务编程将更专注于业务。</p>
+<p>其实最后一步，愉快的进行编程即可，运用你熟悉的jQuery API配合一些base API，轻轻松松完成了业务编程。</p>
+<p>（PS：当然也提供了mocha chia sinon的demo，来对业务进行自动化测试，毕竟测试用例还是需要业务来编写和维护，所以考虑了上述情况之后决定：业务可选，核心包未来必须补上。）</p>
+<h3 id="构建可部署文件的脚本"><a href="#构建可部署文件的脚本" class="headerlink" title="构建可部署文件的脚本"></a>构建可部署文件的脚本</h3><p>虽然我们的dev环境使用webpack来进行处理，但是它还不是我们最终想要发布的资源（首先，我希望发布目录是一个非常干净的dir，其二一些配置文件不应该出现在发布目录中，以及对.html进行hash处理）。webpack在这方面还是有些欠缺，所以最后的可部署文件，我们使用gulp来进行最后的处理：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 清理dist目录</span></span><br><span class="line">gulp.task(<span class="string">'clean'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// content</span></span><br><span class="line">  <span class="keyword">return</span> gulp.src([<span class="string">'./dist'</span>], &#123;read: <span class="literal">false</span>&#125;).pipe(clean());</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'build:rename'</span>,[<span class="string">'build:clean'</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">'./dist/temp/*.html'</span>)</span><br><span class="line">        .pipe(gulp.dest(<span class="string">'./dist/web'</span>));</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'build:clean'</span>,[<span class="string">'build:retemp'</span>],<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> gulp.src(<span class="string">'./dist/web/*.html'</span>,&#123;read:<span class="literal">false</span>&#125;)</span><br><span class="line">        .pipe(clean());</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'build:retemp'</span>, [<span class="string">'build'</span>], <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> gulp.src(<span class="string">'./dist/web/*-*.html'</span>)</span><br><span class="line">    .pipe(rename(<span class="function"><span class="keyword">function</span>(<span class="params">path</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> basename = path.basename.split(<span class="string">'-'</span>);</span><br><span class="line">        <span class="keyword">if</span> (basename.length &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            basename.pop();</span><br><span class="line">            path.dirname = <span class="string">'/temp'</span></span><br><span class="line">            path.basename = basename.join(<span class="string">'-'</span>);</span><br><span class="line">            path.extname = <span class="string">'.html'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;))</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'./dist'</span>))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//进入build</span></span><br><span class="line">gulp.task(<span class="string">'build'</span>, [<span class="string">'build:move'</span>], <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> cssFilter = filter(<span class="string">'./dist/style/*.css'</span>, &#123;</span><br><span class="line">    restore: <span class="literal">true</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">var</span> jsFilter = filter(<span class="string">'./dist/js/*.js'</span>, &#123;</span><br><span class="line">    restore: <span class="literal">true</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">var</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line">  <span class="keyword">var</span> times = date.getFullYear() + <span class="string">'-'</span> + (date.getMonth() + <span class="number">1</span>) + <span class="string">'-'</span> + date.getDate() + <span class="string">'   '</span> + date.getHours() + <span class="string">':'</span> + date.getMinutes() + <span class="string">':'</span> + date.getSeconds();</span><br><span class="line">  <span class="keyword">var</span> banner = [</span><br><span class="line">    <span class="string">'/**'</span>,</span><br><span class="line">    <span class="string">' * @project &lt;%= pkg.name %&gt;'</span>,</span><br><span class="line">    <span class="string">' * @description &lt;%=pkg.description%&gt;'</span>,</span><br><span class="line">    <span class="string">' * @version v&lt;%= pkg.version %&gt;'</span>,</span><br><span class="line">    <span class="string">' * @time '</span> + times,</span><br><span class="line">    <span class="string">' * @author &lt;%= pkg.author %&gt;'</span>,</span><br><span class="line">    <span class="string">' * @copy &lt;%= pkg.homepage %&gt;'</span>,</span><br><span class="line">    <span class="string">' */'</span>,</span><br><span class="line">    <span class="string">''</span></span><br><span class="line">  ].join(<span class="string">'\n'</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">htmlMaped</span> (<span class="params">filename</span>) </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> filename.replace(<span class="regexp">/[-][\w]&#123;10&#125;.html/g</span>, <span class="string">'.html'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> gulp.src(<span class="string">'./dist/web/*.html'</span>)</span><br><span class="line">    .pipe(useref(&#123;</span><br><span class="line">        noAssets:<span class="literal">false</span></span><br><span class="line">    &#125;))</span><br><span class="line">    .pipe(cssFilter)</span><br><span class="line">    .pipe(cssFilter.restore)</span><br><span class="line">    .pipe(jsFilter)</span><br><span class="line">    .pipe(jsFilter.restore)</span><br><span class="line">    .pipe(rev())</span><br><span class="line">    .pipe(revReplace(&#123;</span><br><span class="line">        modifyReved: htmlMaped,</span><br><span class="line">        modifyUnreved: htmlMaped</span><br><span class="line">    &#125;))</span><br><span class="line">    .pipe(useref())</span><br><span class="line">    .pipe(gulpif(<span class="string">'*.js'</span>, header(banner, &#123;pkg: pkg&#125;)))</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'./dist/web/'</span>))</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">gulp.task(<span class="string">'build:move'</span>, [<span class="string">'clean'</span>], <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// content</span></span><br><span class="line">  <span class="keyword">var</span> dontMovePath = <span class="string">'!./'</span>;</span><br><span class="line">  <span class="keyword">var</span> movePath = <span class="string">'./'</span>;</span><br><span class="line">  <span class="keyword">return</span> gulp.src([</span><br><span class="line">      movePath + <span class="string">'link/base.library.js'</span>,</span><br><span class="line">      movePath + <span class="string">'link/webim.js'</span>,</span><br><span class="line">      movePath + <span class="string">'link/json2.js'</span>,</span><br><span class="line">      movePath + <span class="string">'img/**/*.*'</span>,</span><br><span class="line">      movePath + <span class="string">'web/*.*'</span>,</span><br><span class="line">      movePath + <span class="string">'flash/*.*'</span>,</span><br><span class="line">      movePath + <span class="string">'style/**/*.css'</span>,</span><br><span class="line">      movePath + <span class="string">'js/*.js'</span></span><br><span class="line">    ], &#123;base: <span class="string">'.'</span>&#125;)</span><br><span class="line">    .pipe(gulpif(<span class="string">'*.js'</span>,uglify(&#123;</span><br><span class="line">        compress:&#123;</span><br><span class="line">            pure_funcs:[<span class="string">'console.log'</span>,<span class="string">'warn'</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)))</span><br><span class="line">    .pipe(gulpif(<span class="string">'*.css'</span>, autoprefixer(&#123;</span><br><span class="line">      browsers: [<span class="string">'last 2 versions'</span>, <span class="string">'Android &gt;= 4.0'</span>],</span><br><span class="line">      cascade: <span class="literal">true</span>, <span class="comment">//是否美化属性值 默认：true 像这样：</span></span><br><span class="line">      <span class="comment">//-webkit-transform: rotate(45deg);</span></span><br><span class="line">      <span class="comment">//        transform: rotate(45deg);</span></span><br><span class="line">      remove: <span class="literal">true</span> <span class="comment">//是否去掉不必要的前缀 默认：true</span></span><br><span class="line">    &#125;)))</span><br><span class="line">    .pipe(gulpif(<span class="string">'*.css'</span>, minifycss()))</span><br><span class="line">    .pipe(gulp.dest(<span class="string">'./dist/'</span>));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="收尾工作"><a href="#收尾工作" class="headerlink" title="收尾工作"></a>收尾工作</h2><p>编写文档（打算在API文档上利用JSDoc自动生成），也许还是要手工编写？主要我是想支持md格式的文件，这样将来好在我们的git系统中，可以很好的阅读。</p>
+<p>另外我们启用了eslint来进行语法检查，以及对于编程规范，考察了<a href="https://github.com/airbnb/javascript/tree/master/es5" target="_blank" rel="external">airbnb/javascript</a>和<a href="https://github.com/airbnb/css" target="_blank" rel="external">airbnb/css</a>，请原谅我偷懒，我是真觉得airbnb的规范非常赞～。</p>
+<h2 id="未来，我们仍然在路上"><a href="#未来，我们仍然在路上" class="headerlink" title="未来，我们仍然在路上"></a>未来，我们仍然在路上</h2><p>对于前端发展的探索，我们依然在路上。技术的变革，对于用户（可能感知不到），对于开发者而言，更健壮的程序，将让用户更明显的感受到体验的好坏。前端这些年的变化，还是需要每一个人自我驱动的去学习与适应。PC端的架构改造，即将告一段落。未来，将有更极致的挑战（移动和混合应用的架构设计，FE的探索{React React Native}，以及Node.js在公司产品中的落地，也许会是我们前端的CI系统，CSS动画研究，Video视频和画布方面的研究。）</p>
+<p>我们需要优秀的开发者加入，一起来完善这些，有兴趣的朋友，可以将简历发送到xiangwenwe@foxmail.com，期待～。</p>
+<h1 id="更新部分-（2016-05-09）"><a href="#更新部分-（2016-05-09）" class="headerlink" title="更新部分 （2016-05-09）"></a>更新部分 （2016-05-09）</h1><p>应用在PC端上的项目结构整理出来，可访问：<a href="https://github.com/sapling-team/generator-sapling-pc" target="_blank" rel="external">https://github.com/sapling-team/generator-sapling-pc</a></p>
+<p><em>注明：我们需要兼容IE8，所以使用的还是backbone。如果你追求的是更新的技术栈，我觉得你可以参考一下其他的特性，不包括backbone部分的东西。</em></p>
+<p>——————- 分割线—————</p>
+<p><strong>团队编码风格检查</strong></p>
+<p>对于开源社区的编码规范，我考察了一系列的，比如Google，微软，Facebook，不过最后我们还是采用了<code>airbnb</code>的编码规范，我也真心的建议大家可以认真的阅读阅读。<a href="https://github.com/airbnb/javascript/tree/master/es5" target="_blank" rel="external">https://github.com/airbnb/javascript/tree/master/es5</a>，另外为了达到在<code>commit</code>期间进行一次检查，我们使用了git hook来做eslint检查，通过才允许提交。</p>
+<p>如果你写不了<code>shell</code>脚本，那你可以使用<a href="https://github.com/typicode/husky" target="_blank" rel="external">https://github.com/typicode/husky</a>这个项目。</p>
+<p><strong>快速生成的view，Model文件的工具</strong></p>
+<p>考虑到很大一部分初始化的代码，需要重复编写，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> base = <span class="built_in">require</span>(<span class="string">'base-extend-backbone'</span>);</span><br><span class="line"><span class="keyword">var</span> BaseView = base.View;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> View = BaseView.extend(&#123;</span><br><span class="line">  el: <span class="string">''</span>,</span><br><span class="line">  rawLoader: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">''</span>;</span><br><span class="line">  &#125;,</span><br><span class="line">  context: <span class="function"><span class="keyword">function</span> (<span class="params">args</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(args);</span><br><span class="line">  &#125;,</span><br><span class="line">  beforeMount: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//  初始化一些自定义属性</span></span><br><span class="line">  &#125;,</span><br><span class="line">  afterMount: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//  获取findDOMNode DOM Node</span></span><br><span class="line">  &#125;,</span><br><span class="line">  ready: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//  初始化</span></span><br><span class="line">  &#125;,</span><br><span class="line">  beforeDestroy: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//  进入销毁之前,将引用关系设置为null</span></span><br><span class="line">  &#125;,</span><br><span class="line">  destroyed: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//  销毁之后</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = View;</span><br></pre></td></tr></table></figure>
+<p>所以，我们专门写了一个小脚本来辅助创建<code>view</code>，<code>model</code>文件，以提高工作效率。</p>
+<p><strong>第三方管理</strong></p>
+<p>我们使用<code>bower</code>+<code>npm</code>来管理所有的第三方资源，<code>bower</code>用在管理<code>jQuery</code>以及其自身的插件生态中，<code>npm</code>则是用来管理其他的库和自己维护的库文件。\</p>
+<p><strong>include</strong></p>
+<p><code>include</code>的特性在做不是单页Web应用时很有用，如果100个页面都要同时复制100百次相同的头部和尾部的话，那我也会疯的。所以，我们启用了<code>jade</code>来代替了<code>HTML</code>，并且和<code>html-webpack-plugin</code>插件配合使用。</p>
+<p><strong>compile.config</strong></p>
+<p>这个<code>config</code>配置文件主要用于在jade中编写的逻辑脚本，可以在某些情况下替换一下地址（比如CDN）,另外在一些动态化的场景中，也可以读取这个配置文件来知晓资源依赖。</p>
+<p><strong>目录结构</strong></p>
+<p>我们的目录结构是一个典型的<code>web app</code>结构：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">app/</span><br><span class="line"> images/</span><br><span class="line"> link/</span><br><span class="line"> stylesheets/</span><br><span class="line"> src</span><br><span class="line"> web/</span><br></pre></td></tr></table></figure>
+<p><code>images</code>主要用于放置图片，<code>link</code>用于管理第三方资源（ bower下载的资源放置在这里），<code>stylesheets</code>放置<code>sass</code>源文件，<code>src</code>则是放置js源文件，<code>web</code>放置jade文件。src中我们又分为了<code>views</code>，<code>models</code>，<code>module</code>三个目录，顾名思义这些是放置视图，模型，模块的目录，我们的入口文件与它们平行同级。</p>
+<p>为了<code>getEntry</code>函数可以正确的提取入口依赖名，我们采用了一致命名的原则。比如我们有一个<code>index</code>页面。</p>
+<ul>
+<li>在web中放置<code>index.jade</code></li>
+<li>在src中放置<code>index.js</code>入口文件</li>
+<li>在src的views和models中分别创建<code>index</code>目录</li>
+<li>在src的views和models的<code>index</code>目录中创建<code>index</code>页面所需要的视图和模型</li>
+<li>在stylesheets中创建<code>index</code>目录和<code>index.sass</code>入口文件</li>
+<li>在src的<code>index.js</code>入口文件中<code>require(&#39;../stylesheets/index.sass&#39;)</code>文件</li>
+</ul>
+<p>启动<code>npm run dev</code> webpack即可</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/03/20/issues-7/" data-id="ciouxikb8000skqjrejo7k162" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/03/20/issues-7/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/03/20/issues-7/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/03/27/javascript-upload-image/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    上传图片攻略全解
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/02/29/used-webpack-in-pc/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">webpack在PC项目中的应用</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/03/20/issues-7/" data-title="浅谈音悦台PC端（前端开发）的改造，告别刀耕火种" data-url="https://mulgore.github.io/2016/03/20/issues-7/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/23/follow-react-lesson/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/lesson/follow-react-lesson.jpg)" alt="和我一起实战react" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/23/follow-react-lesson/" class="title">和我一起实战react</a></p>
+                            <p class="item-date"><time datetime="2016-05-23T07:24:24.000Z" itemprop="datePublished">2016-05-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/16/issues-1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/image/issues-1.jpg)" alt="我是这样学习前端的" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/16/issues-1/" class="title">我是这样学习前端的</a></p>
+                            <p class="item-date"><time datetime="2016-05-16T07:49:38.000Z" itemprop="datePublished">2016-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/29/FED-Talk4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/weekly/sand-dunes-691431_640.jpg)" alt="FED-Talk月刊第四期（2016年4月）" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/29/FED-Talk4/" class="title">FED-Talk月刊第四期（2016年4月）</a></p>
+                            <p class="item-date"><time datetime="2016-04-29T06:00:40.000Z" itemprop="datePublished">2016-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/27/issues-2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://www.npmjs.com/static/images/npm-logo.svg)" alt="玩转NPM" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/27/issues-2/" class="title">玩转NPM</a></p>
+                            <p class="item-date"><time datetime="2016-04-27T10:13:44.000Z" itemprop="datePublished">2016-04-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/16/issues-3/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/icepy/_posts/master/img/swift.png)" alt="Swift的期待" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/16/issues-3/" class="title">Swift的期待</a></p>
+                            <p class="item-date"><time datetime="2016-04-16T10:17:36.000Z" itemprop="datePublished">2016-04-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 icepy,yuanxj1024<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'icepy'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

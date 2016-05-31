@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1d25f2a1077359921740604b649a2dea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <title>事件监听器 | Mulgore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="事件监听器对于“订阅发布”模式，非常有用，在我们常用的一些事件中，比如click，也可以看做为一种“订阅发布”模型。今天除了写一写自定义的事件监听器，也想和大家一起复习一下Web前端的事件系统。
+复习浏览器事件
+事件顺序有两种类型：
+
+事件捕获
+事件冒泡
+
+关于浏览器的历史原因，大家可以Google一下补脑；事件冒泡，从事件自身开始传播，一直到不确定的事件目标。而事件捕获正好与此相反，从不具体的事">
+<meta property="og:type" content="article">
+<meta property="og:title" content="事件监听器">
+<meta property="og:url" content="https://mulgore.github.io/2016/02/22/javascript-event-handler/index.html">
+<meta property="og:site_name" content="Mulgore">
+<meta property="og:description" content="事件监听器对于“订阅发布”模式，非常有用，在我们常用的一些事件中，比如click，也可以看做为一种“订阅发布”模型。今天除了写一写自定义的事件监听器，也想和大家一起复习一下Web前端的事件系统。
+复习浏览器事件
+事件顺序有两种类型：
+
+事件捕获
+事件冒泡
+
+关于浏览器的历史原因，大家可以Google一下补脑；事件冒泡，从事件自身开始传播，一直到不确定的事件目标。而事件捕获正好与此相反，从不具体的事">
+<meta property="og:updated_time" content="2016-05-31T04:10:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="事件监听器">
+<meta name="twitter:description" content="事件监听器对于“订阅发布”模式，非常有用，在我们常用的一些事件中，比如click，也可以看做为一种“订阅发布”模型。今天除了写一写自定义的事件监听器，也想和大家一起复习一下Web前端的事件系统。
+复习浏览器事件
+事件顺序有两种类型：
+
+事件捕获
+事件冒泡
+
+关于浏览器的历史原因，大家可以Google一下补脑；事件冒泡，从事件自身开始传播，一直到不确定的事件目标。而事件捕获正好与此相反，从不具体的事">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mulgore</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives/index.html">温故而知新</a>
+                
+                    <a class="main-nav-link" href="/weekly/index.html">课多周刊</a>
+                
+                    <a class="main-nav-link" href="/lesson/index.html">实战课程</a>
+                
+                    <a class="main-nav-link" href="/about">关于我们</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives/index.html">温故而知新</a></td>
+                
+                    <td><a class="main-nav-link" href="/weekly/index.html">课多周刊</a></td>
+                
+                    <td><a class="main-nav-link" href="/lesson/index.html">实战课程</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我们</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+            <h2 id="name">Mulgore</h2>
+            <h3 id="title">欢迎关注mulgore组织运营的 [前端Talk] 公众号 -- 内容起于前端而不止于前端，探索技术深邃的灵光。</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/mulgore/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                29
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                8
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/mulgore" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="http://weibo.com/2455876310/" target="_blank" title="weibo"><i class="fa fa-weibo"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-javascript-event-handler" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            事件监听器
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/02/22/javascript-event-handler/">
+            <time datetime="2016-02-22T04:10:07.000Z" itemprop="datePublished">2016-02-22</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>事件监听器对于“订阅发布”模式，非常有用，在我们常用的一些事件中，比如<code>click</code>，也可以看做为一种“订阅发布”模型。今天除了写一写自定义的事件监听器，也想和大家一起复习一下Web前端的事件系统。</p>
+<p><strong>复习浏览器事件</strong></p>
+<p>事件顺序有两种类型：</p>
+<ul>
+<li>事件捕获</li>
+<li>事件冒泡</li>
+</ul>
+<p>关于浏览器的历史原因，大家可以Google一下补脑；事件冒泡，从事件自身开始传播，一直到不确定的事件目标。而事件捕获正好与此相反，从不具体的事件目标，传播到事件的自身。而我们经常使用的DOM标准事件模型，则同时支持这两种顺序。但是，它的顺序是先发生捕获，再冒泡。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addEventListener(type,handler,bool)</span><br></pre></td></tr></table></figure>
+<p><strong>事件捕获使用场景</strong></p>
+<p>根据<em>事件捕获</em>的特点来说，特别和操作系统有些相似，如果我想做全局的事件监听，比如document下所有的子节点，在某个条件下点击无效。这种情况就非常适合<em>事件捕获</em>来实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> doc = <span class="built_in">document</span>;</span><br><span class="line"><span class="keyword">var</span> cancel = <span class="literal">true</span>;</span><br><span class="line">doc.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(cancel)&#123;</span><br><span class="line">        e.stopPropagation();</span><br><span class="line">        e.preventDefault();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,<span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>事件冒泡使用场景</strong></p>
+<p>比如在<code>onmousemove</code>这高频繁的场景中，可以进一步通过取消事件冒泡，打断它向上传播。</p>
+<h2 id="自定义事件监听器"><a href="#自定义事件监听器" class="headerlink" title="自定义事件监听器"></a>自定义事件监听器</h2><p>在前几年，大家都在使用jQuery的时候，特别喜欢它实现的<em>事件系统</em>，包括有on注册，once注册一次，off解除，trigger触发几个操作。有了事件监听器，我们可以根据这个功能实现很多有用的场景，比如一个应用的某些状态，是根据用户的行为而改变的，但是这个行为却又是我无法预期的，通过事件监听器，可以辅助我们处理好这样的业务。</p>
+<p>有些时候，我们可能需要一个单实例，那么once就有用武之地了。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Swift 版的单例</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">sharedInstanceManager</span>: <span class="title">ValiantCenterManager</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">centerStatic</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">var</span> onceToken:dispatch_once_t = <span class="number">0</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">var</span> instance:<span class="type">ValiantCenterManager</span>? = <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    dispatch_once(&amp;centerStatic.onceToken) &#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        centerStatic.instance = <span class="type">ValiantCenterManager</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> centerStatic.instance!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>那么如何一步一步实现事件监听器</strong></p>
+<p>假设我们有一个Event类，在这个类中的内部有一个this._events = []数组属性，它是用来装载所有的自定义事件。</p>
+<p><em>首先，我们需要实现的是$on注册事件方法。</em></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Event.prototype.$on = <span class="function"><span class="keyword">function</span>(<span class="params">event,fun</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> cbs = <span class="keyword">this</span>._events[event]</span><br><span class="line">        cbs ? cbs.push(fun) : <span class="keyword">this</span>._events[event] = []</span><br><span class="line">        <span class="keyword">if</span> (!cbs) &#123;</span><br><span class="line">            <span class="keyword">this</span>._events[event].push(fun)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里为什么要将this._events设计为二维数组？因为事件可以是多个，但是事件名可能相同。这个逻辑意图非常的明显，根据event参数从this._events中获取是否存在。如果不存在，创建一个event为key的数组，并将事件句柄程序push到数组中。</p>
+<p><em>我们还需要实现$trigger触发事件方法</em></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Event.prototype.$trigger = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> isString = <span class="keyword">typeof</span> event === <span class="string">'string'</span></span><br><span class="line">    event = isString ? event : event.name</span><br><span class="line">    <span class="keyword">let</span> cbs = <span class="keyword">this</span>._events[event]</span><br><span class="line">    <span class="keyword">let</span> args = tools.toArray(<span class="built_in">arguments</span>,<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span> (cbs) &#123;</span><br><span class="line">        <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">let</span> j = cbs.length</span><br><span class="line">        <span class="keyword">for</span>(;i&lt;j;i++)&#123;</span><br><span class="line">            <span class="keyword">let</span> cb = cbs[i]</span><br><span class="line">            cb.apply(<span class="keyword">this</span>,args)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>逻辑依然非常简单，通过事件名从this._events获取相应的事件句柄程序数组，然后将arguments转成数组，（这里考虑的是可能会传入参数）如果事件句柄程序数组存在，进行循环，再讲args参数apply给每一个取出来的事件句柄程序。</p>
+<p><em>我们最后需要$off解除事件方法</em></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">Event.prototype.$off = <span class="function"><span class="keyword">function</span>(<span class="params">event,fun</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cbs = <span class="keyword">this</span>._events[event]</span><br><span class="line"></span><br><span class="line">    <span class="comment">//事件列队中无事件</span></span><br><span class="line">    <span class="keyword">if</span> (!cbs) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除所有的事件</span></span><br><span class="line">    <span class="keyword">if</span> (!event &amp;&amp; !fun) &#123;</span><br><span class="line">        <span class="keyword">this</span>._events = &#123;&#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//只有事件名称时</span></span><br><span class="line">    <span class="keyword">if</span> (event &amp;&amp; !fun) &#123;</span><br><span class="line">        <span class="keyword">this</span>._events[event] = <span class="literal">null</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除某个事件队列中的某个事件</span></span><br><span class="line">    <span class="keyword">let</span> cb;</span><br><span class="line">    <span class="keyword">let</span> i = cbs.length</span><br><span class="line">    <span class="keyword">while</span>(i--)&#123;</span><br><span class="line">        cb = cbs[i]</span><br><span class="line">        <span class="keyword">if</span> (cb === fun || cb.fun === fun) &#123;</span><br><span class="line">            cbs.splice(i,<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解除事件方法的逻辑可能相比之下稍许多了些，比如只存在事件组key名的情况，或者删除某个事件队列中的某个事件句柄程序。</p>
+<p><strong>有了它之后对于前端的工作有哪些帮助？</strong></p>
+<p>我可以想象到，在做手机版的SAP应用时，基于router的生命周期，就需要自定义事件监听器的帮助。使用它，其实你也了解了一种编程模型：“订阅发布”模式或者“通知机制”。当然，还有一些其他的场景。事件，对于前端而言，是一个非常需要掌握的技能。不管是DOM标准事件，还是自定义的事件监听器。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/02/22/javascript-event-handler/" data-id="ciouxikax000jkqjr75k378zm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/02/22/javascript-event-handler/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/02/22/javascript-event-handler/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/02/26/FED-Talk2/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    FED-Talk月刊第二期（2016年2月）
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/01/24/FED-Talk1/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">FED-Talk月刊第一期（2016年1月）</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/02/22/javascript-event-handler/" data-title="事件监听器" data-url="https://mulgore.github.io/2016/02/22/javascript-event-handler/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/23/follow-react-lesson/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/lesson/follow-react-lesson.jpg)" alt="和我一起实战react" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/23/follow-react-lesson/" class="title">和我一起实战react</a></p>
+                            <p class="item-date"><time datetime="2016-05-23T07:24:24.000Z" itemprop="datePublished">2016-05-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/16/issues-1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/image/issues-1.jpg)" alt="我是这样学习前端的" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/16/issues-1/" class="title">我是这样学习前端的</a></p>
+                            <p class="item-date"><time datetime="2016-05-16T07:49:38.000Z" itemprop="datePublished">2016-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/29/FED-Talk4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/weekly/sand-dunes-691431_640.jpg)" alt="FED-Talk月刊第四期（2016年4月）" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/29/FED-Talk4/" class="title">FED-Talk月刊第四期（2016年4月）</a></p>
+                            <p class="item-date"><time datetime="2016-04-29T06:00:40.000Z" itemprop="datePublished">2016-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/27/issues-2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://www.npmjs.com/static/images/npm-logo.svg)" alt="玩转NPM" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/27/issues-2/" class="title">玩转NPM</a></p>
+                            <p class="item-date"><time datetime="2016-04-27T10:13:44.000Z" itemprop="datePublished">2016-04-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/16/issues-3/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/icepy/_posts/master/img/swift.png)" alt="Swift的期待" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/16/issues-3/" class="title">Swift的期待</a></p>
+                            <p class="item-date"><time datetime="2016-04-16T10:17:36.000Z" itemprop="datePublished">2016-04-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 icepy,yuanxj1024<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'icepy'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

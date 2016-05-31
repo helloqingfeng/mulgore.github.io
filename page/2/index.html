@@ -61,7 +61,7 @@
                 
                     <a class="main-nav-link" href="/archives/index.html">温故而知新</a>
                 
-                    <a class="main-nav-link" href="/monthly/index.html">FED-Talk月刊</a>
+                    <a class="main-nav-link" href="/weekly/index.html">课多周刊</a>
                 
                     <a class="main-nav-link" href="/lesson/index.html">实战课程</a>
                 
@@ -82,7 +82,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -101,10 +101,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -126,7 +126,7 @@
                 
                     <td><a class="main-nav-link" href="/archives/index.html">温故而知新</a></td>
                 
-                    <td><a class="main-nav-link" href="/monthly/index.html">FED-Talk月刊</a></td>
+                    <td><a class="main-nav-link" href="/weekly/index.html">课多周刊</a></td>
                 
                     <td><a class="main-nav-link" href="/lesson/index.html">实战课程</a></td>
                 
@@ -135,7 +135,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -155,16 +155,16 @@
             <h2 id="name">Mulgore</h2>
             <h3 id="title">欢迎关注mulgore组织运营的 [前端Talk] 公众号 -- 内容起于前端而不止于前端，探索技术深邃的灵光。</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
-            <a id="follow" target="_blank" href="https://github.com/mulgore/">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/mulgore/">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                11
-                <span>Entradas</span>
+                29
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                6
-                <span>Etiquetas</span>
+                8
+                <span>tags</span>
             </div>
         </div>
         
@@ -185,13 +185,773 @@
 
             
             <section id="main">
+    <article id="post-issues-7" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2016/03/20/issues-7/" itemprop="url">
+            <img src="http://o80ub63i5.bkt.clouddn.com/image/texture-1362879_640.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/03/20/issues-7/">浅谈音悦台PC端（前端开发）的改造，告别刀耕火种</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/03/20/issues-7/">
+            <time datetime="2016-03-20T03:01:01.000Z" itemprop="datePublished">2016-03-20</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/前端漫谈/">前端漫谈</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            <p><blockquote>
+<p>架构非一朝一夕，且要紧贴业务。</p>
+</blockquote>
+<p>选择一个行业确实挺难的，特别是对于我们程序员来说。试错的机会，在某些阶段比较容易，但人到了一定的年龄，谨慎会更可靠。加入音悦台，我要做的第一件事情，就是要改造之前PC端的架构。如何去紧贴业务，在改造的过程中又不至于让业务开发停滞，这对于我而言是一件非常大的考量。</p>
+<h2 id="了解业务与开发方式"><a href="#了解业务与开发方式" class="headerlink" title="了解业务与开发方式"></a>了解业务与开发方式</h2><p><strong>我们的业务</strong></p>
+<p>在开始设计架构之前，我决定先去充分的了解我们的业务特点，音悦台是一家以高清MV视频播放起家的公司，现在它的业务呈现于服务粉丝，包括（商城，V榜）等一系列的产品。就技术场景的特点而言，包括了有PC，Mobile，混合APP，专题页，活动页等等，它涵盖了几乎所有的技术场景，提供了一套服务粉丝的解决方案。</p>
+<p><strong>刀耕火种的年代</strong></p>
+<p>很不幸，在我来之前，我们公司的前端属于“刀耕火种”的年代，所有的代码使用<code>Spring MVC</code>来套模板，手机端项目属于WAP站点（也是<code>Spring MVC</code>）。如何最小程度的脱离（JSP）或者说最少套JSP模板的架构，是我应该最优先的考量，适量的面向接口，Ajax开发也许会有很大的改变，当然，我所面临的问题还不仅仅是这些。</p>
+<p>由于特殊原因，音悦台的前端代码是由各时期的前辈去完成的，几乎都是在赶的状态，hack了很多不一样的功能，每一个时期都风格迥异，可维护性差。对于后来者，就像一根鱼刺咔在喉咙一般，我怎么感觉到灾难，来的这么快呢。</p>
+<ul>
+<li>缺少统一的项目管理（第三方库随便乱放，光jQuery就有几个地方同时存在）</li>
+<li>部署困难，没有版本号，而且严重依赖Java环境，编写一个代码就需要重新编译Java重启服务器（配置过于复杂）</li>
+<li>缺少统一的编程规范</li>
+<li>很多函数，变量起名很随意，出现了这种<code>asdf</code>的变量名</li>
+<li>几乎没有模块化（除了WAP页使用了requirejs）</li>
+<li>组件化概念无从谈起，大量的重复代码在搭积木般的堆业务</li>
+<li>虽然我们使用git版本控制，但是却缺少工作流，大家几乎都往master分支内push代码</li>
+</ul>
+<h2 id="建模设计与技术选型"><a href="#建模设计与技术选型" class="headerlink" title="建模设计与技术选型"></a>建模设计与技术选型</h2><blockquote>
+<p>老板都觉得现在的前端很不科学，很痛苦（因为铁打的营盘，流水的兵。无任何文档沉淀，修改任何东西都非常困难）</p>
+</blockquote>
+<p>变革迫在眉睫，PC端的重新梳理对于我个人而言，成了我很好的练兵之所。于是，我决定将我们公司眼下PC端的需求分解出来。</p>
+<ul>
+<li>必须完美支持IE8（这个是没办法的事情）<ul>
+<li>模块化机制的引入，解决如何维护文件</li>
+<li>组件化引入，与业务隔离，解决松耦合的复用</li>
+<li>不支持编译(js)中间语言（比如TypeScript,es2015）</li>
+<li>按需打包，以及自动构建<ul>
+<li>引入less或者sass，解决CSS的复用</li>
+<li>引入PostCSS解决CSS代码的健壮性（比如添加前缀-ms -webkit）</li>
+<li>文档沉淀，解决（铁打的营盘，流水的兵）</li>
+<li>浏览器自动刷新，项目管理，版本控制</li>
+<li>统一编程规范与最佳实践</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>视频行业有其特殊性，必须完美支持与Flash的交互，封装一个统一的SDK</li>
+<li>必须要支持SEO，（最少程度达标）</li>
+<li>重新定义发布部署流程</li>
+</ul></p>
+            <p class="article-more-link">
+                <a href="/2016/03/20/issues-7/#more">Read More</a>
+            </p>
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/03/20/issues-7/" data-id="ciouxikb8000skqjrejo7k162" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/03/20/issues-7/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/03/20/issues-7/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-used-webpack-in-pc" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/02/29/used-webpack-in-pc/">webpack在PC项目中的应用</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/02/29/used-webpack-in-pc/">
+            <time datetime="2016-02-29T03:52:00.000Z" itemprop="datePublished">2016-02-29</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/webpack/">webpack</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>好东西，总是要使用的。</p>
+<h2 id="webpack是什么工具"><a href="#webpack是什么工具" class="headerlink" title="webpack是什么工具"></a>webpack是什么工具</h2><p><em>webpack is a module bundler</em></p>
+<p>正如官网对webpack的描述，它是一种模块化加载器，当然也不仅仅限于此。某种程度上来说，可以代替某些<code>gulp</code>的功能，至少有些还是无法替代的。在webpack中所有的资源都会被视作模块来处理，为了应对这样的情况，webpack有对应的<code>loader</code>机制来处理，另外shim，plugins，和其他构建工具，一样一样的，更多的细节，需要你在实际的应用中慢慢去体会了。</p>
+<h2 id="webpack的使用方法"><a href="#webpack的使用方法" class="headerlink" title="webpack的使用方法"></a>webpack的使用方法</h2><p>安装：npm install webpack –verbose –save-dev</p>
+<p>webpack认为一个项目（或者一个页面），总有一个入口文件，就像C语言中总有一个main函数一样。假设，我们创建两个文件<code>./mian.js</code>和<code>./query.js</code>，并且将<code>main.js</code>做为我们项目的入口文件。</p>
+<p><code>query.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">     <span class="keyword">var</span> version = <span class="number">1.0</span><span class="number">.0</span>;</span><br><span class="line">     <span class="built_in">console</span>.log(version)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>main.js</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> query = <span class="built_in">require</span>(<span class="string">'./query'</span>);</span><br><span class="line">query();</span><br></pre></td></tr></table></figure>
+<p>创建一个webpack.config.js文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> config = &#123;</span><br><span class="line">    entry:<span class="string">'./main.js'</span>,</span><br><span class="line">    ouptut:&#123;</span><br><span class="line">        path:<span class="string">'./js'</span></span><br><span class="line">        filename:<span class="string">'main.js'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">module</span>.exports = config;</span><br></pre></td></tr></table></figure>
+<p>在你的终端上运行<code>webpack</code>即可。</p>
+<h2 id="webpack配置详解"><a href="#webpack配置详解" class="headerlink" title="webpack配置详解"></a>webpack配置详解</h2><p><code>entry</code>：</p>
+<p>entry属性做为可配置的入口，比如上面所写的<code>./main.js</code>。entry有三种写法，每一个入口可以称之为一个chunk。</p>
+<ul>
+<li>如果为字符串，只会打包一个<code>顺序依赖</code>的模块，输出则根据output配置而定。</li>
+<li>如果为数组，只会打包一个<code>顺序依赖</code>的模块，合并到最后一个模块时导出，输出则根据output配置而定。</li>
+<li>如果为对象，则会根据入口打包多个<code>顺序依赖</code>的模块，key名会根据在output的配置输出。</li>
+</ul>
+<p><code>output</code>：</p>
+<p>输出规则，在此对象中设置。</p>
+<ul>
+<li>path 设置输出的文件路径</li>
+<li>filename 设置输出文件名，filename可以有多种配置，比如<code>main.js</code>，<code>[id].js</code>，<code>[name].js</code>，<code>[hash].js</code>等</li>
+<li>publicPath 设置资源的访问路径</li>
+<li>library 设置模块导出的类名</li>
+<li>libraryTarget:’umd’ 设置模块兼容模式</li>
+<li>umdNamedDefine:true  同上</li>
+</ul>
+<p><code>devtool</code>：</p>
+<p>将devtool设置为<code>source-map</code>，在开发调试阶段非常有用，它的模式非常多，我有搞的比较晕。</p>
+<p><code>loader</code>：</p>
+<p>loader机制应该是webpack中非常重要的部分了，它是一系列资源的最终执行者。一般情况下，你可以访问：<a href="http://webpack.github.io/docs/list-of-loaders.html" target="_blank" rel="external">webpack loader</a>来访问可用loader列表。</p>
+<p>比如现在我想将.html类型的文件，当做一个模块来载入。</p>
+<pre><code>npm install raw-loader
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">module</span>:&#123;</span><br><span class="line">    loaders:[</span><br><span class="line">        &#123;</span><br><span class="line">            test:<span class="regexp">/\.html$/</span>,</span><br><span class="line">            loader:<span class="string">'raw'</span>,</span><br><span class="line">            exclude:<span class="regexp">/(node_modules)/</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每一个loader都可以用一个对象来描述，test是你的匹配规则，loader是你要载入的loader，exclude是你在执行规则是想忽略的目录。</p>
+<p><code>plugins</code>：</p>
+<p>webpack的插件机制也非常的重要，其内置了多种插件，比如混淆，压缩等等。插件列表可以访问：<a href="http://webpack.github.io/docs/list-of-plugins.html" target="_blank" rel="external">list of plugins</a>。</p>
+<p>正常情况下可以使用官方自带的插件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.optimize.UglifyJsPlugin(&#123;</span><br><span class="line">    compress: &#123;</span><br><span class="line">        warnings: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>当然，我们也可以引入第三方插件，使用你的npm install吧。</p>
+<p><code>resolve</code>：</p>
+<p>此配置可以对一些常用模块设置别名，比如<code>a.js</code>放置在<code>./src/module/address/</code>中，每次载入模块需要var a = require(‘./src/module/address/a’);名字非长，如果设置别名了，只需要var a = require(‘a’)；</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">resolve:&#123;</span><br><span class="line">    alias:&#123;</span><br><span class="line">        <span class="string">"RequestModel"</span>:path.resolve(__dirname,<span class="string">'src/lib/request.model'</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+<p>还可以设置访问路径，以及模块载入后缀。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resolve:&#123;</span><br><span class="line">    root:path.resolve(filePath,<span class="string">'/src'</span>),</span><br><span class="line">    extensions:[<span class="string">''</span>,<span class="string">'.js'</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>externals</code>：</p>
+<p>此项配置可以将某些库设置为外部引用，内部不会打包合并进去。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">externals:&#123;</span><br><span class="line">    jquery:<span class="string">'window.jQuery'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="在我们PC项目中的应用"><a href="#在我们PC项目中的应用" class="headerlink" title="在我们PC项目中的应用"></a>在我们PC项目中的应用</h2><p>我们公司内部的项目，也开始应用npm scripts来做执行钩子，webpack来做构建，首先设计三个命令：</p>
+<ul>
+<li>npm run start</li>
+<li>npm run dev</li>
+<li>npm run build</li>
+</ul>
+<p><strong>配置npm run start</strong></p>
+<p>本地服务器的启动，我们没有使用webpack官方提供的webpack-dev-server，而是采用了 browser-sync。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> browser = <span class="built_in">require</span>(<span class="string">'browser-sync'</span>);</span><br><span class="line"><span class="keyword">var</span> browserSync = browser.create();</span><br><span class="line"><span class="keyword">var</span> PORT = <span class="number">4000</span></span><br><span class="line"><span class="keyword">var</span> loadMap = [</span><br><span class="line">    <span class="string">'modules/*.*'</span>,</span><br><span class="line">    <span class="string">'src/**/*.*'</span>,</span><br><span class="line">    <span class="string">'./*.html'</span>,</span><br><span class="line">       <span class="string">'./web/*.html'</span></span><br><span class="line">];</span><br><span class="line">gulp.task(<span class="string">'server'</span>,[], <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// content</span></span><br><span class="line">        browserSync.init(&#123;</span><br><span class="line">            server:<span class="string">'./'</span>,</span><br><span class="line">            port:PORT</span><br><span class="line">        &#125;);</span><br><span class="line">        gulp.watch(loadMap, <span class="function"><span class="keyword">function</span>(<span class="params">file</span>)</span>&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(file.path)</span><br><span class="line">            browserSync.reload()</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>利用gulp写了一个脚本任务，在package.json文件中设置：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scripts:&#123;</span><br><span class="line">    <span class="string">"start"</span>:<span class="string">"gulp server"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>了解我们项目的实际需求</strong></p>
+<p>我们的项目是一个多页面项目，并不像单页应用一样（业务编程可以打包成一个），首先我们需要设计一个良好的目录结构，如下：</p>
+<ul>
+<li>web 目录放置*.html页面</li>
+<li>style 目录放置*.css文件，另外在此目录中放置了less源文件</li>
+<li>src 目录放置了我们的所有*.js文件</li>
+<li>mock  内置的模拟数据，放置在此</li>
+<li>img 图片放置目录</li>
+<li>link npm下载不了的第三方库放置在此</li>
+<li>YYT_PC_Modules 内部编写的模块，放置在此</li>
+<li>YYT_PC_Component 内部编写的组件，放置在此</li>
+</ul>
+<p>编写一个map.json文件，用来维护多入口的关系。当然我们的webpack.dev.config.js文件，放置在根目录。最后的build阶段应该输出一个新的目录<code>dist</code>这个目录中放置的应该是所有build完成的资源，包括*.html文件。</p>
+<p>它应该才是我们最终的发布目录。</p>
+<p><strong>配置npm run dev</strong></p>
+<p>对于CSS我们的期望是一个新的link而不是style内嵌，所以还需要做一些额外的事情，先下载loader和插件。</p>
+<p>列表：</p>
+<pre><code>&quot;less-loader&quot;: &quot;^2.2.2&quot;,
+&quot;raw-loader&quot;: &quot;^0.5.1&quot;,
+&quot;style-loader&quot;: &quot;^0.13.0&quot;,
+&quot;css-loader&quot;: &quot;^0.23.1&quot;,
+&quot;eslint&quot;: &quot;^2.2.0&quot;,
+&quot;eslint-loader&quot;: &quot;^1.3.0&quot;,
+&quot;extract-text-webpack-plugin&quot;: &quot;^1.0.1&quot;,
+</code></pre><p><code>raw-loader</code>主要用来解决模板载入的问题，模块当做一个变量直接载入到业务编程中。</p>
+<p>配置我们的CSS：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">// webpack.dev.config.js</span></span><br><span class="line"><span class="keyword">var</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">'extract-text-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">var</span> extractLESS = <span class="keyword">new</span> ExtractTextPlugin(<span class="string">'../style/[name].css'</span>);</span><br><span class="line">    &#123;</span><br><span class="line">        test: <span class="regexp">/\.less$/i</span>,</span><br><span class="line">        loader: extractLESS.extract([<span class="string">'css'</span>,<span class="string">'less'</span>])</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//入口js文件</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">require</span>(<span class="string">'../style/less/index.less'</span>)</span><br></pre></td></tr></table></figure>
+<p><code>ExtractTextPlugin</code>的作用就是将CSS单独输出一个文件，这个文件名依赖于entry写的入口文件名。</p>
+<p>配置我们的多页面JS：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//利用了entry的对象写法</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"index.main"</span>:<span class="string">"./src/index.mian.js"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//然后在输出是用[name]代替之前的'index.main.js'</span></span><br></pre></td></tr></table></figure>
+<p>提取JS文件中的公共部分：</p>
+<p>webpack自带的一个插件，可以提取合并打包时的公共部分，只要在页面载入时，放置在合并打包后文件的前面。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> optimize.CommonsChunkPlugin(<span class="string">'common.js'</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>完整的dev构建脚本</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> webpack = <span class="built_in">require</span>(<span class="string">'webpack'</span>);</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">var</span> plugins = [];</span><br><span class="line"><span class="keyword">var</span> ExtractTextPlugin = <span class="built_in">require</span>(<span class="string">'extract-text-webpack-plugin'</span>);</span><br><span class="line"><span class="keyword">var</span> optimize = webpack.optimize</span><br><span class="line"><span class="keyword">var</span> extractLESS = <span class="keyword">new</span> ExtractTextPlugin(<span class="string">'../style/css/[name].css'</span>);</span><br><span class="line">plugins.push(extractLESS);</span><br><span class="line">plugins.push(<span class="keyword">new</span> optimize.CommonsChunkPlugin(<span class="string">'common.js'</span>));</span><br><span class="line"><span class="keyword">var</span> sourceMap = <span class="built_in">require</span>(<span class="string">'./map.json'</span>).source;</span><br><span class="line"><span class="keyword">var</span> YYT_PC_Modules = <span class="string">'link/YYT_PC_Modules/'</span>;</span><br><span class="line"><span class="keyword">var</span> YYT_PC_Component = <span class="string">'link/YYT_PC_Component/'</span>;</span><br><span class="line"><span class="keyword">var</span> config = &#123;</span><br><span class="line">    entry: sourceMap,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname + <span class="string">'/js'</span>),</span><br><span class="line">        filename: <span class="string">'[name].js'</span></span><br><span class="line">    &#125;,</span><br><span class="line">    devtool: <span class="string">'source-map'</span>,</span><br><span class="line">    <span class="built_in">module</span>: &#123;</span><br><span class="line">        loaders: [</span><br><span class="line">            &#123;</span><br><span class="line">                test: <span class="regexp">/\.html$/</span>,</span><br><span class="line">                loader: <span class="string">'raw'</span>,</span><br><span class="line">                exclude: <span class="regexp">/(node_modules)/</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                test: <span class="regexp">/\.js$/</span>,</span><br><span class="line">                loader: <span class="string">'eslint-loader'</span>,</span><br><span class="line">                exclude: <span class="regexp">/(node_modules)/</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                test: <span class="regexp">/\.less$/i</span>,</span><br><span class="line">                loader: extractLESS.extract([<span class="string">'css'</span>, <span class="string">'less'</span>])</span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                test: <span class="regexp">/\.(png|jpg)$/</span>,</span><br><span class="line">                loader: <span class="string">'url-loader?limit=8192'</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: plugins,</span><br><span class="line">    resolve: &#123;</span><br><span class="line">        alias: &#123;</span><br><span class="line">            <span class="string">"tplEng"</span>: path.resolve(__dirname, <span class="string">'link/template'</span>),  <span class="comment">//模板引擎</span></span><br><span class="line">            <span class="string">"BaseModel"</span>: path.resolve(__dirname, YYT_PC_Modules + <span class="string">'baseModel'</span>),</span><br><span class="line">            <span class="string">"BaseView"</span>: path.resolve(__dirname, YYT_PC_Modules + <span class="string">'baseView'</span>),</span><br><span class="line">            <span class="string">"store"</span>: path.resolve(__dirname, YYT_PC_Modules + <span class="string">'store/locationStore'</span>),</span><br><span class="line">            <span class="string">"cookie"</span>: path.resolve(__dirname, YYT_PC_Modules + <span class="string">'store/cookie'</span>),</span><br><span class="line">            <span class="string">"url"</span>: path.resolve(__dirname, YYT_PC_Modules + <span class="string">'util/url'</span>),</span><br><span class="line">            <span class="string">"tools"</span>: path.resolve(__dirname, YYT_PC_Modules + <span class="string">'util/tools'</span>),</span><br><span class="line">            <span class="string">"FlashAPI"</span>: path.resolve(__dirname,YYT_PC_Modules + <span class="string">'util/FlashAPI'</span>),</span><br><span class="line">            <span class="string">"DateTime"</span>: path.resolve(__dirname, YYT_PC_Modules + <span class="string">'util/DateTime'</span>),</span><br><span class="line">            <span class="string">"pwdencrypt"</span>: path.resolve(__dirname, YYT_PC_Modules + <span class="string">'crypto/pwdencrypt'</span>),</span><br><span class="line">            <span class="string">"secret"</span>: path.resolve(__dirname, YYT_PC_Modules + <span class="string">'crypto/secret'</span>),</span><br><span class="line">            <span class="string">"UploadFile"</span>: path.resolve(__dirname, YYT_PC_Component + <span class="string">'feature/UploadFile'</span>),</span><br><span class="line">            <span class="string">"AjaxForm"</span>: path.resolve(__dirname, YYT_PC_Component + <span class="string">'feature/AjaxForm'</span>),</span><br><span class="line">            <span class="string">"Scrollbar"</span>: path.resolve(__dirname, YYT_PC_Component + <span class="string">'feature/Scrollbar'</span>),</span><br><span class="line">            <span class="string">"LoginBox"</span>: path.resolve(__dirname, YYT_PC_Component + <span class="string">'business/LoginBox/'</span>),</span><br><span class="line">            <span class="string">"UserModel"</span>: path.resolve(__dirname, YYT_PC_Component + <span class="string">'business/UserModel/'</span>),</span><br><span class="line">            <span class="string">"UploadFileDialog"</span>: path.resolve(__dirname, YYT_PC_Component + <span class="string">'business/UploadFileDialog/'</span>),</span><br><span class="line">            <span class="string">"ui.Dialog"</span>: path.resolve(__dirname, YYT_PC_Component + <span class="string">'ui/dialog/'</span>),</span><br><span class="line">            <span class="string">"ui.Confirm"</span>: path.resolve(__dirname, YYT_PC_Component + <span class="string">'ui/confirm/'</span>),</span><br><span class="line">            <span class="string">"ui.MsgBox"</span>: path.resolve(__dirname, YYT_PC_Component + <span class="string">'ui/msgBox/'</span>),</span><br><span class="line">            <span class="string">"config"</span>: path.resolve(__dirname, <span class="string">'src/lib/config'</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    externals: &#123;</span><br><span class="line">        jquery: <span class="string">'window.jQuery'</span>,</span><br><span class="line">        backbone: <span class="string">'window.Backbone'</span>,</span><br><span class="line">        underscore: <span class="string">'window._'</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// console.log(path.resolve(__dirname,'node_modules/jquery/dist/jquery.js'))</span></span><br><span class="line"><span class="built_in">module</span>.exports = config;</span><br></pre></td></tr></table></figure>
+<p><strong>问题</strong></p>
+<p>问题一：在windows机器上如果你要设置环境变量（也许是我没有找到问题的所在，但是提出来，主要是Mac用习惯了。）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scripts:&#123;</span><br><span class="line">    <span class="string">"dev"</span>:<span class="string">"WEB_PACK=1 webpack --watch --config webpack.dev.config.js "</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在webpack.dev.config.js文件中不能正确的获取环境变量，所以重新写了一个build文件，webpack.build.config.js来做最后的构建。</p>
+<p>问题二：构建之后的文件hash化后如何更新HTML中的路径</p>
+<p>这个问题，最后没有采用webpack来做，而是使用gulp来解决的。（不知道大家有没有什么好的方式）</p>
+<p>感谢@sharkrice告知  HtmlWebpackPlugin  插件</p>
+<p>问题三：构建系统的shim</p>
+<p>我们的PC项目（兼容IE8+），依然使用着以前的库，jQuery.js，underscore.js，backbone.js，以及其他第三方不支持commonjs语法的插件，有很多兼容不是很好，最后还是写了另外一个入口文件（包装），然后在webpack合并打包的文件之前引入这些插件，挂载在一个全局的命名空间下，利用新写的一个包装入口导出模块。</p>
+<p>问题四：CSS依赖重复</p>
+<p>感谢@sharkrice 告知 尝试webpack.optimize.DedupePlugin，问题解决。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/02/29/used-webpack-in-pc/" data-id="ciouxikby001jkqjruxe8lije" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/02/29/used-webpack-in-pc/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/02/29/used-webpack-in-pc/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-FED-Talk2" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2016/02/26/FED-Talk2/" itemprop="url">
+            <img src="http://o80ub63i5.bkt.clouddn.com/weekly/lantern-163914_640.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/02/26/FED-Talk2/">FED-Talk月刊第二期（2016年2月）</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/02/26/FED-Talk2/">
+            <time datetime="2016-02-26T06:00:40.000Z" itemprop="datePublished">2016-02-26</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/课多周刊/">课多周刊</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>原《FED-Talk月刊》正式升级为《课多周刊》，继续为大家精选一周的前端专业技术。</p>
+<p>微信公众号 搜索 <strong>fed-talk</strong></p>
+<h2 id="月刊"><a href="#月刊" class="headerlink" title="月刊"></a>月刊</h2><p><strong>FED-Talk推荐：</strong></p>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2016/01/babel.html" target="_blank" rel="external">Babel 入门教程</a></li>
+</ul>
+<p><em>这年头你不学习些ES2015都不好意思说自己从事前端开发，babel是一个ES6转ES5的编译器，可以将ES6编写的代码跑在浏览器上。</em></p>
+<ul>
+<li><a href="https://segmentfault.com/a/1190000004499989" target="_blank" rel="external">Rollup.js 下一代的ES6模块打包机</a></li>
+</ul>
+<p><em>在大量使用Webpack的年代，换个打包工具玩玩，眼前一亮。</em></p>
+<p><strong>JavaScript</strong></p>
+<ul>
+<li><a href="http://www.ruanyifeng.com/blog/2016/01/babel.html" target="_blank" rel="external">Babel 入门教程</a></li>
+<li><a href="http://www.jianshu.com/p/e864b4b5b8f6" target="_blank" rel="external">如何给函数取个合适的名字</a></li>
+<li><a href="http://www.webhek.com/convert-canvas-image" target="_blank" rel="external">用JavaScript将Canvas内容转化成图片的方法</a></li>
+<li><a href="http://www.w3ctech.com/topic/1693" target="_blank" rel="external">[译]2016 - 属于网络流（web streams）的一年</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxNjQwNDY0MQ==&amp;mid=403997163&amp;idx=1&amp;sn=d0e303ad9a927f398bacbec8e6c4e3a6&amp;scene=0#wechat_redirect" target="_blank" rel="external">JavaScript全讲-架构原则透析</a></li>
+<li><a href="http://drakeleung.github.io/blog/2016/02/07/JavaScript-Module-A-Beginner-Guide/" target="_blank" rel="external">JavaScript模块化指南</a></li>
+<li><a href="http://www.html-js.com/article/3443" target="_blank" rel="external">谈谈 JS 中的严格模式</a></li>
+<li><a href="http://efe.baidu.com/blog/promises-anti-pattern/" target="_blank" rel="external">谈谈使用 promise 时候的一些反模式</a></li>
+<li><a href="http://lishaopeng.com/2016/01/16/js-good_bad/" target="_blank" rel="external">后端程序员的 JavaScript 之旅 - 好的设计与坏的设计</a></li>
+<li><a href="http://galen-yip.com/react/webpack/2016/02/14/redux-server-rendering-and-webpack-optimization/" target="_blank" rel="external">Redux服务端渲染及webpack优化</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2016/02/react-testing-tutorial.html" target="_blank" rel="external">React 测试入门教程</a></li>
+<li><a href="https://segmentfault.com/a/1190000004470135" target="_blank" rel="external">React.js学习笔记之JSX解读</a></li>
+</ul>
+<p><strong>CSS</strong></p>
+<ul>
+<li><a href="http://www.html5dw.com/post?id=1298" target="_blank" rel="external">CSS Modules 详解</a></li>
+</ul>
+<p><strong> Hybrid &amp; Native </strong></p>
+<ul>
+<li><a href="https://yq.aliyun.com/articles/3208" target="_blank" rel="external">React Native JS Module 加载性能优化</a></li>
+<li><a href="http://blog.parryqiu.com/2015/11/22/ionic-development-issues/" target="_blank" rel="external">Ionic 开发中遇到的问题以及后期发布 iOS/Android 的方方面面</a></li>
+</ul>
+<p><strong>工具</strong></p>
+<ul>
+<li><a href="http://chinagdg.org/2016/02/ttt1-sublime-plugins/" target="_blank" rel="external">Sublime Text 插件</a></li>
+<li><a href="http://chinagdg.org/2016/02/ttt2-seti-ui/" target="_blank" rel="external">Seti UI 主题: 让你编辑器焕然一新</a></li>
+<li><a href="https://yq.aliyun.com/articles/5843" target="_blank" rel="external">《走进git时代系列一》 你该怎么玩？</a></li>
+<li><a href="http://www.css88.com/doc/jsdoc/index.html" target="_blank" rel="external">JSDoc</a></li>
+<li><a href="http://webres.wang/18-resources-to-learn-flexbox/" target="_blank" rel="external">学习Flexbox的18个优质资源</a></li>
+<li><a href="http://zxc0328.github.io/2015/12/28/2015-javascript-tools/" target="_blank" rel="external">2015年末必备前端工具集</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzIyMjE0ODQ0OQ==&amp;mid=402764877&amp;idx=1&amp;sn=aa40a80bb1920a80fc187e8df99c4824#rd" target="_blank" rel="external">Webpack 2 有哪些新东西</a></li>
+</ul>
+<p><strong>Node.js</strong></p>
+<ul>
+<li><a href="https://github.com/windyrobin/iFrame/blob/master/style.md" target="_blank" rel="external">Node编码规范</a></li>
+<li><a href="https://yq.aliyun.com/articles/5528" target="_blank" rel="external">MongoDB中的日志系统</a></li>
+<li><a href="http://blogread.cn/it/article/7706?f=wb" target="_blank" rel="external">NodeJS服务监控报警系统的核心实现和开源共建</a></li>
+<li><a href="https://github.com/sqrthree/sqrthree.github.io/issues/8" target="_blank" rel="external">【译】在 Chrome 开发者工具中调试 node.js</a></li>
+</ul>
+<p><strong>通信与安全</strong></p>
+<p><em>暂时无</em></p>
+<p><strong>数据结构与算法</strong></p>
+<p><em>暂时无</em></p>
+<p><strong>前端说说</strong></p>
+<ul>
+<li><a href="http://ouvens.github.io/frontend-resource/2016/01/26/front-end-learning-list.html" target="_blank" rel="external">2015-2016前端知识体系</a></li>
+<li><a href="http://zhuanlan.zhihu.com/haochuan/20550075" target="_blank" rel="external">2016：前端的路应该怎么走</a></li>
+<li><a href="http://zhuanlan.zhihu.com/FrontendMagazine/20563971" target="_blank" rel="external">WebKit Web Inspector 十年回顾</a></li>
+<li><a href="http://www.jianshu.com/p/f0d134ed7fd0" target="_blank" rel="external">如何成为一名优秀的全栈工程师</a></li>
+<li><a href="https://www.zhihu.com/question/20246142/answer/14470387" target="_blank" rel="external">知乎上前端开发领域有哪些值得推荐的问答？</a></li>
+<li><a href="http://zhuanlan.zhihu.com/FrontendMagazine/20598089" target="_blank" rel="external">为什么整个互联网行业都缺前端工程师？</a></li>
+</ul>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/02/26/FED-Talk2/" data-id="ciouxik9q0000kqjrmjcgjdxb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/02/26/FED-Talk2/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/02/26/FED-Talk2/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-javascript-event-handler" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/02/22/javascript-event-handler/">事件监听器</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/02/22/javascript-event-handler/">
+            <time datetime="2016-02-22T04:10:07.000Z" itemprop="datePublished">2016-02-22</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>事件监听器对于“订阅发布”模式，非常有用，在我们常用的一些事件中，比如<code>click</code>，也可以看做为一种“订阅发布”模型。今天除了写一写自定义的事件监听器，也想和大家一起复习一下Web前端的事件系统。</p>
+<p><strong>复习浏览器事件</strong></p>
+<p>事件顺序有两种类型：</p>
+<ul>
+<li>事件捕获</li>
+<li>事件冒泡</li>
+</ul>
+<p>关于浏览器的历史原因，大家可以Google一下补脑；事件冒泡，从事件自身开始传播，一直到不确定的事件目标。而事件捕获正好与此相反，从不具体的事件目标，传播到事件的自身。而我们经常使用的DOM标准事件模型，则同时支持这两种顺序。但是，它的顺序是先发生捕获，再冒泡。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addEventListener(type,handler,bool)</span><br></pre></td></tr></table></figure>
+<p><strong>事件捕获使用场景</strong></p>
+<p>根据<em>事件捕获</em>的特点来说，特别和操作系统有些相似，如果我想做全局的事件监听，比如document下所有的子节点，在某个条件下点击无效。这种情况就非常适合<em>事件捕获</em>来实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> doc = <span class="built_in">document</span>;</span><br><span class="line"><span class="keyword">var</span> cancel = <span class="literal">true</span>;</span><br><span class="line">doc.addEventListener(<span class="string">'click'</span>,<span class="function"><span class="keyword">function</span>(<span class="params">e</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(cancel)&#123;</span><br><span class="line">        e.stopPropagation();</span><br><span class="line">        e.preventDefault();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,<span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>事件冒泡使用场景</strong></p>
+<p>比如在<code>onmousemove</code>这高频繁的场景中，可以进一步通过取消事件冒泡，打断它向上传播。</p>
+<h2 id="自定义事件监听器"><a href="#自定义事件监听器" class="headerlink" title="自定义事件监听器"></a>自定义事件监听器</h2><p>在前几年，大家都在使用jQuery的时候，特别喜欢它实现的<em>事件系统</em>，包括有on注册，once注册一次，off解除，trigger触发几个操作。有了事件监听器，我们可以根据这个功能实现很多有用的场景，比如一个应用的某些状态，是根据用户的行为而改变的，但是这个行为却又是我无法预期的，通过事件监听器，可以辅助我们处理好这样的业务。</p>
+<p>有些时候，我们可能需要一个单实例，那么once就有用武之地了。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Swift 版的单例</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">var</span> <span class="title">sharedInstanceManager</span>: <span class="title">ValiantCenterManager</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">centerStatic</span> </span>&#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">var</span> onceToken:dispatch_once_t = <span class="number">0</span></span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">var</span> instance:<span class="type">ValiantCenterManager</span>? = <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    dispatch_once(&amp;centerStatic.onceToken) &#123; () -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line">        centerStatic.instance = <span class="type">ValiantCenterManager</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> centerStatic.instance!</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>那么如何一步一步实现事件监听器</strong></p>
+<p>假设我们有一个Event类，在这个类中的内部有一个this._events = []数组属性，它是用来装载所有的自定义事件。</p>
+<p><em>首先，我们需要实现的是$on注册事件方法。</em></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Event.prototype.$on = <span class="function"><span class="keyword">function</span>(<span class="params">event,fun</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> cbs = <span class="keyword">this</span>._events[event]</span><br><span class="line">        cbs ? cbs.push(fun) : <span class="keyword">this</span>._events[event] = []</span><br><span class="line">        <span class="keyword">if</span> (!cbs) &#123;</span><br><span class="line">            <span class="keyword">this</span>._events[event].push(fun)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里为什么要将this._events设计为二维数组？因为事件可以是多个，但是事件名可能相同。这个逻辑意图非常的明显，根据event参数从this._events中获取是否存在。如果不存在，创建一个event为key的数组，并将事件句柄程序push到数组中。</p>
+<p><em>我们还需要实现$trigger触发事件方法</em></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Event.prototype.$trigger = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> isString = <span class="keyword">typeof</span> event === <span class="string">'string'</span></span><br><span class="line">    event = isString ? event : event.name</span><br><span class="line">    <span class="keyword">let</span> cbs = <span class="keyword">this</span>._events[event]</span><br><span class="line">    <span class="keyword">let</span> args = tools.toArray(<span class="built_in">arguments</span>,<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span> (cbs) &#123;</span><br><span class="line">        <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">        <span class="keyword">let</span> j = cbs.length</span><br><span class="line">        <span class="keyword">for</span>(;i&lt;j;i++)&#123;</span><br><span class="line">            <span class="keyword">let</span> cb = cbs[i]</span><br><span class="line">            cb.apply(<span class="keyword">this</span>,args)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>逻辑依然非常简单，通过事件名从this._events获取相应的事件句柄程序数组，然后将arguments转成数组，（这里考虑的是可能会传入参数）如果事件句柄程序数组存在，进行循环，再讲args参数apply给每一个取出来的事件句柄程序。</p>
+<p><em>我们最后需要$off解除事件方法</em></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">Event.prototype.$off = <span class="function"><span class="keyword">function</span>(<span class="params">event,fun</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cbs = <span class="keyword">this</span>._events[event]</span><br><span class="line"></span><br><span class="line">    <span class="comment">//事件列队中无事件</span></span><br><span class="line">    <span class="keyword">if</span> (!cbs) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除所有的事件</span></span><br><span class="line">    <span class="keyword">if</span> (!event &amp;&amp; !fun) &#123;</span><br><span class="line">        <span class="keyword">this</span>._events = &#123;&#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//只有事件名称时</span></span><br><span class="line">    <span class="keyword">if</span> (event &amp;&amp; !fun) &#123;</span><br><span class="line">        <span class="keyword">this</span>._events[event] = <span class="literal">null</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//删除某个事件队列中的某个事件</span></span><br><span class="line">    <span class="keyword">let</span> cb;</span><br><span class="line">    <span class="keyword">let</span> i = cbs.length</span><br><span class="line">    <span class="keyword">while</span>(i--)&#123;</span><br><span class="line">        cb = cbs[i]</span><br><span class="line">        <span class="keyword">if</span> (cb === fun || cb.fun === fun) &#123;</span><br><span class="line">            cbs.splice(i,<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解除事件方法的逻辑可能相比之下稍许多了些，比如只存在事件组key名的情况，或者删除某个事件队列中的某个事件句柄程序。</p>
+<p><strong>有了它之后对于前端的工作有哪些帮助？</strong></p>
+<p>我可以想象到，在做手机版的SAP应用时，基于router的生命周期，就需要自定义事件监听器的帮助。使用它，其实你也了解了一种编程模型：“订阅发布”模式或者“通知机制”。当然，还有一些其他的场景。事件，对于前端而言，是一个非常需要掌握的技能。不管是DOM标准事件，还是自定义的事件监听器。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/02/22/javascript-event-handler/" data-id="ciouxikax000jkqjr75k378zm" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/02/22/javascript-event-handler/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/02/22/javascript-event-handler/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-FED-Talk1" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
             
 	
 		<a href="/2016/01/24/FED-Talk1/" itemprop="url">
-            <img src="https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/crocus-1261310_640.jpg" class="article-banner" />
+            <img src="http://o80ub63i5.bkt.clouddn.com/weekly/crocus-1261310_640.jpg" class="article-banner" />
         </a>
 	
 
@@ -222,7 +982,7 @@
                     
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/FED-Talk月刊/">FED-Talk月刊</a>
+        <a class="tag-link" href="/tags/课多周刊/">课多周刊</a>
     </div>
 
                 </div>
@@ -231,7 +991,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>FED-Talk月刊是由 <strong>微信公众号：前端Talk</strong> 维护的一月为一期的期刊，专注分享一月精选的 <strong>前端开发</strong> 资料，目前分为<strong>FED-Talk推荐</strong> ，<strong>JavaScript</strong> ，<strong>CSS</strong> ，<strong>Node.js</strong> ，<strong>Hybrid &amp; Native</strong> ，<strong>工具</strong> ，<strong>通信与安全</strong> ，<strong>数据结构与算法</strong>，<strong>前端说说</strong> 九个模块。</p>
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>原《FED-Talk月刊》正式升级为《课多周刊》，继续为大家精选一周的前端专业技术。</p>
 <p>微信公众号 搜索 <strong>fed-talk</strong></p>
 <h2 id="月刊"><a href="#月刊" class="headerlink" title="月刊"></a>月刊</h2><p><strong>月刊推荐：</strong></p>
 <ul>
@@ -312,7 +1072,7 @@
 
 </div>
 
-    <a data-url="https://mulgore.github.io/2016/01/24/FED-Talk1/" data-id="ciotxgyp00000l6jr847t4u2o" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="https://mulgore.github.io/2016/01/24/FED-Talk1/" data-id="ciouxika50002kqjrpfkzszc2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -380,7 +1140,796 @@
 
             
     
-        <a href="https://mulgore.github.io/2016/01/24/FED-Talk1/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/01/24/FED-Talk1/">Comentarios</a>
+        <a href="https://mulgore.github.io/2016/01/24/FED-Talk1/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/01/24/FED-Talk1/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-swift-file-managed" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/01/20/swift-file-managed/">Swift文件操作</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/01/20/swift-file-managed/">
+            <time datetime="2016-01-20T03:32:31.000Z" itemprop="datePublished">2016-01-20</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>一个应用程序，总会有些文件需要操作。</p>
+<p>在iOS中文件操作主要分为两个部分，获取地址，然后操作文件：</p>
+<ul>
+<li>如果你的文件资源在bundle内，那么需要获取bundle。</li>
+<li>如果你的文件资源在沙盒内，那么需要获取沙盒地址。</li>
+<li>NSFileManager操作或者流操作。</li>
+</ul>
+<p><strong>bundle</strong></p>
+<p>bundle是一个目录，其中包含了很多资源，有图片，编译好的源代码等等（也可以自己拖动任意文件到Xcode中，它就在此bundle之下。），cocoa提供了NSBundle类来帮助我们获取bundle下的资源。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> bundle = <span class="type">NSBundle</span>.mainBundle()</span><br><span class="line"><span class="keyword">let</span> imagePath = bundle.pathForResource(<span class="string">"github"</span>,<span class="string">"png"</span>)</span><br></pre></td></tr></table></figure>
+<p>一般情况下，我们是通过<code>mainBundle</code>来获取bundle对象，当然你也可以自己指定bundle对象。</p>
+<p><strong>沙盒机制</strong></p>
+<p>iOS中的应用程序，每一个都有其自己访问的<code>作用域</code>，它有一些非常显著的特点：</p>
+<ul>
+<li>每个应用程序都有自己的存储空间</li>
+<li>每个应用程序都只能访问自己存储空间内的资源</li>
+<li>每个应用程序请求数据时都需要有自己的认证权限</li>
+</ul>
+<p>默认情况下Apple给我们提供了三个有意义的目录，它们分别是：</p>
+<ul>
+<li>Documents</li>
+<li>Library</li>
+<li>tmp</li>
+</ul>
+<p><code>Documents</code>，Apple建议将程序中创建或者程序中浏览的数据存储在此，iTunes会备份和恢复时会包含此目录。<code>Library</code>用来存储默认的数据或者状态，tmp用来存储临时文件（iOS会随时清除）。</p>
+<p>一般情况下，我们都使用<code>NSSearchPathForDirectoriesInDomains</code>来获取沙盒路径。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">let</span> cacheDirPath:<span class="type">NSString</span> = <span class="type">NSSearchPathForDirectoriesInDomains</span>(<span class="type">NSSearchPathDirectory</span>.<span class="type">CachesDirectory</span>, <span class="type">NSSearchPathDomainMask</span>.<span class="type">UserDomainMask</span>, <span class="literal">true</span>)[<span class="number">0</span>] <span class="keyword">as</span> <span class="type">NSString</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">let</span> docDirPath:<span class="type">NSString</span> = <span class="type">NSSearchPathForDirectoriesInDomains</span>(<span class="type">NSSearchPathDirectory</span>.<span class="type">DocumentDirectory</span>, <span class="type">NSSearchPathDomainMask</span>.<span class="type">UserDomainMask</span>, <span class="literal">true</span>)[<span class="number">0</span>] <span class="keyword">as</span> <span class="type">NSString</span></span><br></pre></td></tr></table></figure>
+<p><strong>NSFileManager</strong></p>
+<p>NSFileManager提供了一系列的操作，包括有创建，删除，移动，查询等等。获取此对象，可以使用一个静态方法来获取单例，或者实例化一个NSFileManager对象。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> manager:<span class="type">NSFileManager</span> = &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">NSFileManager</span>.defaultManager()</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<p>判断文件是否存在：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.manager.fileExistsAtPath(rmPath)</span><br></pre></td></tr></table></figure>
+<p>创建一个文件：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.manager.createFileAtPath(file.path!,contents: data, attributes:<span class="literal">nil</span>)</span><br></pre></td></tr></table></figure>
+<p>删除一个已经存在的文件：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.manager.removeItemAtPath(rmPath)</span><br></pre></td></tr></table></figure>
+<p>移动一个文件：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.valiantCenter.manager.moveItemAtPath(fromPath, toPath: <span class="keyword">self</span>.info.saveZipPath)</span><br></pre></td></tr></table></figure>
+<p>有一点在Swift2.0之后需要注意，现在的错误处理已经变成了do…catch机制，所以不管是删除还是移动，都需要try的配合。当然，关于NSFileManager的API肯定不是只有这么点，它还包括了搜索文件，深递归目录下所有的文件等等，详细的API信息，需要你自己慢慢去查看了。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span>&#123;</span><br><span class="line">    <span class="keyword">try</span> <span class="keyword">self</span>.valiantCenter.manager.moveItemAtPath(fromPath, toPath: <span class="keyword">self</span>.info.saveZipPath)</span><br><span class="line">    <span class="keyword">self</span>.finishDownloadZipTask()</span><br><span class="line">&#125;<span class="keyword">catch</span>&#123;</span><br><span class="line">   <span class="keyword">self</span>.addContext(<span class="type">ValiantError</span>(reason: <span class="string">"下载成功：\(self.id) 移动临时数据到保存目录错误：\(self.info.saveZipPath)"</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>NSInputStream|NSOutputStream</strong></p>
+<p>关于流操作大部分还是会应用在网络方面，比如要将一个很大的文件传送给服务器，那么NSInputStream这时候就是很好的选择，这样会节省很多内存。使用它来单纯的操作文件会比较少，那么操作文件，我们主要使用cocoa提供的<code>NSInputStream</code>类来帮助我们更简单的操作流。</p>
+<p>一般情况下从<code>NSInputStream</code>读入数据需要下列几个步骤：</p>
+<ul>
+<li>创建一个<code>NSInputStream</code>实例</li>
+<li>通过流对象的Delegate处理一些<code>状况事件</code></li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> stream = <span class="type">NSInputStream</span>.inputStreamWithFileAtPath(<span class="string">"file.txt"</span>)</span><br><span class="line">stream.read(<span class="number">_</span> buffer: <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">UInt8</span>&gt;,</span><br><span class="line">maxLength len: <span class="type">Int</span>)</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/01/20/swift-file-managed/" data-id="ciouxikbg000zkqjrlvehglz6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/01/20/swift-file-managed/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/01/20/swift-file-managed/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-swift-errorhandler" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/01/12/swift-errorhandler/">Swift错误处理</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/01/12/swift-errorhandler/">
+            <time datetime="2016-01-12T03:33:43.000Z" itemprop="datePublished">2016-01-12</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><em>错误处理是Swift2.0后新推出的特性</em></p>
+<p>在原来做iOS开发时，通常会使用<code>NSError</code>对象来标识一个错误，并且需要传递一个NSError指针到可能发生错误的方法中去。以前，我觉得这个很好用，为什么？因为我可以穿入一个nil来忽略错误，为了省事，但是后来出现的坑，让我更近注重去处理错误了。</p>
+<p>在Swift中一个函数或者方法需要使用<code>throws</code>关键字标明，此能接收并处理错误的<code>能力</code>，一般情况下，会根据<code>错误类型</code>来做进一步处理，或者抛给调用者。</p>
+<p>每一个错误，都需要遵循<code>ErrorType</code>协议，当然Cocoa中已经为我们定义了很多错误，换句话说，我们也可以自己定义自己的错误类型，只要遵循了<code>ErrorType</code>协议即可。</p>
+<h2 id="Demo访问"><a href="#Demo访问" class="headerlink" title="Demo访问"></a>Demo访问</h2><p>基于Swift 2.1 使用Xcode 7.2编写，访问<a href="https://github.com/icepy/_posts/blob/master/demo/errorHandler/errorHandler/ViewController.swift" target="_blank" rel="external">Swift Error Handler</a></p>
+<h2 id="场景描述"><a href="#场景描述" class="headerlink" title="场景描述"></a>场景描述</h2><p> 自己设计的场景，假设在魔兽世界中，熊猫人可以成为中立阵营（翻墙出岛，正常流程是需要选择一个阵营的），其他两个阵营为联盟与部落。</p>
+<ul>
+<li>如果是熊猫人（假设翻墙了），那么就抛出一个无分组的错误</li>
+<li>如果人类选择了部落，那么将抛出一个LGroup错误</li>
+<li>如果兽人选择了联盟，那么将抛出一个BGroup错误</li>
+</ul>
+<p><strong>定义错误类型</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">GroupError</span>:<span class="title">ErrorType</span></span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">NoneGroup</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">LGroup</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">BGroup</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>使用throws关键字</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">selectorGroup</span><span class="params">(tag:Int,type:String)</span></span> <span class="keyword">throws</span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> tag&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">            <span class="keyword">if</span> type != <span class="string">"human"</span>&#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="type">GroupError</span>.<span class="type">LGroup</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">            <span class="keyword">if</span> type != <span class="string">"orc"</span>&#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="type">GroupError</span>.<span class="type">BGroup</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">if</span> type == <span class="string">"panda"</span>&#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="type">GroupError</span>.<span class="type">NoneGroup</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么调用者该如何处理呢？Swift提供了<code>do...catch</code>和<code>try</code>机制，让我们来捕获错误。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">orcSelector</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> selectorGroup(<span class="number">1</span>, type: <span class="string">"orc"</span>)</span><br><span class="line">    &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"兽人，请不要选择联盟"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">pandaSelector</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> selectorGroup(<span class="number">0</span>, type: <span class="string">"panda"</span>)</span><br><span class="line">    &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"熊猫人必须选择一个阵营"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">humanSelector</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">try</span> selectorGroup(<span class="number">2</span>, type: <span class="string">"human"</span>)</span><br><span class="line">    &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"人类，请不要选择部落"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="在Swift中如何使用NSError"><a href="#在Swift中如何使用NSError" class="headerlink" title="在Swift中如何使用NSError"></a>在Swift中如何使用NSError</h2><p><strong>定义处理函数</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">selectorNSError</span><span class="params">(<span class="keyword">inout</span> error:NSError)</span></span>&#123;</span><br><span class="line">    error = <span class="type">NSError</span>(domain: <span class="string">"Selector Group Error"</span>, code: <span class="number">500</span>, userInfo: [<span class="string">"message"</span>:<span class="string">"选择错误"</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里就使用到了<code>inout</code>关键字来处理指针， 操作时不需要使用<code>memory</code>来操作。额外提一句，如果使用别的方式，操作是需要<code>memory</code>的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> num = <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt;.alloc(<span class="number">12</span>)</span><br><span class="line">num.memory = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>调用者使用`selectorNSError函数</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">NSErrorHandler</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> error:<span class="type">NSError</span> = <span class="type">NSError</span>(domain: <span class="string">""</span>, code: <span class="number">100</span>, userInfo: <span class="literal">nil</span>)</span><br><span class="line">    selectorNSError(&amp;error)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"\(error)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/01/12/swift-errorhandler/" data-id="ciouxikbe000xkqjrqamgfezv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/01/12/swift-errorhandler/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/01/12/swift-errorhandler/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-swift-nsthread" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/01/05/swift-nsthread/">NSThread（Swift）</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/01/05/swift-nsthread/">
+            <time datetime="2016-01-05T03:35:30.000Z" itemprop="datePublished">2016-01-05</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><code>Thread</code>是iOS中处理线程最轻量的一种方式，而且非常直观的在操作线程，唯一的缺陷是需要自己去管理线程的生命周期，协调多个线程对同一个数据的操作。</p>
+<p><strong>创建NSThread</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">NSThread</span>.detachNewThreadSelector(<span class="string">"detacThread"</span>, toTarget: <span class="keyword">self</span>, withObject: <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.thread = <span class="type">NSThread</span>(target: <span class="keyword">self</span>, selector: <span class="string">"oneThread"</span>, object: <span class="literal">nil</span>)</span><br><span class="line"><span class="keyword">self</span>.thread!.threadPriority = <span class="number">1.0</span></span><br><span class="line"><span class="keyword">self</span>.thread!.start()</span><br></pre></td></tr></table></figure>
+<p><strong>使用NSThread下载图片</strong></p>
+<p>这里我使用<code>storyboard</code>拖了一个<code>UIButton</code>和<code>UIImageView</code>出来，并且连接到<code>UIViewController</code>中：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> imageView: <span class="type">UIImageView</span>!</span><br><span class="line"></span><br><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">downloadImages</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//业务逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>开始初始化<code>NSThread</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">self</span>.clickLock == <span class="literal">nil</span>&#123;</span><br><span class="line">     <span class="keyword">self</span>.clickLock = <span class="literal">true</span></span><br><span class="line">     <span class="keyword">self</span>.thread = <span class="type">NSThread</span>(target: <span class="keyword">self</span>, selector: <span class="string">"oneThread"</span>, object: <span class="literal">nil</span>)</span><br><span class="line">     <span class="keyword">self</span>.thread!.threadPriority = <span class="number">1.0</span></span><br><span class="line">     <span class="keyword">self</span>.thread!.start()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用的是当前<code>oneThread</code>方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">oneThread</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//需要管理线程的生命周期、同步、加锁问题，这会导致一定的性能开销</span></span><br><span class="line">    <span class="keyword">let</span> url:<span class="type">String</span> = <span class="string">"http://content.battlenet.com.cn/wow/media/screenshots/selfie/selfie001-large.jpg"</span></span><br><span class="line">    <span class="keyword">let</span> urlObject:<span class="type">NSURL</span> = <span class="type">NSURL</span>(string: url)!</span><br><span class="line">    <span class="keyword">let</span> request:<span class="type">NSURLRequest</span> = <span class="type">NSURLRequest</span>(<span class="type">URL</span>: urlObject)</span><br><span class="line">    <span class="keyword">var</span> response:<span class="type">NSURLResponse</span>?</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> data:<span class="type">NSData</span> = <span class="keyword">try</span> <span class="type">NSURLConnection</span>.sendSynchronousRequest(request, returningResponse: &amp;response)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="type">HTTPResponse</span> = response <span class="keyword">as</span>? <span class="type">NSHTTPURLResponse</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"状态码：\(HTTPResponse.statusCode)"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"============数据==========="</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"============数据==========="</span>)</span><br><span class="line">            <span class="keyword">self</span>.clickLock = <span class="literal">nil</span></span><br><span class="line">            <span class="keyword">let</span> current:<span class="type">NSThread</span> = <span class="type">NSThread</span>.currentThread()</span><br><span class="line">            <span class="keyword">let</span> main:<span class="type">NSThread</span> = <span class="type">NSThread</span>.mainThread()</span><br><span class="line">            <span class="keyword">self</span>.performSelectorOnMainThread(<span class="string">"updateUI:"</span>, withObject: data, waitUntilDone: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>如何加锁，操作同一个数据</strong></p>
+<p><code>NSThread</code>对于同步是需要自己去处理了，为了操作数据达到同步的目的，我们需要去加上锁，iOS中存在两种锁<code>NSCondition</code>和<code>NSLock</code>，这里我使用的是<code>NSLock</code>来处理。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">true</span>&#123;</span><br><span class="line">    <span class="keyword">self</span>.theLock?.lock()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">self</span>.<span class="built_in">count</span>! &gt;= <span class="number">0</span> &#123;</span><br><span class="line">        <span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">0.08</span>)</span><br><span class="line">        <span class="keyword">self</span>.index = <span class="number">100</span> - <span class="keyword">self</span>.<span class="built_in">count</span>!</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"数目-----&gt; \(self.count) 出售 ----&gt; \(self.index) 线程名 ----&gt; \(NSThread.currentThread().name)"</span>)</span><br><span class="line">        <span class="keyword">self</span>.<span class="built_in">count</span>!--</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">self</span>.theLock?.unlock()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2016/01/05/swift-nsthread/" data-id="ciouxikbn0017kqjrtg3kb8pn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/01/05/swift-nsthread/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/01/05/swift-nsthread/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-swift-nsoperation" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2015/12/29/swift-nsoperation/">NSOperation实现多线程（Swift）</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/12/29/swift-nsoperation/">
+            <time datetime="2015-12-29T03:36:27.000Z" itemprop="datePublished">2015-12-29</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>在上周，我用GCD去实践练习了一下多线程的使用，这周我将练习一种不同的多线程实现。</p>
+<p>为了理解多线程你还需要理解一些概念性的东西，比如什么是串行，什么是并行，什么是临界区，什么是竞态条件。</p>
+<p>关于这些概念，推荐一本书<a href="http://www.amazon.cn/gp/product/B0041859AI?psc=1&amp;ref_=oh_aui_detailpage_o07_s00" target="_blank" rel="external">《操作系统:精髓与设计原理》</a>，我且当你知道并且了解。</p>
+<p><strong>前言论述</strong></p>
+<p>在Foundation框架中提供了一个叫做<code>NSThread</code>的类，从名字上咱们就能看出，这是一个属于跟<code>线程</code>操作有关的类，没错。但是使用它来管理多个线程特别的繁琐，需要考虑竞态条件，需要锁等。于是，<code>NSOperation</code>和<code>NSOperationQueue</code>提供了更高级的封装，来很好的处理多个线程。</p>
+<p><strong>实践练习</strong></p>
+<p><code>NSOperation</code>是一个抽象类，所以不能直接使用它，但是它可以为子类提供有用且线程安全的建立状态，优先级，依赖和取消等操作。</p>
+<ul>
+<li>继承它来自己实现内部</li>
+<li>使用<code>NSBlockOperation</code></li>
+</ul>
+<p><strong>注意：Swift中将不存在NSInvocationOperation相关APIs</strong></p>
+<p><code>NSOperationQueue</code>则有些类似<code>线程池</code>，我们使用的<code>NSOperation</code>都需要添加到<code>NSOperationQueue</code>中，用来方便管理这些线程。</p>
+<p><strong>它们应该是一对好兄弟</strong></p>
+<p>NSOperation提供了<code>ready</code>，<code>cancelled</code>，<code>executing</code>， <code>finished</code>，这几个状态变化，可以通过<code>KVO</code>来通知改变这些状态，一般场景下你可能使用不到这些，除非你自己继承<code>NSOperation</code>来实现子类的方式来使用，你才需要管理这些状态。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> operation3 = <span class="type">NSBlockOperation</span>(block: &#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"不用NSOperationQueue"</span>)</span><br><span class="line">&#125;)</span><br><span class="line">operation3.start()</span><br></pre></td></tr></table></figure>
+<p><strong>添加依赖</strong></p>
+<p>这个步骤在某些场景下非常有用，比如我先读取本地文件，然后根据文件来发送网络请求，这里可见网络请求是依赖于读取本地文件的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">operation2.addDependency(operation1)</span><br></pre></td></tr></table></figure>
+<p><em>注意事项：</em></p>
+<ul>
+<li>避免循环依赖，比如A依赖B，B又依赖A，那么恭喜你，死锁了。</li>
+</ul>
+<p><strong>执行</strong></p>
+<p>如果你使用了<code>NSOperationQueue</code>，那么你将不需要手动调用<code>start</code>方法，因为队列会帮助我们调用start方法。</p>
+<p><strong>取消</strong></p>
+<p><code>NSOperation</code>允许你取消一个任务，跟GCD一样，如果任务正在执行，且是无法取消的，只能等待任务完成，调用<code>cancel</code>方法</p>
+<p><strong>优先级</strong></p>
+<p>通过设置<code>NSOperation</code>的<code>queuePriority</code>属性来提高某个<code>NSOperation</code>的优先级。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">NSOperationQueuePriority</span> : <span class="title">Int</span> </span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">VeryLow</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">Low</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">Normal</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">High</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">VeryHigh</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>例子</strong></p>
+<p>读取本地文件和网络请求</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> queue:<span class="type">NSOperationQueue</span> = <span class="type">NSOperationQueue</span>()</span><br><span class="line"><span class="comment">//读取文件</span></span><br><span class="line"><span class="keyword">let</span> operation1:<span class="type">NSBlockOperation</span> = <span class="type">NSBlockOperation</span>(block: &#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> path:<span class="type">String</span> = <span class="type">NSBundle</span>.mainBundle().pathForResource(<span class="string">"gulpfile"</span>, ofType: <span class="string">"js"</span>)!</span><br><span class="line">    <span class="keyword">let</span> manager:<span class="type">NSFileManager</span> = <span class="type">NSFileManager</span>.defaultManager()</span><br><span class="line">    <span class="keyword">let</span> isTrue:<span class="type">Bool</span> = manager.fileExistsAtPath(path)</span><br><span class="line">    <span class="keyword">if</span> isTrue &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"文件存在读取 \(path)"</span>)</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            <span class="keyword">let</span> content:<span class="type">String</span> = <span class="keyword">try</span> <span class="type">NSString</span>(contentsOfURL: <span class="type">NSURL</span>(string: path)!, encoding: <span class="type">NSUTF8StringEncoding</span>) <span class="keyword">as</span> <span class="type">String</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"----------读取文件数据---------"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"\(content)"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"----------读取文件数据---------"</span>)</span><br><span class="line">        &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"读取错误"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//网络请求</span></span><br><span class="line"><span class="keyword">let</span> operation2:<span class="type">NSBlockOperation</span> = <span class="type">NSBlockOperation</span>(block: &#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> url:<span class="type">String</span> = <span class="string">"https://github.com/icepy"</span></span><br><span class="line">    <span class="keyword">let</span> urlObject:<span class="type">NSURL</span> = <span class="type">NSURL</span>(string: url)!</span><br><span class="line">    <span class="keyword">let</span> request:<span class="type">NSURLRequest</span> = <span class="type">NSURLRequest</span>(<span class="type">URL</span>: urlObject)</span><br><span class="line">    <span class="keyword">var</span> response:<span class="type">NSURLResponse</span>?</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> data:<span class="type">NSData</span> = <span class="keyword">try</span> <span class="type">NSURLConnection</span>.sendSynchronousRequest(request, returningResponse: &amp;response)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="type">HTTPResponse</span> = response <span class="keyword">as</span>? <span class="type">NSHTTPURLResponse</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"状态码：\(HTTPResponse.statusCode)"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"============数据==========="</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"\(data)"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"============数据==========="</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//网络请求在读取文件之前</span></span><br><span class="line">operation2.addDependency(operation1)</span><br><span class="line"></span><br><span class="line">queue.addOperation(operation2)</span><br><span class="line">queue.addOperation(operation1)</span><br><span class="line"><span class="comment">//取消网络请求</span></span><br><span class="line">operation2.cancel()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"网络请求-同步不会阻塞显示这里"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"读取文件不会阻塞显示这里"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//NSInvocationOperation 在 Swift不存在相关API</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> operation3 = <span class="type">NSBlockOperation</span>(block: &#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"不用NSOperationQueue"</span>)</span><br><span class="line">&#125;)</span><br><span class="line">operation3.start()</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2015/12/29/swift-nsoperation/" data-id="ciouxikbo0019kqjrho076fnu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2015/12/29/swift-nsoperation/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/12/29/swift-nsoperation/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-swift-gcd" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2015/12/21/swift-gcd/">GCD（Swift）</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/12/21/swift-gcd/">
+            <time datetime="2015-12-21T03:37:35.000Z" itemprop="datePublished">2015-12-21</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>GCD是基于C API开发的一套库，苹果公司将它应用在（iOS或者OS X）上，为我们极大的方便来处理并发代码。</p>
+<p><code>能为我们带来什么？</code></p>
+<ul>
+<li>GCD 能通过推迟昂贵计算任务并在后台运行它们来改善你的应用的响应性能。</li>
+<li>GCD 提供一个易于使用的并发模型而不仅仅只是锁和线程，以帮助我们避开并发陷阱。</li>
+<li>GCD 具有在常见模式（例如单例）上用更高性能的原语优化你的代码的潜在能力。</li>
+</ul>
+<p>为了理解GCD你还需要理解一些概念性的东西，比如什么是串行，什么是并行，什么是临界区，什么是竞态条件。</p>
+<p>关于这些概念，推荐一本书<a href="http://www.amazon.cn/gp/product/B0041859AI?psc=1&amp;ref_=oh_aui_detailpage_o07_s00" target="_blank" rel="external">《操作系统:精髓与设计原理》</a>，我且当你知道并且了解。</p>
+<p>Apple帮助我们定义好了两个常量来创建<code>串行</code>，<code>并行</code>的GCD任务：</p>
+<ul>
+<li>DISPATCH_QUEUE_SERIAL  串行</li>
+<li>DISPATCH_QUEUE_CONCURRENT 并行</li>
+</ul>
+<p>利用<code>dispatch_..._...</code>可以轻松的创建这些任务，如图：</p>
+<p><img src="https://raw.githubusercontent.com/icepy/_posts/master/img/GCDdebug.png" alt="GCD创建的多任务"></p>
+<p>Demo例子基于Swift 2.1 Xcode 7.2 编写，可在此处<a href="https://github.com/icepy/_posts/blob/master/demo/GCD/GCD/ViewController.swift" target="_blank" rel="external">查看</a></p>
+<p><strong>将一个block提交到主线程中执行</strong></p>
+<p>通过<code>dispatch_get_main_queue</code>来获取主线程队列。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(dispatch_get_main_queue())&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myPhoneMain:<span class="type">String</span> = <span class="string">"main queue iPhone"</span>;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"main queue is \(myPhoneMain)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>将一个block提交到串行任务队列中</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> window:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.window"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_async(window)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myWindow:<span class="type">String</span> = <span class="string">"window 7"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"我的电脑操作系统：\(myWindow)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>将一个block提交到并行任务队列中</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> phone:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.iphone"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line">dispatch_async(phone)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> myPhone:<span class="type">String</span> = <span class="string">"iPhone 6 Plus"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my Phone is \(myPhone)"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//切换到主线程</span></span><br><span class="line">    dispatch_async(dispatch_get_main_queue())&#123;</span><br><span class="line">        [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> myPhoneMain:<span class="type">String</span> = <span class="string">"main queue iPhone"</span>;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"main queue is \(myPhoneMain)"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>将一个block提交到延迟任务队列中</strong></p>
+<p><code>dispatch_after</code>可以帮助我们延时提交<code>block</code>到任务队列，当我们创建<code>dispatch_time_t</code>变量时稍微注意一下即可：</p>
+<ul>
+<li>NSEC_PER_SEC 一秒有多少纳秒</li>
+<li>USEC_PER_SEC 一秒有多少毫秒</li>
+<li>NSEC_PER_USEC 一毫秒有多少纳秒</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> exeTime:dispatch_time_t = dispatch_time(<span class="type">DISPATCH_TIME_NOW</span>, <span class="number">10</span>)</span><br><span class="line"><span class="keyword">let</span> mac:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.mac"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line">dispatch_after(exeTime, mac)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> myMac:<span class="type">String</span> = <span class="string">"MacBook Pro"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my mac is \(myMac)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>将一个block提交到只执行一次的任务中</strong></p>
+<p>这个非常适合做<code>单例</code>，唯一需要注意的地方是，<code>dispatch_once_t</code>最好是全局或者static变量，因为调试的时候不会出现稀奇古怪的问题。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">oneToken</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> onePred:<span class="type">String</span>? = <span class="literal">nil</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> toKen:dispatch_once_t = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">dispatch_once(&amp;oneToken.toKen)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    oneToken.onePred = <span class="string">"icepy"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"once pred is \(oneToken.onePred)"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>将block挂起或者恢复</strong></p>
+<p>虽然此处可以挂起，但是并不能保证可以立即停止队列中正在运行的block，所以没法更精准的控制block。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> icepy:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.suspend"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_async(icepy)&#123;</span><br><span class="line">    <span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">8</span>)</span><br><span class="line">    <span class="keyword">let</span> callback:<span class="type">String</span> = <span class="string">"Swift ---"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"延迟执行第一个提交:\(callback)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">dispatch_async(icepy)&#123;</span><br><span class="line">    <span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">8</span>)</span><br><span class="line">    <span class="keyword">let</span> callback:<span class="type">String</span> = <span class="string">"Objective-C ---"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"延迟执行第二个提交:\(callback)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"延迟1秒"</span>)</span><br><span class="line"><span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 挂起"</span>)</span><br><span class="line">dispatch_suspend(icepy)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"延迟10秒"</span>)</span><br><span class="line"><span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">8</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 恢复"</span>)</span><br><span class="line">dispatch_resume(icepy)</span><br></pre></td></tr></table></figure>
+<p><strong>向一个队列添加多个block</strong></p>
+<p><code>dispatch_apply</code>有一个毛病，就是会阻塞外部线程，所以如果要使用还需要注意。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> more:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.more"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_apply(<span class="number">3</span>, more)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] (i:<span class="type">Int</span>) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"apply loop \(i)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"after apply"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>dispatch_group</strong></p>
+<p>创建一个<code>dispatch_group</code>分为三步：</p>
+<ul>
+<li>创建<code>dispatch_group_t</code></li>
+<li>创建<code>dispatch_queue_t</code>并使用<code>dispatch_group_async</code>将<code>dispatch_queue_t</code>添加到group中</li>
+<li>添加结束任务，比如<code>dispatch_group_notify</code></li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> group:dispatch_group_t = dispatch_group_create()</span><br><span class="line"><span class="keyword">let</span> thread1:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.thread1"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line"><span class="keyword">let</span> thread2:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.thread2"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line"><span class="keyword">let</span> notify:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.notify"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_group_async(group, thread1)&#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myBook:<span class="type">String</span> = <span class="string">"JavaScript"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my book is \(myBook)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatch_group_async(group, thread2)&#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myBook:<span class="type">String</span> = <span class="string">"Swift"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my book is \(myBook)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">dispatch_group_notify(group, notify)&#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myPro:<span class="type">String</span> = <span class="string">"web developer and iOS developer"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my pro is \(myPro)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>避免死锁</strong></p>
+<p>说到死锁，让我想起来一个<code>笑话</code>，心里嘿嘿笑一笑就好。如果使用同步的方法<code>dispatch_sync(&lt;#T##queue: dispatch_queue_t##dispatch_queue_t#&gt;, &lt;#T##block: dispatch_block_t##dispatch_block_t##() -&gt; Void#&gt;)</code>稍微不注意，就要恭喜你中奖了：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">send</span><span class="params">()</span></span>&#123;</span><br><span class="line">    dispatch_sync(dispatch_get_main_queue())&#123;</span><br><span class="line">        <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="comment">//恭喜</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatch_sync(dispatch_get_main_queue())&#123;</span><br><span class="line"></span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    send()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2015/12/21/swift-gcd/" data-id="ciouxikbj0012kqjrv5ameun1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2015/12/21/swift-gcd/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/12/21/swift-gcd/">Comments</a>
     
 
         </footer>
@@ -391,7 +1940,7 @@
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/">&laquo; Anterior</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+        <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -399,7 +1948,7 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
                 
@@ -409,7 +1958,7 @@
                             <a href="/2016/05/23/follow-react-lesson/" class="thumbnail">
     
     
-        <span style="background-image:url(https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/follow-react-lesson.jpg)" alt="和我一起实战react" class="thumbnail-image"></span>
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/lesson/follow-react-lesson.jpg)" alt="和我一起实战react" class="thumbnail-image"></span>
     
 </a>
 
@@ -428,7 +1977,7 @@
                             <a href="/2016/05/16/issues-1/" class="thumbnail">
     
     
-        <span style="background-image:url(https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-1.jpg)" alt="我是这样学习前端的" class="thumbnail-image"></span>
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/image/issues-1.jpg)" alt="我是这样学习前端的" class="thumbnail-image"></span>
     
 </a>
 
@@ -447,7 +1996,7 @@
                             <a href="/2016/04/29/FED-Talk4/" class="thumbnail">
     
     
-        <span style="background-image:url(https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/sand-dunes-691431_640.jpg)" alt="FED-Talk月刊第四期（2016年4月）" class="thumbnail-image"></span>
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/weekly/sand-dunes-691431_640.jpg)" alt="FED-Talk月刊第四期（2016年4月）" class="thumbnail-image"></span>
     
 </a>
 
@@ -507,34 +2056,34 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Archivos</h3>
+        <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">1</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Etiquetas</h3>
+        <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/FED-Talk月刊/">FED-Talk月刊</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">2</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Nube de etiquetas</h3>
+        <h3 class="widget-title">tag cloud</h3>
         <div class="widget tagcloud">
-            <a href="/tags/FED-Talk月刊/" style="font-size: 20px;">FED-Talk月刊</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 10px;">Swift</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 15px;">工具</a>
+            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
         </div>
     </div>
 
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 

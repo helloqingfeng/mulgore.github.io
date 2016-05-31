@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1d25f2a1077359921740604b649a2dea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <title>Swift日期处理 | Mulgore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="在软件开发领域，使用频率比较高的我想日期正是其中之一。以前在Objectice-C中可以使用NSDate，NSDateFormatter类来处理日期，换到Swift中也是一样，唯一需要注意的是iOS中没有毫秒，所有的日期类最小精度只能到秒。
+NSDate
+NSDate类提供了创建date，比较date以及计算两个date之间间隔的功能，Date对象是不可改变的。
+12let now = NSDat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift日期处理">
+<meta property="og:url" content="https://mulgore.github.io/2015/12/05/swift-datetime/index.html">
+<meta property="og:site_name" content="Mulgore">
+<meta property="og:description" content="在软件开发领域，使用频率比较高的我想日期正是其中之一。以前在Objectice-C中可以使用NSDate，NSDateFormatter类来处理日期，换到Swift中也是一样，唯一需要注意的是iOS中没有毫秒，所有的日期类最小精度只能到秒。
+NSDate
+NSDate类提供了创建date，比较date以及计算两个date之间间隔的功能，Date对象是不可改变的。
+12let now = NSDat">
+<meta property="og:updated_time" content="2016-05-31T03:41:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift日期处理">
+<meta name="twitter:description" content="在软件开发领域，使用频率比较高的我想日期正是其中之一。以前在Objectice-C中可以使用NSDate，NSDateFormatter类来处理日期，换到Swift中也是一样，唯一需要注意的是iOS中没有毫秒，所有的日期类最小精度只能到秒。
+NSDate
+NSDate类提供了创建date，比较date以及计算两个date之间间隔的功能，Date对象是不可改变的。
+12let now = NSDat">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mulgore</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives/index.html">温故而知新</a>
+                
+                    <a class="main-nav-link" href="/weekly/index.html">课多周刊</a>
+                
+                    <a class="main-nav-link" href="/lesson/index.html">实战课程</a>
+                
+                    <a class="main-nav-link" href="/about">关于我们</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives/index.html">温故而知新</a></td>
+                
+                    <td><a class="main-nav-link" href="/weekly/index.html">课多周刊</a></td>
+                
+                    <td><a class="main-nav-link" href="/lesson/index.html">实战课程</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我们</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+            <h2 id="name">Mulgore</h2>
+            <h3 id="title">欢迎关注mulgore组织运营的 [前端Talk] 公众号 -- 内容起于前端而不止于前端，探索技术深邃的灵光。</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/mulgore/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                29
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                8
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/mulgore" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="http://weibo.com/2455876310/" target="_blank" title="weibo"><i class="fa fa-weibo"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-swift-datetime" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Swift日期处理
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/12/05/swift-datetime/">
+            <time datetime="2015-12-05T03:39:20.000Z" itemprop="datePublished">2015-12-05</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>在软件开发领域，使用频率比较高的我想日期正是其中之一。以前在Objectice-C中可以使用NSDate，NSDateFormatter类来处理日期，换到Swift中也是一样，<code>唯一需要注意的是iOS中没有毫秒，所有的日期类最小精度只能到秒</code>。</p>
+<p><strong>NSDate</strong></p>
+<p>NSDate类提供了创建date，比较date以及计算两个date之间间隔的功能，Date对象是不可改变的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> now = <span class="type">NSDate</span>()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"现在的时间：\(now)"</span>)</span><br></pre></td></tr></table></figure>
+<p>如果你需要与当前日期不同的日期，也可以通过<code>timeIntervalSinceNow</code>和<code>dateByAddingTimeInterval</code>来创建。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> perDay:<span class="type">NSTimeInterval</span> = <span class="number">24</span>*<span class="number">60</span>*<span class="number">60</span></span><br><span class="line"><span class="keyword">let</span> tomorrow = <span class="type">NSDate</span>(timeIntervalSinceNow: perDay)</span><br><span class="line"><span class="keyword">let</span> _tomorrow = now.dateByAddingTimeInterval(perDay)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"明天的时间：\(tomorrow)"</span>)</span><br><span class="line"><span class="keyword">let</span> yesterday = <span class="type">NSDate</span>(timeIntervalSinceNow: -perDay)</span><br><span class="line"><span class="comment">//增加时间间隔</span></span><br><span class="line"><span class="keyword">let</span> _yesterday = now.dateByAddingTimeInterval(-perDay)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"昨天的时间：\(yesterday)"</span>)</span><br></pre></td></tr></table></figure>
+<p>如果你需要比较两个日，最常用的是使用<code>timeIntervalSinceDate</code>方法。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//比较时间，如果两个时间间隔小于一分钟，可认为在同一天</span></span><br><span class="line"><span class="keyword">if</span> tomorrow.timeIntervalSinceDate(yesterday) &lt; <span class="number">60</span> &#123;</span><br><span class="line">      <span class="comment">//相等</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">     <span class="comment">//不相等</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你想精度更高的进行比较，那么可以使用：</p>
+<ul>
+<li><code>tomorrow.isEqualToDate(&lt;#T##otherDate: NSDate##NSDate#&gt;)</code></li>
+<li><code>tomorrow.compare(&lt;#T##other: NSDate##NSDate#&gt;)</code></li>
+<li><code>tomorrow.laterDate(&lt;#T##anotherDate: NSDate##NSDate#&gt;)</code></li>
+<li><code>tomorrow.earlierDate(&lt;#T##anotherDate: NSDate##NSDate#&gt;)</code></li>
+</ul>
+<p><strong>NSDateFormatter</strong></p>
+<p>NSDate本身并不能输出或者格式化，需要借助NSDateFormatter来进行处理，NSDateFormatter的初始化是一个比较消耗的创建，所以一般都要懒加载来处理它。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> dateFormatter = &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="type">NSDateFormatter</span>()</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<p>从程序的一般逻辑来看，formatter可以看做是（输入｜输出）的关系，所以NSDateFormatter中供给的方法大部分都是设置属性，获取NSDate对象。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> location = <span class="type">NSLocale</span>(localeIdentifier: <span class="string">"zh-CN"</span>)</span><br><span class="line"><span class="keyword">let</span> timeString = <span class="string">"20110826134106"</span></span><br><span class="line"><span class="keyword">self</span>.dateFormatter.locale = location</span><br><span class="line"><span class="keyword">self</span>.dateFormatter.dateFormat = <span class="string">"yyyyMMddHHmmss"</span></span><br><span class="line"><span class="keyword">let</span> date:<span class="type">NSDate</span> = <span class="keyword">self</span>.dateFormatter.dateFromString(timeString)!</span><br><span class="line"><span class="built_in">print</span>(date)</span><br></pre></td></tr></table></figure>
+<p>NSLocale可以设置本地化时间，然后将格式化字符串设置给dateFormat，就可以使用了。</p>
+<p><strong>NSCalendar &amp; NSDateComponents</strong></p>
+<p>NSCalendar定义了不同的日历，包括佛教历，格里高利历等（这些都与系统提供的本地化设置相关）而<br>NSDateComponents则是定义了一个日期对象的组件，包括<code>年，月，日，小时，分钟，秒</code>等等，另外NSDateComponents也可以去获取时间（比如计算跟某某时间相差多少时间）</p>
+<p>初始化NSCalendar，需要注意的是iOS8.0之后，标识开始要使用NSCalendarIdentifier（xxxx）了</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> calendar = <span class="type">NSCalendar</span>(calendarIdentifier: <span class="type">NSCalendarIdentifierGregorian</span>)</span><br></pre></td></tr></table></figure>
+<p>初始化NSDateComponents</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> components = <span class="type">NSDateComponents</span>()</span><br><span class="line">components.year = <span class="number">2105</span></span><br><span class="line">components.month = <span class="number">12</span></span><br><span class="line">components.day = <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<p>获取某个时间的相差值，需要注意的是，iOS8.0开始要使用NSCalendarUnitYear了，原来的NSYearCalendarUnit将要废弃。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> calendar = <span class="type">NSCalendar</span>(calendarIdentifier: <span class="type">NSCalendarIdentifierGregorian</span>)</span><br><span class="line"><span class="keyword">let</span> unitF:<span class="type">NSCalendarUnit</span> = [<span class="type">NSCalendarUnit</span>.<span class="type">Year</span>,<span class="type">NSCalendarUnit</span>.<span class="type">Month</span>,<span class="type">NSCalendarUnit</span>.<span class="type">Day</span>,<span class="type">NSCalendarUnit</span>.<span class="type">Hour</span>,<span class="type">NSCalendarUnit</span>.<span class="type">Minute</span>,<span class="type">NSCalendarUnit</span>.<span class="type">Second</span>]</span><br><span class="line"><span class="keyword">let</span> dateComponents:<span class="type">NSDateComponents</span>? = calendar?.components(unitF, fromDate: now, toDate: yesterday, options: .<span class="type">MatchNextTimePreservingSmallerUnits</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"年：\(dateComponents?.year)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"月：\(dateComponents?.month)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"日：\(dateComponents?.day)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"小时：\(dateComponents?.hour)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"分钟：\(dateComponents?.minute)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"秒：\(dateComponents?.second)"</span>)</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2015/12/05/swift-datetime/" data-id="ciouxikba000vkqjrha28aq4s" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2015/12/05/swift-datetime/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/12/05/swift-datetime/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/12/14/swift-networking/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    Swift处理网络请求
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2015/11/27/swift-runtime/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Runtime在Swift中的使用</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2015/12/05/swift-datetime/" data-title="Swift日期处理" data-url="https://mulgore.github.io/2015/12/05/swift-datetime/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/23/follow-react-lesson/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/lesson/follow-react-lesson.jpg)" alt="和我一起实战react" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/23/follow-react-lesson/" class="title">和我一起实战react</a></p>
+                            <p class="item-date"><time datetime="2016-05-23T07:24:24.000Z" itemprop="datePublished">2016-05-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/16/issues-1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/image/issues-1.jpg)" alt="我是这样学习前端的" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/16/issues-1/" class="title">我是这样学习前端的</a></p>
+                            <p class="item-date"><time datetime="2016-05-16T07:49:38.000Z" itemprop="datePublished">2016-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/29/FED-Talk4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/weekly/sand-dunes-691431_640.jpg)" alt="FED-Talk月刊第四期（2016年4月）" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/29/FED-Talk4/" class="title">FED-Talk月刊第四期（2016年4月）</a></p>
+                            <p class="item-date"><time datetime="2016-04-29T06:00:40.000Z" itemprop="datePublished">2016-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/27/issues-2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://www.npmjs.com/static/images/npm-logo.svg)" alt="玩转NPM" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/27/issues-2/" class="title">玩转NPM</a></p>
+                            <p class="item-date"><time datetime="2016-04-27T10:13:44.000Z" itemprop="datePublished">2016-04-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/16/issues-3/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/icepy/_posts/master/img/swift.png)" alt="Swift的期待" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/16/issues-3/" class="title">Swift的期待</a></p>
+                            <p class="item-date"><time datetime="2016-04-16T10:17:36.000Z" itemprop="datePublished">2016-04-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 icepy,yuanxj1024<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'icepy'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

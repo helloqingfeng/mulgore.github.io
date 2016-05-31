@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1d25f2a1077359921740604b649a2dea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <title>在Swift中如何使用指针并操作指针 | Mulgore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="源代码基于 Swift 2.1+ Xcode 7.1.1编写
+如果你还不了解指针，请先阅读C语言指针5分钟教程。
+在Swift中指针用两个特殊的类型来描述，UnsafePointer和UnsafeMutablePointer，遵循Cocoa的原则，可以看出不可变与可变的不同，当我们创建指针之后，就可以通过memory来操作指针了。另外，Swift中UnsafeBufferPointer来描述一组连">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Swift中如何使用指针并操作指针">
+<meta property="og:url" content="https://mulgore.github.io/2015/11/14/swift-pointer/index.html">
+<meta property="og:site_name" content="Mulgore">
+<meta property="og:description" content="源代码基于 Swift 2.1+ Xcode 7.1.1编写
+如果你还不了解指针，请先阅读C语言指针5分钟教程。
+在Swift中指针用两个特殊的类型来描述，UnsafePointer和UnsafeMutablePointer，遵循Cocoa的原则，可以看出不可变与可变的不同，当我们创建指针之后，就可以通过memory来操作指针了。另外，Swift中UnsafeBufferPointer来描述一组连">
+<meta property="og:updated_time" content="2016-05-31T03:46:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Swift中如何使用指针并操作指针">
+<meta name="twitter:description" content="源代码基于 Swift 2.1+ Xcode 7.1.1编写
+如果你还不了解指针，请先阅读C语言指针5分钟教程。
+在Swift中指针用两个特殊的类型来描述，UnsafePointer和UnsafeMutablePointer，遵循Cocoa的原则，可以看出不可变与可变的不同，当我们创建指针之后，就可以通过memory来操作指针了。另外，Swift中UnsafeBufferPointer来描述一组连">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mulgore</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives/index.html">温故而知新</a>
+                
+                    <a class="main-nav-link" href="/weekly/index.html">课多周刊</a>
+                
+                    <a class="main-nav-link" href="/lesson/index.html">实战课程</a>
+                
+                    <a class="main-nav-link" href="/about">关于我们</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives/index.html">温故而知新</a></td>
+                
+                    <td><a class="main-nav-link" href="/weekly/index.html">课多周刊</a></td>
+                
+                    <td><a class="main-nav-link" href="/lesson/index.html">实战课程</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我们</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+            <h2 id="name">Mulgore</h2>
+            <h3 id="title">欢迎关注mulgore组织运营的 [前端Talk] 公众号 -- 内容起于前端而不止于前端，探索技术深邃的灵光。</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/mulgore/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                29
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                8
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/mulgore" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="http://weibo.com/2455876310/" target="_blank" title="weibo"><i class="fa fa-weibo"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-swift-pointer" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            在Swift中如何使用指针并操作指针
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/11/14/swift-pointer/">
+            <time datetime="2015-11-14T03:45:27.000Z" itemprop="datePublished">2015-11-14</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><strong>源代码基于 Swift 2.1+ Xcode 7.1.1编写</strong></p>
+<p>如果你还不了解指针，请先阅读<a href="http://blog.jobbole.com/25409/" target="_blank" rel="external">C语言指针5分钟教程</a>。</p>
+<p>在Swift中指针用两个特殊的类型来描述，UnsafePointer<t>和UnsafeMutablePointer<t>，遵循Cocoa的原则，可以看出<code>不可变</code>与<code>可变</code>的不同，当我们创建指针之后，就可以通过memory来操作指针了。另外，Swift中UnsafeBufferPointer<t>来描述一组连续的数据指针以及非完整结构不透明指针COpaquePointer</t></t></t></p>
+<p><strong>在函数中传递指针</strong></p>
+<p>在函数中传递指针有两种方式，一：使用<code>inout</code>关键字。二：使用Swift准备的指针类型。区别，我用注释写在具体的例子中。</p>
+<p>且先看看<code>inout</code>关键字，如何操作</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> = <span class="number">10</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">some</span><span class="params">(<span class="keyword">inout</span> numb:Int)</span></span>&#123;</span><br><span class="line">    <span class="comment">//如果使用inout关键字，在函数体内部不需要处理指针类型，可直接操作</span></span><br><span class="line">    numb += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"numb --&gt; \(numb)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">some(&amp;num)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"num ---&gt; \(num)"</span>)</span><br></pre></td></tr></table></figure>
+<p>使用Swift准备的指针类型</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> = <span class="number">10</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">some</span><span class="params">(numb:UnsafeMutablePointer&lt;Int&gt;)</span></span>&#123;</span><br><span class="line">    <span class="comment">//如果使用Swift提供的类型，那么需要使用memory来进行操作</span></span><br><span class="line">    numb.memory += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"numb --&gt; \(numb.memory)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">some(&amp;num)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"num ---&gt; \(num)"</span>)</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，Swift中地址符&amp;是不能直接使用的，只能是函数传递时才可用。</p>
+<p><strong>如何直接操作</strong></p>
+<p>虽然无法像OC或者C中那样直接通过地址符&amp;来操作指针，但是Swift也提供了辅助的方法间接的来帮助我们来操作指针。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i:<span class="type">Int</span> = <span class="number">10</span></span><br><span class="line">i = <span class="built_in">withUnsafeMutablePointer</span>(&amp;i, &#123;</span><br><span class="line">   (p:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt;) -&gt; <span class="type">Int</span> <span class="keyword">in</span></span><br><span class="line">       p.memory += <span class="number">20</span></span><br><span class="line">       <span class="keyword">return</span> p.memory</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"i value ---&gt; \(i)"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>如何使用指向数组的指针</strong></p>
+<p>如果只是函数传递，不可变直接传递，可变使用&amp;符即可，如果想直接操作，那么还是需要UnsafeBufferPointer<t>来辅助完成。</t></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array:[<span class="type">Int</span>] = [<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="keyword">var</span> arrayPtr:<span class="type">UnsafeMutableBufferPointer</span>&lt;<span class="type">Int</span>&gt; = <span class="type">UnsafeMutableBufferPointer</span>&lt;<span class="type">Int</span>&gt;(start: &amp;array, <span class="built_in">count</span>: array.<span class="built_in">count</span>)</span><br><span class="line"><span class="keyword">var</span> baseArrayPtr:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt; = arrayPtr.baseAddress <span class="keyword">as</span> <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt;</span><br><span class="line"><span class="keyword">var</span> nextPtr:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt; = baseArrayPtr.successor()</span><br><span class="line"><span class="keyword">var</span> threPtr:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt; = nextPtr.successor()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"第一个元素  \(baseArrayPtr.memory)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"第二个元素 \(nextPtr.memory)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"第三个元素  \(threPtr.memory)"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>如何通过指针强制转换类型</strong></p>
+<p>这个操作比较危险，除非你明确预期知道类型，不然编译器是无法知道的，也就造成了非常大的不确定性。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr:<span class="type">NSArray</span> = <span class="type">NSArray</span>(object: <span class="string">"icepy"</span>)</span><br><span class="line"><span class="keyword">let</span> str:<span class="type">NSString</span> = <span class="built_in">unsafeBitCast</span>(arr[<span class="number">0</span>],<span class="type">NSString</span>.<span class="keyword">self</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"str --- &gt; \(str.stringByAppendingPathComponent("</span>app<span class="string">"))"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>创建一个指针</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建可变指针</span></span><br><span class="line"><span class="keyword">var</span> i:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">String</span>&gt; = <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">String</span>&gt;.alloc(<span class="number">10</span>)</span><br><span class="line">i.initialize(<span class="string">"icepy"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>内存管理</strong></p>
+<p>还有一点要注意的是，如果是属于自己手动创建的指针，Swift是不负责管理内存的，需要手动的销毁与释放。</p>
+<p>一个UnsafeMutablePointer内存一般有三个状态：</p>
+<ul>
+<li>内存没有被分配，null指针</li>
+<li>内存进行了分配，且值还未初始化</li>
+<li>内存进行了分配，且值已经初始化</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">String</span>&gt; = <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">String</span>&gt;.alloc(<span class="number">10</span>)</span><br><span class="line">i.initialize(<span class="string">"icepy"</span>)        </span><br><span class="line"><span class="built_in">print</span>(<span class="string">"i的内存地址 \(i)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"i的memory \(i.memory)"</span>)        </span><br><span class="line">i.destroy() <span class="comment">//销毁指针指向的对象</span></span><br><span class="line">i.dealloc(<span class="number">10</span>) <span class="comment">//销毁指针申请的内存</span></span><br><span class="line">i = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://mulgore.github.io/2015/11/14/swift-pointer/" data-id="ciouxikbw001hkqjrp9e9qvqr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://mulgore.github.io/2015/11/14/swift-pointer/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/11/14/swift-pointer/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2015/11/19/swift-uialertcontroller/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Newer</strong>
+            <div class="article-nav-title">
+                
+                    使用UIAlertController
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2015/11/09/swift-cite-count/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">引用计数的关系理解</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2015/11/14/swift-pointer/" data-title="在Swift中如何使用指针并操作指针" data-url="https://mulgore.github.io/2015/11/14/swift-pointer/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/23/follow-react-lesson/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/lesson/follow-react-lesson.jpg)" alt="和我一起实战react" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/23/follow-react-lesson/" class="title">和我一起实战react</a></p>
+                            <p class="item-date"><time datetime="2016-05-23T07:24:24.000Z" itemprop="datePublished">2016-05-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/05/16/issues-1/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/image/issues-1.jpg)" alt="我是这样学习前端的" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/16/issues-1/" class="title">我是这样学习前端的</a></p>
+                            <p class="item-date"><time datetime="2016-05-16T07:49:38.000Z" itemprop="datePublished">2016-05-16</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/29/FED-Talk4/" class="thumbnail">
+    
+    
+        <span style="background-image:url(http://o80ub63i5.bkt.clouddn.com/weekly/sand-dunes-691431_640.jpg)" alt="FED-Talk月刊第四期（2016年4月）" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/29/FED-Talk4/" class="title">FED-Talk月刊第四期（2016年4月）</a></p>
+                            <p class="item-date"><time datetime="2016-04-29T06:00:40.000Z" itemprop="datePublished">2016-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/27/issues-2/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://www.npmjs.com/static/images/npm-logo.svg)" alt="玩转NPM" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/27/issues-2/" class="title">玩转NPM</a></p>
+                            <p class="item-date"><time datetime="2016-04-27T10:13:44.000Z" itemprop="datePublished">2016-04-27</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2016/04/16/issues-3/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/icepy/_posts/master/img/swift.png)" alt="Swift的期待" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/04/16/issues-3/" class="title">Swift的期待</a></p>
+                            <p class="item-date"><time datetime="2016-04-16T10:17:36.000Z" itemprop="datePublished">2016-04-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">April 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">January 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">December 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">November 2015</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 icepy,yuanxj1024<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'icepy'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
