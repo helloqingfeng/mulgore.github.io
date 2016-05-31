@@ -1,6 +1,6 @@
-title: Webpack实践最后一篇
+title: webpack实践最后一篇
 date: 2016-04-14 18:20:07
-tags: 工具
+tags: webpack
 ---
 
 > 温故而知新

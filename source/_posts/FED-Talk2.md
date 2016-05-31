@@ -1,7 +1,7 @@
 title: FED-Talk月刊第二期（2016年2月）
 date: 2016-02-26 14:00:40
 tags: 课多周刊
-banner: https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/lantern-163914_640.jpg 
+banner: http://o80ub63i5.bkt.clouddn.com/weekly/lantern-163914_640.jpg
 ---
 
 ## 简介

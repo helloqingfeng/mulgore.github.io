@@ -1,7 +1,7 @@
 title: FED-Talk月刊第三期（2016年3月）
 date: 2016-03-29 14:00:40
 tags: 课多周刊
-banner: https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/cat-188088_640.jpg 
+banner: http://o80ub63i5.bkt.clouddn.com/weekly/cat-188088_640.jpg
 ---
 
 ## 简介

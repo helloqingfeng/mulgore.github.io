@@ -48,6 +48,7 @@ banner: http://o80ub63i5.bkt.clouddn.com/image/texture-1362879_640.jpg
 - 必须要支持SEO，（最少程度达标）
 - 重新定义发布部署流程
 
+<!--more-->
 
 ## 技术选型
 
