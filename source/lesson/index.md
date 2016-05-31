@@ -8,4 +8,4 @@ date: 2016-05-24 17:05:37
 
 #### 课程列表
 
-1.	[和我一起实战react](/2016/05/30/follow-react-lesson/)
+1.	[和我一起实战react](2016/05/23/follow-react-lesson/)
