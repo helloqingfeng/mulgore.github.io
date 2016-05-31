@@ -1,7 +1,7 @@
 title: 我的编程之路
 date: 2016-04-4 18:50:37
 tags: 前端漫谈
-banner: https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/issues-6.jpg
+banner: http://o80ub63i5.bkt.clouddn.com/image/issues-6.jpg
 ---
 
 > 光阴荏苒，岁月蹉跎；
@@ -13,6 +13,8 @@ banner: https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs
 [![](https://img3.doubanio.com/lpic/s2604186.jpg)](https://book.douban.com/subject/2137490/)
 
 高中读完（没有去念大学），一直在雪峰山里的老家，过着自己的隐居生活，一过既是三年。
+
+<!--more-->
 
 至今我都还能想到那一年刚到长沙（2011年）的夏天，穿着短袖站在长沙火车站，脸油油的一夜未睡，从怀化到长沙的绿皮火车需要开一个通宵才能到长沙。（去找第一份工作，当时还叫网页制作），那时候的我如同一个小白，大约知道一些标签（去面试之前，临时看了看百度的信息，不要问我Google是什么，当时真只知道百度。）面试我的大哥姓周，现在我们还是很好的朋友（他在长沙结婚，生子，有了自己的事业和家庭，过的很幸福），就这样误打误撞的得到了一份工作（有人教，真的很爽），不过自己也够上进，知道该怎么去学习真的很重要。人生的第一站，都要经过很多挫折，痛苦，也可能是磨难才能有成长，成长虽然伴随着阵痛，这大概就是人生的无奈了吧。我很庆幸自己没有经过太多的挫折，一路走来在不同的阶段都有不同的人给予了帮助。在长沙的三个月里，我学习了很多东西（华声在线）。
 

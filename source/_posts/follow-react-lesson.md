@@ -1,7 +1,7 @@
 title: 和我一起实战react
 date: 2016-05-23 15:24:24
 tags: 实战课程
-banner: https://raw.githubusercontent.com/mulgore/mulgore.github.io/hexo/preimgs/follow-react-lesson.jpg
+banner: http://o80ub63i5.bkt.clouddn.com/lesson/follow-react-lesson.jpg
 ---
 
 本次课程面向初中级前端开发人员以及对react感兴趣的其他开发者，同时我希望你能具备如下知识的储备。
