@@ -163,7 +163,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                29
+                30
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -189,6 +189,167 @@
 
             
             <section id="main">
+    <article id="post-swift-gcd" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2015/12/21/swift-gcd/">GCD（Swift）</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/12/21/swift-gcd/">
+            <time datetime="2015-12-21T03:37:35.000Z" itemprop="datePublished">2015-12-21</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>GCD是基于C API开发的一套库，苹果公司将它应用在（iOS或者OS X）上，为我们极大的方便来处理并发代码。</p>
+<p><code>能为我们带来什么？</code></p>
+<ul>
+<li>GCD 能通过推迟昂贵计算任务并在后台运行它们来改善你的应用的响应性能。</li>
+<li>GCD 提供一个易于使用的并发模型而不仅仅只是锁和线程，以帮助我们避开并发陷阱。</li>
+<li>GCD 具有在常见模式（例如单例）上用更高性能的原语优化你的代码的潜在能力。</li>
+</ul>
+<p>为了理解GCD你还需要理解一些概念性的东西，比如什么是串行，什么是并行，什么是临界区，什么是竞态条件。</p>
+<p>关于这些概念，推荐一本书<a href="http://www.amazon.cn/gp/product/B0041859AI?psc=1&amp;ref_=oh_aui_detailpage_o07_s00" target="_blank" rel="external">《操作系统:精髓与设计原理》</a>，我且当你知道并且了解。</p>
+<p>Apple帮助我们定义好了两个常量来创建<code>串行</code>，<code>并行</code>的GCD任务：</p>
+<ul>
+<li>DISPATCH_QUEUE_SERIAL  串行</li>
+<li>DISPATCH_QUEUE_CONCURRENT 并行</li>
+</ul>
+<p>利用<code>dispatch_..._...</code>可以轻松的创建这些任务，如图：</p>
+<p><img src="https://raw.githubusercontent.com/icepy/_posts/master/img/GCDdebug.png" alt="GCD创建的多任务"></p>
+<p>Demo例子基于Swift 2.1 Xcode 7.2 编写，可在此处<a href="https://github.com/icepy/_posts/blob/master/demo/GCD/GCD/ViewController.swift" target="_blank" rel="external">查看</a></p>
+<p><strong>将一个block提交到主线程中执行</strong></p>
+<p>通过<code>dispatch_get_main_queue</code>来获取主线程队列。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(dispatch_get_main_queue())&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myPhoneMain:<span class="type">String</span> = <span class="string">"main queue iPhone"</span>;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"main queue is \(myPhoneMain)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>将一个block提交到串行任务队列中</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> window:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.window"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_async(window)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myWindow:<span class="type">String</span> = <span class="string">"window 7"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"我的电脑操作系统：\(myWindow)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>将一个block提交到并行任务队列中</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> phone:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.iphone"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line">dispatch_async(phone)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> myPhone:<span class="type">String</span> = <span class="string">"iPhone 6 Plus"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my Phone is \(myPhone)"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//切换到主线程</span></span><br><span class="line">    dispatch_async(dispatch_get_main_queue())&#123;</span><br><span class="line">        [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> myPhoneMain:<span class="type">String</span> = <span class="string">"main queue iPhone"</span>;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"main queue is \(myPhoneMain)"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>将一个block提交到延迟任务队列中</strong></p>
+<p><code>dispatch_after</code>可以帮助我们延时提交<code>block</code>到任务队列，当我们创建<code>dispatch_time_t</code>变量时稍微注意一下即可：</p>
+<ul>
+<li>NSEC_PER_SEC 一秒有多少纳秒</li>
+<li>USEC_PER_SEC 一秒有多少毫秒</li>
+<li>NSEC_PER_USEC 一毫秒有多少纳秒</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> exeTime:dispatch_time_t = dispatch_time(<span class="type">DISPATCH_TIME_NOW</span>, <span class="number">10</span>)</span><br><span class="line"><span class="keyword">let</span> mac:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.mac"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line">dispatch_after(exeTime, mac)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> myMac:<span class="type">String</span> = <span class="string">"MacBook Pro"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my mac is \(myMac)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>将一个block提交到只执行一次的任务中</strong></p>
+<p>这个非常适合做<code>单例</code>，唯一需要注意的地方是，<code>dispatch_once_t</code>最好是全局或者static变量，因为调试的时候不会出现稀奇古怪的问题。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">oneToken</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> onePred:<span class="type">String</span>? = <span class="literal">nil</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> toKen:dispatch_once_t = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">dispatch_once(&amp;oneToken.toKen)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    oneToken.onePred = <span class="string">"icepy"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"once pred is \(oneToken.onePred)"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>将block挂起或者恢复</strong></p>
+<p>虽然此处可以挂起，但是并不能保证可以立即停止队列中正在运行的block，所以没法更精准的控制block。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> icepy:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.suspend"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_async(icepy)&#123;</span><br><span class="line">    <span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">8</span>)</span><br><span class="line">    <span class="keyword">let</span> callback:<span class="type">String</span> = <span class="string">"Swift ---"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"延迟执行第一个提交:\(callback)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">dispatch_async(icepy)&#123;</span><br><span class="line">    <span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">8</span>)</span><br><span class="line">    <span class="keyword">let</span> callback:<span class="type">String</span> = <span class="string">"Objective-C ---"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"延迟执行第二个提交:\(callback)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"延迟1秒"</span>)</span><br><span class="line"><span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 挂起"</span>)</span><br><span class="line">dispatch_suspend(icepy)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"延迟10秒"</span>)</span><br><span class="line"><span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">8</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 恢复"</span>)</span><br><span class="line">dispatch_resume(icepy)</span><br></pre></td></tr></table></figure>
+<p><strong>向一个队列添加多个block</strong></p>
+<p><code>dispatch_apply</code>有一个毛病，就是会阻塞外部线程，所以如果要使用还需要注意。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> more:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.more"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_apply(<span class="number">3</span>, more)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] (i:<span class="type">Int</span>) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"apply loop \(i)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"after apply"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>dispatch_group</strong></p>
+<p>创建一个<code>dispatch_group</code>分为三步：</p>
+<ul>
+<li>创建<code>dispatch_group_t</code></li>
+<li>创建<code>dispatch_queue_t</code>并使用<code>dispatch_group_async</code>将<code>dispatch_queue_t</code>添加到group中</li>
+<li>添加结束任务，比如<code>dispatch_group_notify</code></li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> group:dispatch_group_t = dispatch_group_create()</span><br><span class="line"><span class="keyword">let</span> thread1:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.thread1"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line"><span class="keyword">let</span> thread2:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.thread2"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line"><span class="keyword">let</span> notify:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.notify"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_group_async(group, thread1)&#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myBook:<span class="type">String</span> = <span class="string">"JavaScript"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my book is \(myBook)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatch_group_async(group, thread2)&#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myBook:<span class="type">String</span> = <span class="string">"Swift"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my book is \(myBook)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">dispatch_group_notify(group, notify)&#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myPro:<span class="type">String</span> = <span class="string">"web developer and iOS developer"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my pro is \(myPro)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>避免死锁</strong></p>
+<p>说到死锁，让我想起来一个<code>笑话</code>，心里嘿嘿笑一笑就好。如果使用同步的方法<code>dispatch_sync(&lt;#T##queue: dispatch_queue_t##dispatch_queue_t#&gt;, &lt;#T##block: dispatch_block_t##dispatch_block_t##() -&gt; Void#&gt;)</code>稍微不注意，就要恭喜你中奖了：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">send</span><span class="params">()</span></span>&#123;</span><br><span class="line">    dispatch_sync(dispatch_get_main_queue())&#123;</span><br><span class="line">        <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="comment">//恭喜</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatch_sync(dispatch_get_main_queue())&#123;</span><br><span class="line"></span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    send()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="https://mulgore.github.io/2015/12/21/swift-gcd/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/12/21/swift-gcd/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-javascript-learn" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1973,6 +2134,15 @@ doc.style.width = &apos;100px&apos;;
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/06/01/used-doubanAPI-for-development-of-react-webapp/" class="title">基于豆瓣API使用react开发一个完整的Web应用</a></p>
+                            <p class="item-date"><time datetime="2016-06-01T12:39:17.000Z" itemprop="datePublished">2016-06-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
                             <p class="item-title"><a href="/2016/05/23/follow-react-lesson/" class="title">和我一起实战react</a></p>
                             <p class="item-date"><time datetime="2016-05-23T07:24:24.000Z" itemprop="datePublished">2016-05-23</time></p>
                         </div>
@@ -2005,15 +2175,6 @@ doc.style.width = &apos;100px&apos;;
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/04/16/issues-3/" class="title">Swift的期待</a></p>
-                            <p class="item-date"><time datetime="2016-04-16T10:17:36.000Z" itemprop="datePublished">2016-04-16</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -2025,7 +2186,7 @@ doc.style.width = &apos;100px&apos;;
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div>
 
@@ -2034,7 +2195,7 @@ doc.style.width = &apos;100px&apos;;
     <div class="widget-wrap">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
         </div>
     </div>
 
@@ -2043,7 +2204,7 @@ doc.style.width = &apos;100px&apos;;
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
+            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 12.5px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
         </div>
     </div>
 

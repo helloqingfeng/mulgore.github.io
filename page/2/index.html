@@ -163,7 +163,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                29
+                30
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -189,6 +189,156 @@
 
             
             <section id="main">
+    <article id="post-javascript-upload-image" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/03/27/javascript-upload-image/">上传图片攻略全解</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/03/27/javascript-upload-image/">
+            <time datetime="2016-03-27T04:08:08.000Z" itemprop="datePublished">2016-03-27</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/JavaScript/">JavaScript</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="上传图片攻略全解"><a href="#上传图片攻略全解" class="headerlink" title="上传图片攻略全解"></a>上传图片攻略全解</h2><p>讲解分题：</p>
+<ul>
+<li>传统的form表单上传</li>
+<li>隐藏iframe模拟Ajax（跨域）上传</li>
+<li>HTML5特性实现Ajax上传</li>
+<li>检校图片信息</li>
+</ul>
+<h3 id="传统的form表单上传"><a href="#传统的form表单上传" class="headerlink" title="传统的form表单上传"></a>传统的form表单上传</h3><p>传统的上传图片，需要追溯到很久之前的时期。假设我们用<code>python</code>实现了一个简单的WSGI网页，那么我们需要使用form表单发送POST请求来提交到服务器，并且刷新当前页面。最早的HTTP实际上是不支持图片上传的，普通的HTTP POST请求，它会在头信息里使用Content-Length注明内容长度。头信息每行一条，空行之后便是body，即“内容”（entity）。它的Content-Type是application/x-www-form-urlencoded，这意味着消息内容会经过url编码，就像GET请求时url里的queryString那样。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=<span class="number">1</span>&amp;setting=will</span><br></pre></td></tr></table></figure>
+<p>从<a href="http://www.faqs.org/rfcs/rfc1867.html" target="_blank" rel="external">《RFC 1867 - Form-based File Upload in HTML》</a>提出之后，HTTP开始支持了图片上传。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://api.com/upload"</span> <span class="attr">method</span>=<span class="string">"POST"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"img"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>改变<code>enctype</code>属性为<code>multipart/form-data</code>即可。</p>
+<h3 id="隐藏iframe模拟Ajax（跨域）上传"><a href="#隐藏iframe模拟Ajax（跨域）上传" class="headerlink" title="隐藏iframe模拟Ajax（跨域）上传"></a>隐藏iframe模拟Ajax（跨域）上传</h3><p>当我们实现了第一步时，这还不是最优的选择，为什么？因为我们的页面需要刷新，才能真正完成提交图片到服务器的交互。最开始，很多人会尝试想实现一个Ajax无刷新的上传图片，那么问题来了，如何实现？</p>
+<p>这个时候利用iframe可以完成我们的需求，form的name对应iframe的target，可以将刷新目标转移到iframe，不过要注意，首先要设置iframe为隐藏。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">AjaxForm.prototype._addEvent = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">	<span class="keyword">this</span>._iframe.on(<span class="string">'load'</span>,<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (self._iframeLoadState) &#123;</span><br><span class="line">			<span class="keyword">var</span> cw = <span class="keyword">this</span>.contentWindow;</span><br><span class="line">			<span class="keyword">var</span> loc = cw.location;</span><br><span class="line">			<span class="keyword">if</span> (loc.href === <span class="string">'about:blank'</span>) &#123;</span><br><span class="line">				<span class="keyword">if</span> (_.isFunction(self._failure)) &#123;</span><br><span class="line">					self._failure.call(<span class="keyword">this</span>);</span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">				<span class="keyword">if</span> (_.isFunction(self._success)) &#123;</span><br><span class="line">					<span class="keyword">try</span> &#123;<span class="comment">//如果后台没有作跨域处理，则需手动触发onComplete</span></span><br><span class="line">						<span class="keyword">var</span> body = <span class="keyword">this</span>._iframe[<span class="number">0</span>].contentWindow.document.body;</span><br><span class="line">						innerText = body.innerText;</span><br><span class="line">						<span class="keyword">if</span> (!innerText) &#123;</span><br><span class="line">							innerText = body.innerHTML;</span><br><span class="line">						&#125;;</span><br><span class="line">						<span class="keyword">if</span> (innerText) &#123;</span><br><span class="line">							self._success.call(<span class="keyword">this</span>, $.parseJSON(innerText));</span><br><span class="line">						&#125;;</span><br><span class="line">					&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">						self._success.call(<span class="keyword">this</span>);</span><br><span class="line">					&#125;</span><br><span class="line"></span><br><span class="line">				&#125;;</span><br><span class="line">			&#125;;</span><br><span class="line">			self._iframeLoadState = <span class="literal">false</span>;</span><br><span class="line">		&#125;;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="HTML5特性实现Ajax上传"><a href="#HTML5特性实现Ajax上传" class="headerlink" title="HTML5特性实现Ajax上传"></a>HTML5特性实现Ajax上传</h3><p>新的HTML5特性对于上传，实现起来更容易了，FormData可以提交二进制数据。一般情况下，我们只需要将form对象装载到FormData中即可。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> form = <span class="built_in">document</span>.getElementById(<span class="string">'form'</span>);</span><br><span class="line"><span class="keyword">var</span> formData = <span class="keyword">new</span> FormData(form);</span><br></pre></td></tr></table></figure>
+<p>不过，有意思的是可以利用<code>append</code>方法可以添加一些更多的信息。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="built_in">document</span>.getElementById(<span class="string">'img'</span>).files[<span class="number">0</span>];</span><br><span class="line"><span class="keyword">var</span> formData = <span class="keyword">new</span> FormData();</span><br><span class="line">formData.append(<span class="string">'img'</span>,img);</span><br></pre></td></tr></table></figure>
+<p>最后利用<code>XMLHttpRequest</code>来最后提交</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">xhr.open(<span class="string">'POST'</span>,<span class="string">'http://api.com/upload'</span>);</span><br><span class="line">xhr.onreadystatechange = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;&#125;;</span><br><span class="line">xhr.send(formData);</span><br></pre></td></tr></table></figure>
+<p>有意思的是XHR2提供了一个很棒的事件给我们来获取上传的进度，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">xhr.upload.onprogress = <span class="function"><span class="keyword">function</span>(<span class="params">evt</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(evt)</span><br><span class="line">    <span class="keyword">var</span> loaded = evt.loaded;<span class="comment">//已经上传大小情况</span></span><br><span class="line">    <span class="keyword">var</span> tot = evt.total;  <span class="comment">//附件总大小</span></span><br><span class="line">    <span class="keyword">var</span> per = <span class="built_in">Math</span>.floor(<span class="number">100</span>*loaded/tot);  <span class="comment">//已经上传的百分比  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="检校图片信息"><a href="#检校图片信息" class="headerlink" title="检校图片信息"></a>检校图片信息</h3><p>HTML5标签提供了一些有趣的属性来检索图片信息后缀，比如：</p>
+<ul>
+<li>accept：表示可以选择的文件MIME类型，多个MIME类型用英文逗号分开，常用的MIME类型见下表。</li>
+<li>multiple：是否可以选择多个文件，多个文件时其value值为第一个文件的虚拟路径。</li>
+</ul>
+<p>相比之下，更有用的还是需要去获取file对象，例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">"img"</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">name</span>=<span class="string">"img"</span> <span class="attr">onchange</span>=<span class="string">"chans()"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> img = <span class="built_in">document</span>.getElementById(<span class="string">'img'</span>)</span><br><span class="line"><span class="keyword">var</span> files = img.files</span><br></pre></td></tr></table></figure>
+<p>files对象是一个数组，这个数组可以关联到<code>实现多图片上传</code>的功能，当然，这里我们只针对一张图片的信息来说。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> file = files[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>file对象的信息：</p>
+<ul>
+<li>name 图片名</li>
+<li>size 图片大小</li>
+<li>type 图片类型</li>
+<li>lastModified 最后上传的时间毫秒</li>
+</ul>
+<p>利用这些属性可以对即将上传的图片做一些校验，最起码不会将一个.txt的文件上传上去，还可以在前端规避一些文件大小，比如：只允许上传5MB的图片。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/03/27/javascript-upload-image/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/03/27/javascript-upload-image/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-issues-7" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1632,167 +1782,6 @@
 
 
 
-    <article id="post-swift-gcd" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2015/12/21/swift-gcd/">GCD（Swift）</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2015/12/21/swift-gcd/">
-            <time datetime="2015-12-21T03:37:35.000Z" itemprop="datePublished">2015-12-21</time>
-        </a>
-    </div>
-
-
-                    
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Swift/">Swift</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>GCD是基于C API开发的一套库，苹果公司将它应用在（iOS或者OS X）上，为我们极大的方便来处理并发代码。</p>
-<p><code>能为我们带来什么？</code></p>
-<ul>
-<li>GCD 能通过推迟昂贵计算任务并在后台运行它们来改善你的应用的响应性能。</li>
-<li>GCD 提供一个易于使用的并发模型而不仅仅只是锁和线程，以帮助我们避开并发陷阱。</li>
-<li>GCD 具有在常见模式（例如单例）上用更高性能的原语优化你的代码的潜在能力。</li>
-</ul>
-<p>为了理解GCD你还需要理解一些概念性的东西，比如什么是串行，什么是并行，什么是临界区，什么是竞态条件。</p>
-<p>关于这些概念，推荐一本书<a href="http://www.amazon.cn/gp/product/B0041859AI?psc=1&amp;ref_=oh_aui_detailpage_o07_s00" target="_blank" rel="external">《操作系统:精髓与设计原理》</a>，我且当你知道并且了解。</p>
-<p>Apple帮助我们定义好了两个常量来创建<code>串行</code>，<code>并行</code>的GCD任务：</p>
-<ul>
-<li>DISPATCH_QUEUE_SERIAL  串行</li>
-<li>DISPATCH_QUEUE_CONCURRENT 并行</li>
-</ul>
-<p>利用<code>dispatch_..._...</code>可以轻松的创建这些任务，如图：</p>
-<p><img src="https://raw.githubusercontent.com/icepy/_posts/master/img/GCDdebug.png" alt="GCD创建的多任务"></p>
-<p>Demo例子基于Swift 2.1 Xcode 7.2 编写，可在此处<a href="https://github.com/icepy/_posts/blob/master/demo/GCD/GCD/ViewController.swift" target="_blank" rel="external">查看</a></p>
-<p><strong>将一个block提交到主线程中执行</strong></p>
-<p>通过<code>dispatch_get_main_queue</code>来获取主线程队列。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dispatch_async(dispatch_get_main_queue())&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myPhoneMain:<span class="type">String</span> = <span class="string">"main queue iPhone"</span>;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"main queue is \(myPhoneMain)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>将一个block提交到串行任务队列中</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> window:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.window"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_async(window)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myWindow:<span class="type">String</span> = <span class="string">"window 7"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"我的电脑操作系统：\(myWindow)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>将一个block提交到并行任务队列中</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> phone:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.iphone"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line">dispatch_async(phone)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> myPhone:<span class="type">String</span> = <span class="string">"iPhone 6 Plus"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my Phone is \(myPhone)"</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//切换到主线程</span></span><br><span class="line">    dispatch_async(dispatch_get_main_queue())&#123;</span><br><span class="line">        [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> myPhoneMain:<span class="type">String</span> = <span class="string">"main queue iPhone"</span>;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"main queue is \(myPhoneMain)"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>将一个block提交到延迟任务队列中</strong></p>
-<p><code>dispatch_after</code>可以帮助我们延时提交<code>block</code>到任务队列，当我们创建<code>dispatch_time_t</code>变量时稍微注意一下即可：</p>
-<ul>
-<li>NSEC_PER_SEC 一秒有多少纳秒</li>
-<li>USEC_PER_SEC 一秒有多少毫秒</li>
-<li>NSEC_PER_USEC 一毫秒有多少纳秒</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> exeTime:dispatch_time_t = dispatch_time(<span class="type">DISPATCH_TIME_NOW</span>, <span class="number">10</span>)</span><br><span class="line"><span class="keyword">let</span> mac:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.mac"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line">dispatch_after(exeTime, mac)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> myMac:<span class="type">String</span> = <span class="string">"MacBook Pro"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my mac is \(myMac)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>将一个block提交到只执行一次的任务中</strong></p>
-<p>这个非常适合做<code>单例</code>，唯一需要注意的地方是，<code>dispatch_once_t</code>最好是全局或者static变量，因为调试的时候不会出现稀奇古怪的问题。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">oneToken</span></span>&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> onePred:<span class="type">String</span>? = <span class="literal">nil</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">var</span> toKen:dispatch_once_t = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">dispatch_once(&amp;oneToken.toKen)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    oneToken.onePred = <span class="string">"icepy"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"once pred is \(oneToken.onePred)"</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>将block挂起或者恢复</strong></p>
-<p>虽然此处可以挂起，但是并不能保证可以立即停止队列中正在运行的block，所以没法更精准的控制block。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> icepy:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.suspend"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_async(icepy)&#123;</span><br><span class="line">    <span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">8</span>)</span><br><span class="line">    <span class="keyword">let</span> callback:<span class="type">String</span> = <span class="string">"Swift ---"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"延迟执行第一个提交:\(callback)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">dispatch_async(icepy)&#123;</span><br><span class="line">    <span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">8</span>)</span><br><span class="line">    <span class="keyword">let</span> callback:<span class="type">String</span> = <span class="string">"Objective-C ---"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"延迟执行第二个提交:\(callback)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"延迟1秒"</span>)</span><br><span class="line"><span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 挂起"</span>)</span><br><span class="line">dispatch_suspend(icepy)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"延迟10秒"</span>)</span><br><span class="line"><span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">8</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 恢复"</span>)</span><br><span class="line">dispatch_resume(icepy)</span><br></pre></td></tr></table></figure>
-<p><strong>向一个队列添加多个block</strong></p>
-<p><code>dispatch_apply</code>有一个毛病，就是会阻塞外部线程，所以如果要使用还需要注意。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> more:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.more"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_apply(<span class="number">3</span>, more)&#123;</span><br><span class="line">    [<span class="keyword">unowned</span> <span class="keyword">self</span>] (i:<span class="type">Int</span>) -&gt; <span class="type">Void</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"apply loop \(i)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"after apply"</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>dispatch_group</strong></p>
-<p>创建一个<code>dispatch_group</code>分为三步：</p>
-<ul>
-<li>创建<code>dispatch_group_t</code></li>
-<li>创建<code>dispatch_queue_t</code>并使用<code>dispatch_group_async</code>将<code>dispatch_queue_t</code>添加到group中</li>
-<li>添加结束任务，比如<code>dispatch_group_notify</code></li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> group:dispatch_group_t = dispatch_group_create()</span><br><span class="line"><span class="keyword">let</span> thread1:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.thread1"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line"><span class="keyword">let</span> thread2:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.thread2"</span>, <span class="type">DISPATCH_QUEUE_CONCURRENT</span>)</span><br><span class="line"><span class="keyword">let</span> notify:dispatch_queue_t = dispatch_queue_create(<span class="string">"com.wen.notify"</span>, <span class="type">DISPATCH_QUEUE_SERIAL</span>)</span><br><span class="line">dispatch_group_async(group, thread1)&#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myBook:<span class="type">String</span> = <span class="string">"JavaScript"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my book is \(myBook)"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatch_group_async(group, thread2)&#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myBook:<span class="type">String</span> = <span class="string">"Swift"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my book is \(myBook)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">dispatch_group_notify(group, notify)&#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> myPro:<span class="type">String</span> = <span class="string">"web developer and iOS developer"</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"my pro is \(myPro)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>避免死锁</strong></p>
-<p>说到死锁，让我想起来一个<code>笑话</code>，心里嘿嘿笑一笑就好。如果使用同步的方法<code>dispatch_sync(&lt;#T##queue: dispatch_queue_t##dispatch_queue_t#&gt;, &lt;#T##block: dispatch_block_t##dispatch_block_t##() -&gt; Void#&gt;)</code>稍微不注意，就要恭喜你中奖了：</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">send</span><span class="params">()</span></span>&#123;</span><br><span class="line">    dispatch_sync(dispatch_get_main_queue())&#123;</span><br><span class="line">        <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">        <span class="comment">//恭喜</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">dispatch_sync(dispatch_get_main_queue())&#123;</span><br><span class="line"></span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    send()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-    <div class="jiathis_style">
-    <span class="jiathis_txt">分享到：</span>
-    <a class="jiathis_button_qzone">QQ空间</a>
-    <a class="jiathis_button_tsina">新浪微博</a>
-    <a class="jiathis_button_tqq">腾讯微博</a>
-    <a class="jiathis_button_weixin">微信</a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-    <a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-<style>
-    .jiathis_style div:first-child:not(.jiadiv_01) {
-        width: auto !important;
-        border: none !important;
-    }
-    .jiathis_style .jiadiv_01 {
-        margin: 10px 0;
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .jiathis_style .jiadiv_01 div:first-child {
-        display: none;
-    }
-    .jiathis_style .jiadiv_02 {
-        padding: 7px 0 !important;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle {
-        width: 85px;
-        border: none;
-        height: auto;
-        margin: 3px 10px;
-        padding: 6px 10px;
-        border-radius: 4px;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle:hover {
-        border: none;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
-        margin-left: 0;
-    }
-    .jiathis_style .jtico:hover {
-        opacity: 1;
-    }
-    .jiathis_style .ckepopBottom,
-    .jiathis_style .centerBottom {
-        width: auto !important;
-        padding: 5px;
-        background: #f7f7f7;
-    }
-</style>
-
-
-
-</div>
-
-            
-    
-        <a href="https://mulgore.github.io/2015/12/21/swift-gcd/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/12/21/swift-gcd/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/">&laquo; 上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页 &raquo;</a>
     </nav>
@@ -1805,6 +1794,15 @@
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/06/01/used-doubanAPI-for-development-of-react-webapp/" class="title">基于豆瓣API使用react开发一个完整的Web应用</a></p>
+                            <p class="item-date"><time datetime="2016-06-01T12:39:17.000Z" itemprop="datePublished">2016-06-01</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -1842,15 +1840,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/04/16/issues-3/" class="title">Swift的期待</a></p>
-                            <p class="item-date"><time datetime="2016-04-16T10:17:36.000Z" itemprop="datePublished">2016-04-16</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -1862,7 +1851,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div>
 
@@ -1871,7 +1860,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
         </div>
     </div>
 
@@ -1880,7 +1869,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 10px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
+            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 12.5px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
         </div>
     </div>
 
