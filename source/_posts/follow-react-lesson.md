@@ -20,3 +20,5 @@ banner: http://o80ub63i5.bkt.clouddn.com/lesson/follow-react-lesson.jpg
 本次课程的任务管理使用了Trello，你可以访问 [进度和计划安排](https://trello.com/b/L6ohrKhq) 来了解实战项目的
 
 如果对课程及内容有任何反馈，可以在 [issues](https://github.com/mulgore/kodo/issues) 中发起你的需求。或者关注我的微信公众号：fed_talk，来向我反馈。
+
+![](https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg)
