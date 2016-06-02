@@ -66,3 +66,11 @@ tags: 课多周刊
 - [我是这样学习前端的](http://127.0.0.1:4000/2016/05/16/issues-1/)
 
 *每个人的学习之路不一样，且看一看icepy是如何走过来的。*
+
+## 关注我们
+
+**扫二维码** 或搜索 **fed-talk** ，关注我们的微信公众号。
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" alt=""/><br>
+</div>

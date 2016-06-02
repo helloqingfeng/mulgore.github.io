@@ -11,7 +11,7 @@ date: 2016/01/24 14:00:40
 - 不想阅读可以随时关闭浏览器
 - 聆听用户的声音，积极接受反馈
 
-微信公众号 **扫二维码** 或搜索 **fed-talk** ，关注我们的微信公众号。
+**扫二维码** 或搜索 **fed-talk** ，关注我们的微信公众号。
 
 <div align="center">
 <img src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" alt=""/><br>
