@@ -1,26 +1,14 @@
 title: 实战课程
 date: 2016-05-24 17:05:37
 ---
-### 简介
+
+### 课程列表
 
 我们会逐步开放学习前端技能的实战课程，欢迎拍砖。
 
+**react**
 
-#### 课程列表
-
-1.	[和我一起实战react](https://www.gitbook.com/book/icepy/follow-react/details)
-
-本次课程面向初中级前端开发人员以及对react感兴趣的其他开发者，同时我希望你能具备如下知识的储备。
-
-*	可以使用npm
-*	熟悉一些基础的ES2015语法
-*	Git的基础操作
-*	HTML/CSS/JavaScript基础知识
-*	Sublime，Atom，WebStorm的基础使用
-*	Chrome调试
-
-本次课程的源代码放置在[kodo](https://github.com/mulgore/kodo)项目中，你可以在此获取源代码。
-
-本次课程的任务管理使用了Trello，你可以访问[进度和计划安排](https://trello.com/b/L6ohrKhq)来了解实战项目的
-	
-如果对课程及内容有任何反馈，可以在[issues](https://github.com/mulgore/kodo/issues)中发起你的需求。或者关注我的微信公众号：fed_talk，来向我反馈。
+名称 | 描述
+--- | ---
+[和我一起实战react](/2016/05/23/follow-react-lesson/) | 面向初中级开发者的实用教程，通过编写一个UI库来加深对react的理解
+[基于豆瓣API使用react开发一个完整的Web应用](/2016/06/01/used-doubanAPI-for-development-of-react-webapp/) | 面向中级开发者的实战教程，通过豆瓣第三方API编写一个完整的Web应用

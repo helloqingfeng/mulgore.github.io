@@ -1,15 +1,14 @@
 title: FED-Talk月刊第二期（2016年2月）
 date: 2016-02-26 14:00:40
-tags: [FED-Talk月刊]
+tags: 课多周刊
+banner: http://o80ub63i5.bkt.clouddn.com/weekly/lantern-163914_640.jpg
 ---
 
 ## 简介
 
-FED-Talk月刊是由 **微信公众号：前端Talk** 维护的一月为一期的期刊，专注分享一月精选的 **前端开发** 资料，目前分为**FED-Talk推荐** ，**JavaScript** ，**CSS** ，**Node.js** ，**Hybrid & Native** ，**工具** ，**通信与安全** ，**数据结构与算法**，**前端说说** 九个模块。
+原《FED-Talk月刊》正式升级为《课多周刊》，继续为大家精选一周的前端专业技术。
 
 微信公众号 搜索 **fed-talk**
-
-![](https://raw.githubusercontent.com/mulgore/mulgore.github.io/master/preimgs/lantern-163914_640.jpg)
 
 ## 月刊
 
