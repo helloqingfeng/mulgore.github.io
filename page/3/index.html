@@ -163,7 +163,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                30
+                31
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -189,6 +189,148 @@
 
             
             <section id="main">
+    <article id="post-swift-nsoperation" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2015/12/29/swift-nsoperation/">NSOperation实现多线程（Swift）</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/12/29/swift-nsoperation/">
+            <time datetime="2015-12-29T03:36:27.000Z" itemprop="datePublished">2015-12-29</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>在上周，我用GCD去实践练习了一下多线程的使用，这周我将练习一种不同的多线程实现。</p>
+<p>为了理解多线程你还需要理解一些概念性的东西，比如什么是串行，什么是并行，什么是临界区，什么是竞态条件。</p>
+<p>关于这些概念，推荐一本书<a href="http://www.amazon.cn/gp/product/B0041859AI?psc=1&amp;ref_=oh_aui_detailpage_o07_s00" target="_blank" rel="external">《操作系统:精髓与设计原理》</a>，我且当你知道并且了解。</p>
+<p><strong>前言论述</strong></p>
+<p>在Foundation框架中提供了一个叫做<code>NSThread</code>的类，从名字上咱们就能看出，这是一个属于跟<code>线程</code>操作有关的类，没错。但是使用它来管理多个线程特别的繁琐，需要考虑竞态条件，需要锁等。于是，<code>NSOperation</code>和<code>NSOperationQueue</code>提供了更高级的封装，来很好的处理多个线程。</p>
+<p><strong>实践练习</strong></p>
+<p><code>NSOperation</code>是一个抽象类，所以不能直接使用它，但是它可以为子类提供有用且线程安全的建立状态，优先级，依赖和取消等操作。</p>
+<ul>
+<li>继承它来自己实现内部</li>
+<li>使用<code>NSBlockOperation</code></li>
+</ul>
+<p><strong>注意：Swift中将不存在NSInvocationOperation相关APIs</strong></p>
+<p><code>NSOperationQueue</code>则有些类似<code>线程池</code>，我们使用的<code>NSOperation</code>都需要添加到<code>NSOperationQueue</code>中，用来方便管理这些线程。</p>
+<p><strong>它们应该是一对好兄弟</strong></p>
+<p>NSOperation提供了<code>ready</code>，<code>cancelled</code>，<code>executing</code>， <code>finished</code>，这几个状态变化，可以通过<code>KVO</code>来通知改变这些状态，一般场景下你可能使用不到这些，除非你自己继承<code>NSOperation</code>来实现子类的方式来使用，你才需要管理这些状态。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> operation3 = <span class="type">NSBlockOperation</span>(block: &#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"不用NSOperationQueue"</span>)</span><br><span class="line">&#125;)</span><br><span class="line">operation3.start()</span><br></pre></td></tr></table></figure>
+<p><strong>添加依赖</strong></p>
+<p>这个步骤在某些场景下非常有用，比如我先读取本地文件，然后根据文件来发送网络请求，这里可见网络请求是依赖于读取本地文件的。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">operation2.addDependency(operation1)</span><br></pre></td></tr></table></figure>
+<p><em>注意事项：</em></p>
+<ul>
+<li>避免循环依赖，比如A依赖B，B又依赖A，那么恭喜你，死锁了。</li>
+</ul>
+<p><strong>执行</strong></p>
+<p>如果你使用了<code>NSOperationQueue</code>，那么你将不需要手动调用<code>start</code>方法，因为队列会帮助我们调用start方法。</p>
+<p><strong>取消</strong></p>
+<p><code>NSOperation</code>允许你取消一个任务，跟GCD一样，如果任务正在执行，且是无法取消的，只能等待任务完成，调用<code>cancel</code>方法</p>
+<p><strong>优先级</strong></p>
+<p>通过设置<code>NSOperation</code>的<code>queuePriority</code>属性来提高某个<code>NSOperation</code>的优先级。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">NSOperationQueuePriority</span> : <span class="title">Int</span> </span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">VeryLow</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">Low</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">Normal</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">High</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">VeryHigh</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>例子</strong></p>
+<p>读取本地文件和网络请求</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> queue:<span class="type">NSOperationQueue</span> = <span class="type">NSOperationQueue</span>()</span><br><span class="line"><span class="comment">//读取文件</span></span><br><span class="line"><span class="keyword">let</span> operation1:<span class="type">NSBlockOperation</span> = <span class="type">NSBlockOperation</span>(block: &#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> path:<span class="type">String</span> = <span class="type">NSBundle</span>.mainBundle().pathForResource(<span class="string">"gulpfile"</span>, ofType: <span class="string">"js"</span>)!</span><br><span class="line">    <span class="keyword">let</span> manager:<span class="type">NSFileManager</span> = <span class="type">NSFileManager</span>.defaultManager()</span><br><span class="line">    <span class="keyword">let</span> isTrue:<span class="type">Bool</span> = manager.fileExistsAtPath(path)</span><br><span class="line">    <span class="keyword">if</span> isTrue &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"文件存在读取 \(path)"</span>)</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            <span class="keyword">let</span> content:<span class="type">String</span> = <span class="keyword">try</span> <span class="type">NSString</span>(contentsOfURL: <span class="type">NSURL</span>(string: path)!, encoding: <span class="type">NSUTF8StringEncoding</span>) <span class="keyword">as</span> <span class="type">String</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"----------读取文件数据---------"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"\(content)"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"----------读取文件数据---------"</span>)</span><br><span class="line">        &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"读取错误"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//网络请求</span></span><br><span class="line"><span class="keyword">let</span> operation2:<span class="type">NSBlockOperation</span> = <span class="type">NSBlockOperation</span>(block: &#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> url:<span class="type">String</span> = <span class="string">"https://github.com/icepy"</span></span><br><span class="line">    <span class="keyword">let</span> urlObject:<span class="type">NSURL</span> = <span class="type">NSURL</span>(string: url)!</span><br><span class="line">    <span class="keyword">let</span> request:<span class="type">NSURLRequest</span> = <span class="type">NSURLRequest</span>(<span class="type">URL</span>: urlObject)</span><br><span class="line">    <span class="keyword">var</span> response:<span class="type">NSURLResponse</span>?</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> data:<span class="type">NSData</span> = <span class="keyword">try</span> <span class="type">NSURLConnection</span>.sendSynchronousRequest(request, returningResponse: &amp;response)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="type">HTTPResponse</span> = response <span class="keyword">as</span>? <span class="type">NSHTTPURLResponse</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"状态码：\(HTTPResponse.statusCode)"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"============数据==========="</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"\(data)"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"============数据==========="</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="comment">//网络请求在读取文件之前</span></span><br><span class="line">operation2.addDependency(operation1)</span><br><span class="line"></span><br><span class="line">queue.addOperation(operation2)</span><br><span class="line">queue.addOperation(operation1)</span><br><span class="line"><span class="comment">//取消网络请求</span></span><br><span class="line">operation2.cancel()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"网络请求-同步不会阻塞显示这里"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"读取文件不会阻塞显示这里"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//NSInvocationOperation 在 Swift不存在相关API</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> operation3 = <span class="type">NSBlockOperation</span>(block: &#123;</span><br><span class="line">    <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"不用NSOperationQueue"</span>)</span><br><span class="line">&#125;)</span><br><span class="line">operation3.start()</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="https://mulgore.github.io/2015/12/29/swift-nsoperation/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/12/29/swift-nsoperation/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-swift-gcd" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1994,131 +2136,8 @@ doc.style.width = &apos;100px&apos;;
 
 
 
-    <article id="post-swift-cite-count" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2015/11/09/swift-cite-count/">引用计数的关系理解</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2015/11/09/swift-cite-count/">
-            <time datetime="2015-11-09T03:46:49.000Z" itemprop="datePublished">2015-11-09</time>
-        </a>
-    </div>
-
-
-                    
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Swift/">Swift</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p><strong>源代码基于 Swift 2.1+ Xcode 7.1.1编写</strong></p>
-<p><strong>Swift ARC</strong></p>
-<p><code>weak</code>  <code>unowned</code>的区别，以及如何解除强循环引用</p>
-<p><code>weak</code>用弱引用来描述，它在此中类似于一个可选?。</p>
-<p><code>unowned</code>用无主引用来描述，它在此中类似于一个解包!。</p>
-<p><strong>闭包</strong></p>
-<p>闭包中为什么使用unowned，那是因为引用的self是一个必须有值的情况，如果你的引用某些情况下是没有值，那么才可以使用weak。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">React</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> doc:<span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> asHTML:(html:<span class="type">String</span>)-&gt;<span class="type">String</span>? = &#123;</span><br><span class="line">        (html:<span class="type">String</span>) -&gt; <span class="type">String</span>? <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//无参数</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> parseHTML:<span class="type">Void</span> -&gt; <span class="type">String</span> = &#123;</span><br><span class="line">        [<span class="keyword">unowned</span> <span class="keyword">self</span>]() -&gt; <span class="type">String</span> <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> dom:<span class="type">String</span> = <span class="keyword">self</span>.doc&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"&lt;p&gt;\(dom)&lt;/p&gt;"</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"&lt;h1&gt;no Name DOM &lt;/h1&gt;"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//有参数</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">lazy</span> <span class="keyword">var</span> stringfyHTML:(document:<span class="type">String</span>)-&gt;<span class="type">String</span> = &#123;</span><br><span class="line">        [<span class="keyword">unowned</span> <span class="keyword">self</span>](document:<span class="type">String</span>) -&gt; <span class="type">String</span> <span class="keyword">in</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"\(document) is DOM"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(doc:<span class="type">String</span>)&#123;</span><br><span class="line">        <span class="keyword">self</span>.doc = doc</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">way</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">self</span>.asHTML(html: <span class="keyword">self</span>.doc)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">deinit</span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"释放自动引用计数"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> react:<span class="type">React</span>?</span><br><span class="line">react = <span class="type">React</span>(doc: <span class="string">"&lt;em&gt;icepy&lt;/em&gt;"</span>)</span><br><span class="line">react?.asHTML = &#123;</span><br><span class="line">    (html:<span class="type">String</span>) -&gt; <span class="type">String</span>? <span class="keyword">in</span></span><br><span class="line">    <span class="built_in">print</span>(html)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">&#125;</span><br><span class="line">react?.parseHTML()</span><br><span class="line">react?.stringfyHTML(document:<span class="string">"icepy"</span>)</span><br><span class="line">react?.way()</span><br><span class="line">react = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
-<p><strong>弱引用 weak</strong></p>
-<p><code>弱引用不会对其引用的实例保持强引用，因而不会阻止 ARC 销毁被引用的实例。但是弱引用可以没有值，所以必须将每一个弱引用声明为可选类型</code></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用菇凉来描述</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Girls</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> tag:<span class="type">GirlType</span>?</span><br><span class="line">    <span class="keyword">init</span>()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">say</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"girl \'s tag is \(self.tag?.name)"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"Girls 释放"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GirlType</span></span>&#123;</span><br><span class="line">    <span class="keyword">weak</span> <span class="keyword">var</span> what:<span class="type">Girls</span>?</span><br><span class="line">    <span class="keyword">var</span> name:<span class="type">String</span></span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>)&#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"GirlType 释放"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> liuyueying:<span class="type">Girls</span>? = <span class="type">Girls</span>()</span><br><span class="line"><span class="keyword">var</span> type:<span class="type">GirlType</span>? = <span class="type">GirlType</span>(name: <span class="string">"女神"</span>)</span><br><span class="line">liuyueying?.tag = type</span><br><span class="line">type!.what = liuyueying</span><br><span class="line">liuyueying?.say()</span><br><span class="line">liuyueying = <span class="literal">nil</span></span><br><span class="line">type = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
-<p><strong>无主引用 unowned</strong></p>
-<p><code>和弱引用类似，无主引用不会牢牢保持住引用的实例。和弱引用不同的是，无主引用是永远有值的。</code></p>
- <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//阵营中不一定有兽人</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Camp</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> description:<span class="type">String</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Camp"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> tagName:<span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> race:<span class="type">Races</span>?</span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>)&#123;</span><br><span class="line">        <span class="keyword">self</span>.tagName = name</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">deinit</span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"\(self.description) 释放"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//兽人必然有一个阵营</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Races</span> </span>&#123;</span><br><span class="line">    <span class="keyword">unowned</span> <span class="keyword">let</span> belong:<span class="type">Camp</span></span><br><span class="line">    <span class="keyword">var</span> description:<span class="type">String</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Races"</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> raceName:<span class="type">String</span></span><br><span class="line">    <span class="keyword">init</span>(name:<span class="type">String</span>,camp:<span class="type">Camp</span>)&#123;</span><br><span class="line">        <span class="keyword">self</span>.raceName = name</span><br><span class="line">        <span class="keyword">self</span>.belong = camp</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">deinit</span>&#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"\(self.description) 释放"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> tribe:<span class="type">Camp</span>? = <span class="type">Camp</span>(name: <span class="string">"部落"</span>)</span><br><span class="line">tribe!.race = <span class="type">Races</span>(name: <span class="string">"兽人"</span>,camp: tribe!)</span><br><span class="line">tribe = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-    <div class="jiathis_style">
-    <span class="jiathis_txt">分享到：</span>
-    <a class="jiathis_button_qzone">QQ空间</a>
-    <a class="jiathis_button_tsina">新浪微博</a>
-    <a class="jiathis_button_tqq">腾讯微博</a>
-    <a class="jiathis_button_weixin">微信</a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-    <a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-<style>
-    .jiathis_style div:first-child:not(.jiadiv_01) {
-        width: auto !important;
-        border: none !important;
-    }
-    .jiathis_style .jiadiv_01 {
-        margin: 10px 0;
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .jiathis_style .jiadiv_01 div:first-child {
-        display: none;
-    }
-    .jiathis_style .jiadiv_02 {
-        padding: 7px 0 !important;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle {
-        width: 85px;
-        border: none;
-        height: auto;
-        margin: 3px 10px;
-        padding: 6px 10px;
-        border-radius: 4px;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle:hover {
-        border: none;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
-        margin-left: 0;
-    }
-    .jiathis_style .jtico:hover {
-        opacity: 1;
-    }
-    .jiathis_style .ckepopBottom,
-    .jiathis_style .centerBottom {
-        width: auto !important;
-        padding: 5px;
-        background: #f7f7f7;
-    }
-</style>
-
-
-
-</div>
-
-            
-    
-        <a href="https://mulgore.github.io/2015/11/09/swift-cite-count/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/11/09/swift-cite-count/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+        <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
     </nav>
 </section>
             
@@ -2129,6 +2148,15 @@ doc.style.width = &apos;100px&apos;;
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/06/02/keduo-weekly-1/" class="title">课多周刊第1期</a></p>
+                            <p class="item-date"><time datetime="2016-06-02T02:02:25.000Z" itemprop="datePublished">2016-06-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -2166,15 +2194,6 @@ doc.style.width = &apos;100px&apos;;
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/04/27/issues-2/" class="title">玩转NPM</a></p>
-                            <p class="item-date"><time datetime="2016-04-27T10:13:44.000Z" itemprop="datePublished">2016-04-27</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -2186,7 +2205,7 @@ doc.style.width = &apos;100px&apos;;
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div>
 
@@ -2195,7 +2214,7 @@ doc.style.width = &apos;100px&apos;;
     <div class="widget-wrap">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">4</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">5</span></li></ul>
         </div>
     </div>
 

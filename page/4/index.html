@@ -12,39 +12,17 @@
     })();
     </script>
     
-    <title>引用计数的关系理解 | Mulgore</title>
+    <title>Mulgore</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="源代码基于 Swift 2.1+ Xcode 7.1.1编写
-Swift ARC
-weak  unowned的区别，以及如何解除强循环引用
-weak用弱引用来描述，它在此中类似于一个可选?。
-unowned用无主引用来描述，它在此中类似于一个解包!。
-闭包
-闭包中为什么使用unowned，那是因为引用的self是一个必须有值的情况，如果你的引用某些情况下是没有值，那么才可以使用weak。
-1234">
-<meta property="og:type" content="article">
-<meta property="og:title" content="引用计数的关系理解">
-<meta property="og:url" content="https://mulgore.github.io/2015/11/09/swift-cite-count/index.html">
+    <meta name="description" content="Mulgore FED learn managed website in China 挖掘互联网最优秀的前端技术，提供高效的自我驱动学习与管理服务。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Mulgore">
+<meta property="og:url" content="https://mulgore.github.io/page/4/index.html">
 <meta property="og:site_name" content="Mulgore">
-<meta property="og:description" content="源代码基于 Swift 2.1+ Xcode 7.1.1编写
-Swift ARC
-weak  unowned的区别，以及如何解除强循环引用
-weak用弱引用来描述，它在此中类似于一个可选?。
-unowned用无主引用来描述，它在此中类似于一个解包!。
-闭包
-闭包中为什么使用unowned，那是因为引用的self是一个必须有值的情况，如果你的引用某些情况下是没有值，那么才可以使用weak。
-1234">
-<meta property="og:updated_time" content="2016-06-02T03:35:22.000Z">
+<meta property="og:description" content="Mulgore FED learn managed website in China 挖掘互联网最优秀的前端技术，提供高效的自我驱动学习与管理服务。">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="引用计数的关系理解">
-<meta name="twitter:description" content="源代码基于 Swift 2.1+ Xcode 7.1.1编写
-Swift ARC
-weak  unowned的区别，以及如何解除强循环引用
-weak用弱引用来描述，它在此中类似于一个可选?。
-unowned用无主引用来描述，它在此中类似于一个解包!。
-闭包
-闭包中为什么使用unowned，那是因为引用的self是一个必须有值的情况，如果你的引用某些情况下是没有值，那么才可以使用weak。
-1234">
+<meta name="twitter:title" content="Mulgore">
+<meta name="twitter:description" content="Mulgore FED learn managed website in China 挖掘互联网最优秀的前端技术，提供高效的自我驱动学习与管理服务。">
     
 
     
@@ -210,7 +188,8 @@ unowned用无主引用来描述，它在此中类似于一个解包!。
 </aside>
 
             
-            <section id="main"><article id="post-swift-cite-count" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main">
+    <article id="post-swift-cite-count" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -218,8 +197,8 @@ unowned用无主引用来描述，它在此中类似于一个解包!。
             <header class="article-header">
                 
     
-        <h1 class="article-title" itemprop="name">
-            引用计数的关系理解
+        <h1 itemprop="name">
+            <a class="article-title" href="/2015/11/09/swift-cite-count/">引用计数的关系理解</a>
         </h1>
     
 
@@ -329,72 +308,13 @@ unowned用无主引用来描述，它在此中类似于一个解包!。
         </footer>
     </div>
     
-        
-<nav id="article-nav">
-    
-        <a href="/2015/11/14/swift-pointer/" id="article-nav-newer" class="article-nav-link-wrap">
-            <strong class="article-nav-caption">上一篇</strong>
-            <div class="article-nav-title">
-                
-                    在Swift中如何使用指针并操作指针
-                
-            </div>
-        </a>
-    
-    
-</nav>
-
-
-    
 </article>
 
 
-    
-    <section id="comments">
-    
-        
-    <div class="ds-thread" data-thread-key="2015/11/09/swift-cite-count/" data-title="引用计数的关系理解" data-url="https://mulgore.github.io/2015/11/09/swift-cite-count/"></div>
-    <style>
-        #ds-thread #ds-reset .ds-textarea-wrapper {
-            background: none;
-        }
-        #ds-reset .ds-avatar img {
-            box-shadow: none;
-        }
-        #ds-reset .ds-gradient-bg {
-            background: #f7f7f7;
-        }
-        #ds-thread #ds-reset li.ds-tab a {
-            border-radius: 3px;
-        }
-        #ds-thread #ds-reset .ds-post-button {
-            color: white;
-            border: none;
-            box-shadow: none;
-            background: #d32;
-            text-shadow: none;
-            font-weight: normal;
-            font-family: 'Microsoft Yahei';
-        }
-        #ds-thread #ds-reset .ds-post-button:hover {
-            color: white;
-            background: #DE594C;
-        }
-        #ds-thread #ds-reset .ds-post-button:active {
-            background: #d32;
-        }
-        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
-            color: white;
-            background: #d32;
-            box-shadow: none;
-            text-shadow: none;
-            font-weight: normal;
-        }
-    </style>
 
-    
-    </section>
-
+    <nav id="page-nav">
+        <a class="extend prev" rel="prev" href="/page/3/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    </nav>
 </section>
             
                 <aside id="sidebar">
