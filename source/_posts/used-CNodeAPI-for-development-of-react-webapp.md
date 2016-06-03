@@ -1,4 +1,4 @@
-title: 基于豆瓣API使用react开发一个完整的Web应用
+title: 基于CNodeAPI使用react开发一个完整的Web应用
 date: 2016-06-01 20:39:17
 tags: 实战课程
 banner: http://o80ub63i5.bkt.clouddn.com/lesson/corsica-1408158_640.jpg
