@@ -10,6 +10,10 @@ Fork [mulgore.github.io](https://github.com/mulgore/mulgore.github.io/)项目，
 	
 	git checkout -b hexo origin/hexo
 
+> 建议：Fork 此仓库后，请先从 hexo 分支上 git checkout -b hexo-your 一个新的 hexo-your 分支来书写文章，书写完成后再把 hexo-your 分支发 PR。
+
+我们会在三天内进行 **Review**，通过之后会告知你发布时间，原则上你需要添加的任何信息都可以在文章的收尾得到添加（作者著名等）。
+
 **安装依赖**
 
 安装全局环境下的 **Hexo**
