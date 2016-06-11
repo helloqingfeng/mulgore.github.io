@@ -163,7 +163,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                31
+                32
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -189,6 +189,128 @@
 
             
             <section id="main">
+    <article id="post-swift-nsthread" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2016/01/05/swift-nsthread/">NSThread（Swift）</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/01/05/swift-nsthread/">
+            <time datetime="2016-01-05T03:35:30.000Z" itemprop="datePublished">2016-01-05</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><code>Thread</code>是iOS中处理线程最轻量的一种方式，而且非常直观的在操作线程，唯一的缺陷是需要自己去管理线程的生命周期，协调多个线程对同一个数据的操作。</p>
+<p><strong>创建NSThread</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">NSThread</span>.detachNewThreadSelector(<span class="string">"detacThread"</span>, toTarget: <span class="keyword">self</span>, withObject: <span class="literal">nil</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">self</span>.thread = <span class="type">NSThread</span>(target: <span class="keyword">self</span>, selector: <span class="string">"oneThread"</span>, object: <span class="literal">nil</span>)</span><br><span class="line"><span class="keyword">self</span>.thread!.threadPriority = <span class="number">1.0</span></span><br><span class="line"><span class="keyword">self</span>.thread!.start()</span><br></pre></td></tr></table></figure>
+<p><strong>使用NSThread下载图片</strong></p>
+<p>这里我使用<code>storyboard</code>拖了一个<code>UIButton</code>和<code>UIImageView</code>出来，并且连接到<code>UIViewController</code>中：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> imageView: <span class="type">UIImageView</span>!</span><br><span class="line"></span><br><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">downloadImages</span><span class="params">(sender: UIButton)</span></span> &#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">//业务逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>开始初始化<code>NSThread</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">self</span>.clickLock == <span class="literal">nil</span>&#123;</span><br><span class="line">     <span class="keyword">self</span>.clickLock = <span class="literal">true</span></span><br><span class="line">     <span class="keyword">self</span>.thread = <span class="type">NSThread</span>(target: <span class="keyword">self</span>, selector: <span class="string">"oneThread"</span>, object: <span class="literal">nil</span>)</span><br><span class="line">     <span class="keyword">self</span>.thread!.threadPriority = <span class="number">1.0</span></span><br><span class="line">     <span class="keyword">self</span>.thread!.start()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用的是当前<code>oneThread</code>方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">oneThread</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//需要管理线程的生命周期、同步、加锁问题，这会导致一定的性能开销</span></span><br><span class="line">    <span class="keyword">let</span> url:<span class="type">String</span> = <span class="string">"http://content.battlenet.com.cn/wow/media/screenshots/selfie/selfie001-large.jpg"</span></span><br><span class="line">    <span class="keyword">let</span> urlObject:<span class="type">NSURL</span> = <span class="type">NSURL</span>(string: url)!</span><br><span class="line">    <span class="keyword">let</span> request:<span class="type">NSURLRequest</span> = <span class="type">NSURLRequest</span>(<span class="type">URL</span>: urlObject)</span><br><span class="line">    <span class="keyword">var</span> response:<span class="type">NSURLResponse</span>?</span><br><span class="line">    <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> data:<span class="type">NSData</span> = <span class="keyword">try</span> <span class="type">NSURLConnection</span>.sendSynchronousRequest(request, returningResponse: &amp;response)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> <span class="type">HTTPResponse</span> = response <span class="keyword">as</span>? <span class="type">NSHTTPURLResponse</span>&#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"状态码：\(HTTPResponse.statusCode)"</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"============数据==========="</span>)</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"============数据==========="</span>)</span><br><span class="line">            <span class="keyword">self</span>.clickLock = <span class="literal">nil</span></span><br><span class="line">            <span class="keyword">let</span> current:<span class="type">NSThread</span> = <span class="type">NSThread</span>.currentThread()</span><br><span class="line">            <span class="keyword">let</span> main:<span class="type">NSThread</span> = <span class="type">NSThread</span>.mainThread()</span><br><span class="line">            <span class="keyword">self</span>.performSelectorOnMainThread(<span class="string">"updateUI:"</span>, withObject: data, waitUntilDone: <span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;<span class="keyword">catch</span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>如何加锁，操作同一个数据</strong></p>
+<p><code>NSThread</code>对于同步是需要自己去处理了，为了操作数据达到同步的目的，我们需要去加上锁，iOS中存在两种锁<code>NSCondition</code>和<code>NSLock</code>，这里我使用的是<code>NSLock</code>来处理。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> <span class="literal">true</span>&#123;</span><br><span class="line">    <span class="keyword">self</span>.theLock?.lock()</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">self</span>.<span class="built_in">count</span>! &gt;= <span class="number">0</span> &#123;</span><br><span class="line">        <span class="type">NSThread</span>.sleepForTimeInterval(<span class="number">0.08</span>)</span><br><span class="line">        <span class="keyword">self</span>.index = <span class="number">100</span> - <span class="keyword">self</span>.<span class="built_in">count</span>!</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"数目-----&gt; \(self.count) 出售 ----&gt; \(self.index) 线程名 ----&gt; \(NSThread.currentThread().name)"</span>)</span><br><span class="line">        <span class="keyword">self</span>.<span class="built_in">count</span>!--</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">self</span>.theLock?.unlock()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/01/05/swift-nsthread/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/01/05/swift-nsthread/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-swift-nsoperation" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -1997,145 +2119,6 @@ doc.style.width = &apos;100px&apos;;
 
 
 
-    <article id="post-swift-pointer" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2015/11/14/swift-pointer/">在Swift中如何使用指针并操作指针</a>
-        </h1>
-    
-
-                <div class="article-meta">
-                    
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2015/11/14/swift-pointer/">
-            <time datetime="2015-11-14T03:45:27.000Z" itemprop="datePublished">2015-11-14</time>
-        </a>
-    </div>
-
-
-                    
-                    
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Swift/">Swift</a>
-    </div>
-
-                </div>
-            </header>
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p><strong>源代码基于 Swift 2.1+ Xcode 7.1.1编写</strong></p>
-<p>如果你还不了解指针，请先阅读<a href="http://blog.jobbole.com/25409/" target="_blank" rel="external">C语言指针5分钟教程</a>。</p>
-<p>在Swift中指针用两个特殊的类型来描述，UnsafePointer<t>和UnsafeMutablePointer<t>，遵循Cocoa的原则，可以看出<code>不可变</code>与<code>可变</code>的不同，当我们创建指针之后，就可以通过memory来操作指针了。另外，Swift中UnsafeBufferPointer<t>来描述一组连续的数据指针以及非完整结构不透明指针COpaquePointer</t></t></t></p>
-<p><strong>在函数中传递指针</strong></p>
-<p>在函数中传递指针有两种方式，一：使用<code>inout</code>关键字。二：使用Swift准备的指针类型。区别，我用注释写在具体的例子中。</p>
-<p>且先看看<code>inout</code>关键字，如何操作</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> = <span class="number">10</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">some</span><span class="params">(<span class="keyword">inout</span> numb:Int)</span></span>&#123;</span><br><span class="line">    <span class="comment">//如果使用inout关键字，在函数体内部不需要处理指针类型，可直接操作</span></span><br><span class="line">    numb += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"numb --&gt; \(numb)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">some(&amp;num)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"num ---&gt; \(num)"</span>)</span><br></pre></td></tr></table></figure>
-<p>使用Swift准备的指针类型</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> num:<span class="type">Int</span> = <span class="number">10</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">some</span><span class="params">(numb:UnsafeMutablePointer&lt;Int&gt;)</span></span>&#123;</span><br><span class="line">    <span class="comment">//如果使用Swift提供的类型，那么需要使用memory来进行操作</span></span><br><span class="line">    numb.memory += <span class="number">1</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"numb --&gt; \(numb.memory)"</span>)</span><br><span class="line">&#125;</span><br><span class="line">some(&amp;num)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"num ---&gt; \(num)"</span>)</span><br></pre></td></tr></table></figure>
-<p>需要注意的是，Swift中地址符&amp;是不能直接使用的，只能是函数传递时才可用。</p>
-<p><strong>如何直接操作</strong></p>
-<p>虽然无法像OC或者C中那样直接通过地址符&amp;来操作指针，但是Swift也提供了辅助的方法间接的来帮助我们来操作指针。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i:<span class="type">Int</span> = <span class="number">10</span></span><br><span class="line">i = <span class="built_in">withUnsafeMutablePointer</span>(&amp;i, &#123;</span><br><span class="line">   (p:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt;) -&gt; <span class="type">Int</span> <span class="keyword">in</span></span><br><span class="line">       p.memory += <span class="number">20</span></span><br><span class="line">       <span class="keyword">return</span> p.memory</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"i value ---&gt; \(i)"</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>如何使用指向数组的指针</strong></p>
-<p>如果只是函数传递，不可变直接传递，可变使用&amp;符即可，如果想直接操作，那么还是需要UnsafeBufferPointer<t>来辅助完成。</t></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> array:[<span class="type">Int</span>] = [<span class="number">2</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line"><span class="keyword">var</span> arrayPtr:<span class="type">UnsafeMutableBufferPointer</span>&lt;<span class="type">Int</span>&gt; = <span class="type">UnsafeMutableBufferPointer</span>&lt;<span class="type">Int</span>&gt;(start: &amp;array, <span class="built_in">count</span>: array.<span class="built_in">count</span>)</span><br><span class="line"><span class="keyword">var</span> baseArrayPtr:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt; = arrayPtr.baseAddress <span class="keyword">as</span> <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt;</span><br><span class="line"><span class="keyword">var</span> nextPtr:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt; = baseArrayPtr.successor()</span><br><span class="line"><span class="keyword">var</span> threPtr:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">Int</span>&gt; = nextPtr.successor()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"第一个元素  \(baseArrayPtr.memory)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"第二个元素 \(nextPtr.memory)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"第三个元素  \(threPtr.memory)"</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>如何通过指针强制转换类型</strong></p>
-<p>这个操作比较危险，除非你明确预期知道类型，不然编译器是无法知道的，也就造成了非常大的不确定性。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr:<span class="type">NSArray</span> = <span class="type">NSArray</span>(object: <span class="string">"icepy"</span>)</span><br><span class="line"><span class="keyword">let</span> str:<span class="type">NSString</span> = <span class="built_in">unsafeBitCast</span>(arr[<span class="number">0</span>],<span class="type">NSString</span>.<span class="keyword">self</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"str --- &gt; \(str.stringByAppendingPathComponent("</span>app<span class="string">"))"</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>创建一个指针</strong></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//创建可变指针</span></span><br><span class="line"><span class="keyword">var</span> i:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">String</span>&gt; = <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">String</span>&gt;.alloc(<span class="number">10</span>)</span><br><span class="line">i.initialize(<span class="string">"icepy"</span>)</span><br></pre></td></tr></table></figure>
-<p><strong>内存管理</strong></p>
-<p>还有一点要注意的是，如果是属于自己手动创建的指针，Swift是不负责管理内存的，需要手动的销毁与释放。</p>
-<p>一个UnsafeMutablePointer内存一般有三个状态：</p>
-<ul>
-<li>内存没有被分配，null指针</li>
-<li>内存进行了分配，且值还未初始化</li>
-<li>内存进行了分配，且值已经初始化</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i:<span class="type">UnsafeMutablePointer</span>&lt;<span class="type">String</span>&gt; = <span class="type">UnsafeMutablePointer</span>&lt;<span class="type">String</span>&gt;.alloc(<span class="number">10</span>)</span><br><span class="line">i.initialize(<span class="string">"icepy"</span>)        </span><br><span class="line"><span class="built_in">print</span>(<span class="string">"i的内存地址 \(i)"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"i的memory \(i.memory)"</span>)        </span><br><span class="line">i.destroy() <span class="comment">//销毁指针指向的对象</span></span><br><span class="line">i.dealloc(<span class="number">10</span>) <span class="comment">//销毁指针申请的内存</span></span><br><span class="line">i = <span class="literal">nil</span></span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-    <div class="jiathis_style">
-    <span class="jiathis_txt">分享到：</span>
-    <a class="jiathis_button_qzone">QQ空间</a>
-    <a class="jiathis_button_tsina">新浪微博</a>
-    <a class="jiathis_button_tqq">腾讯微博</a>
-    <a class="jiathis_button_weixin">微信</a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-    <a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
-<style>
-    .jiathis_style div:first-child:not(.jiadiv_01) {
-        width: auto !important;
-        border: none !important;
-    }
-    .jiathis_style .jiadiv_01 {
-        margin: 10px 0;
-        border-radius: 4px;
-        border: #e1e1e1 solid 1px;
-    }
-    .jiathis_style .jiadiv_01 div:first-child {
-        display: none;
-    }
-    .jiathis_style .jiadiv_02 {
-        padding: 7px 0 !important;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle {
-        width: 85px;
-        border: none;
-        height: auto;
-        margin: 3px 10px;
-        padding: 6px 10px;
-        border-radius: 4px;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle:hover {
-        border: none;
-    }
-    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
-        margin-left: 0;
-    }
-    .jiathis_style .jtico:hover {
-        opacity: 1;
-    }
-    .jiathis_style .ckepopBottom,
-    .jiathis_style .centerBottom {
-        width: auto !important;
-        padding: 5px;
-        background: #f7f7f7;
-    }
-</style>
-
-
-
-</div>
-
-            
-    
-        <a href="https://mulgore.github.io/2015/11/14/swift-pointer/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/11/14/swift-pointer/">评论</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/2/">&laquo; 上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/">下一页 &raquo;</a>
     </nav>
@@ -2148,6 +2131,15 @@ doc.style.width = &apos;100px&apos;;
         <h3 class="widget-title">最新文章</h3>
         <div class="widget">
             <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/06/11/keduo-weekly-2/" class="title">课多周刊第2期</a></p>
+                            <p class="item-date"><time datetime="2016-06-11T04:07:02.000Z" itemprop="datePublished">2016-06-11</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -2185,15 +2177,6 @@ doc.style.width = &apos;100px&apos;;
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/04/29/FED-Talk4/" class="title">FED-Talk月刊第四期（2016年4月）</a></p>
-                            <p class="item-date"><time datetime="2016-04-29T06:00:40.000Z" itemprop="datePublished">2016-04-29</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -2205,7 +2188,7 @@ doc.style.width = &apos;100px&apos;;
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div>
 
@@ -2214,7 +2197,7 @@ doc.style.width = &apos;100px&apos;;
     <div class="widget-wrap">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">5</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">6</span></li></ul>
         </div>
     </div>
 
