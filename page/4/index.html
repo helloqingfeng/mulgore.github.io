@@ -163,7 +163,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                32
+                33
                 <span>文章</span>
             </div>
             <div class="article-info-block">
@@ -189,6 +189,149 @@
 
             
             <section id="main">
+    <article id="post-swift-uialertcontroller" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2015/11/19/swift-uialertcontroller/">使用UIAlertController</a>
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/11/19/swift-uialertcontroller/">
+            <time datetime="2015-11-19T03:44:10.000Z" itemprop="datePublished">2015-11-19</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Swift/">Swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p><strong>源代码基于 Swift 2.1+ Xcode 7.1.1编写</strong></p>
+<p>在iOS 8中出现了UIAlertController用来替换以前的UIAlertView与UIActionSheet</p>
+<p><strong>使用它的好处</strong></p>
+<ul>
+<li>现在它是一个Controller，意味着可以使用modal或者popover的方式来展示，而且可以从UIViewController的配置属性中获利良多</li>
+<li>UIAlertViewController在配置按钮，文本框时更加的灵活</li>
+<li>引进了一个新的类UIAlertAction来对按钮的数量，类型，顺序加以控制，比之前更简洁</li>
+</ul>
+<p>可以下载<a href="https://github.com/icepy/withoutMe/tree/master/UIAlertController" target="_blank" rel="external">Demo</a>来运行，Swift 2.0 Xcode 7.1.1</p>
+<p>也可以阅读Apple提供的文档<a href="https://developer.apple.com/library/tvos/documentation/UIKit/Reference/UIAlertController_class/index.html" target="_blank" rel="external">UIAlertController</a></p>
+<p><strong>初始化alert与actionSheet</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> alert:<span class="type">UIAlertController</span> = &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">UIAlertController</span>(title: <span class="string">"alert"</span>, message: <span class="string">"魔兽世界7.0－军团再临资料片"</span>, preferredStyle: <span class="type">UIAlertControllerStyle</span>.<span class="type">Alert</span>)</span><br><span class="line">&#125;()</span><br><span class="line"><span class="built_in">lazy</span> <span class="keyword">var</span> actionSheet:<span class="type">UIAlertController</span> = &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">UIAlertController</span>(title: <span class="string">"actionSheet"</span>, message: <span class="string">"魔兽世界7.0要塞"</span>, preferredStyle: <span class="type">UIAlertControllerStyle</span>.<span class="type">ActionSheet</span>)</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<p>从风格上来看，使用了一个枚举来描述，它所涵盖的类型有两种：</p>
+<ul>
+<li>Alert 创建一个弹出框</li>
+<li>ActionSheet 创建一个上拉菜单</li>
+</ul>
+<p><strong>创建普通的弹出框</strong></p>
+<p>每一个对应的按钮，现在使用UIAlertAction来创建，对应的动作都成了闭包，从阅读上来说是非常线性的，最后用创建好的UIAlertController顺序添加即可。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> closeAlert:<span class="type">UIAlertAction</span> = <span class="type">UIAlertAction</span>(title: <span class="string">"取消"</span>, style: <span class="type">UIAlertActionStyle</span>.<span class="type">Cancel</span>, handler: <span class="literal">nil</span>)</span><br><span class="line"><span class="keyword">let</span> okAlert:<span class="type">UIAlertAction</span> = <span class="type">UIAlertAction</span>(title: <span class="string">"下载"</span>, style: <span class="type">UIAlertActionStyle</span>.<span class="type">Default</span>, handler: <span class="literal">nil</span>)</span><br><span class="line"><span class="keyword">self</span>.alert.addAction(closeAlert)</span><br><span class="line"><span class="keyword">self</span>.alert.addAction(okAlert)</span><br></pre></td></tr></table></figure>
+<p>因为现在成了Controller，所以想要显示可以用<code>self.presentViewController(self.alert, animated: true, completion: nil);</code>模态弹出即可。</p>
+<p>UIAlertActionStyle提供了三种样式，让我们使用</p>
+<ul>
+<li>Default 标准样式</li>
+<li>Cancel 取消样式</li>
+<li>Destructive 警告样式</li>
+</ul>
+<p><strong>创建带输入框的弹出框</strong></p>
+<p>不得不说，Apple给我们提供了一个很鸡肋的东西，那就是<code>addTextFieldWithConfigurationHandler</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.alert.addTextFieldWithConfigurationHandler(&#123;</span><br><span class="line">     [<span class="keyword">unowned</span> <span class="keyword">self</span>] (text:<span class="type">UITextField</span>) <span class="keyword">in</span></span><br><span class="line">     text.placeholder = <span class="string">"账户"</span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">self</span>.alert.addTextFieldWithConfigurationHandler(&#123;</span><br><span class="line">     [<span class="keyword">unowned</span> <span class="keyword">self</span>] (text:<span class="type">UITextField</span>) <span class="keyword">in</span></span><br><span class="line">     text.placeholder = <span class="string">"邀请码"</span></span><br><span class="line">     <span class="type">NSNotificationCenter</span>.defaultCenter().addObserver(<span class="keyword">self</span>, selector:<span class="string">"alertTextFieldDidChange:"</span>, name: <span class="type">UITextFieldTextDidChangeNotification</span>, object: text)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> okAlert:<span class="type">UIAlertAction</span> = <span class="type">UIAlertAction</span>(title: <span class="string">"升级资料片"</span>, style: <span class="type">UIAlertActionStyle</span>.<span class="type">Default</span>, handler: &#123;</span><br><span class="line">     [<span class="keyword">unowned</span> <span class="keyword">self</span>] (action:<span class="type">UIAlertAction</span>) <span class="keyword">in</span></span><br><span class="line">     <span class="type">NSNotificationCenter</span>.defaultCenter().removeObserver(<span class="keyword">self</span>, name: <span class="type">UITextFieldTextDidChangeNotification</span>, object: <span class="literal">nil</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">self</span>.alert.addAction(okAlert)</span><br><span class="line">okAlert.enabled = <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>虽然你可以这样使用，但是，你还是自己用UIViewController创建一个这样的界面比较好。</p>
+<p><strong>创建一个上拉菜单</strong></p>
+<p>从使用上来说，跟之前创建Alert一样，需要使用UIAlertAction来创建每一项菜单。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> cancalAction:<span class="type">UIAlertAction</span> = <span class="type">UIAlertAction</span>(title: <span class="string">"取消"</span>, style: <span class="type">UIAlertActionStyle</span>.<span class="type">Cancel</span>, handler: <span class="literal">nil</span>)</span><br><span class="line"><span class="keyword">let</span> deleteAction:<span class="type">UIAlertAction</span> = <span class="type">UIAlertAction</span>(title: <span class="string">"删除 "</span>, style: <span class="type">UIAlertActionStyle</span>.<span class="type">Destructive</span>, handler: <span class="literal">nil</span>)</span><br><span class="line"><span class="keyword">let</span> archiveAction:<span class="type">UIAlertAction</span> = <span class="type">UIAlertAction</span>(title: <span class="string">"升级"</span>, style: <span class="type">UIAlertActionStyle</span>.<span class="type">Default</span>, handler: <span class="literal">nil</span>)</span><br><span class="line"><span class="keyword">self</span>.actionSheet.addAction(cancalAction)</span><br><span class="line"><span class="keyword">self</span>.actionSheet.addAction(deleteAction)</span><br><span class="line"><span class="keyword">self</span>.actionSheet.addAction(archiveAction)</span><br></pre></td></tr></table></figure>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="https://mulgore.github.io/2015/11/19/swift-uialertcontroller/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2015/11/19/swift-uialertcontroller/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-swift-pointer" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -468,6 +611,15 @@
                         
                         <div class="item-inner">
                             <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/06/13/interesting-interview-fed-questions/" class="title">你不得不看的-有趣的前端面试</a></p>
+                            <p class="item-date"><time datetime="2016-06-13T08:40:34.000Z" itemprop="datePublished">2016-06-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
                             <p class="item-title"><a href="/2016/06/11/keduo-weekly-2/" class="title">课多周刊第2期</a></p>
                             <p class="item-date"><time datetime="2016-06-11T04:07:02.000Z" itemprop="datePublished">2016-06-11</time></p>
                         </div>
@@ -500,15 +652,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"></p>
-                            <p class="item-title"><a href="/2016/05/16/issues-1/" class="title">我是这样学习前端的</a></p>
-                            <p class="item-date"><time datetime="2016-05-16T07:49:38.000Z" itemprop="datePublished">2016-05-16</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -520,7 +663,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">归档</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
         </div>
     </div>
 
@@ -529,7 +672,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">6</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">6</span></li></ul>
         </div>
     </div>
 
@@ -538,7 +681,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">标签云</h3>
         <div class="widget tagcloud">
-            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 12.5px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
+            <a href="/tags/JavaScript/" style="font-size: 16px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 14px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 12px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 18px;">课多周刊</a>
         </div>
     </div>
 
