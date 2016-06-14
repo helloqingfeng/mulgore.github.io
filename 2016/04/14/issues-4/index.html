@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1d25f2a1077359921740604b649a2dea";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+    
+    <title>webpack实践最后一篇 | Mulgore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="温故而知新
+
+这应该是目前这个阶段最后一篇关于webpack的实践经验，也许你会学习到该用怎样的思想去使用webpack，也许你会认为这是一坨屎一样的文字。不过，我会尽量的描述，我们的实践以及给出一份在Mac和Win下的Demo，这个项目也是我们应用在PC端的实践，访问https://github.com/sapling-team/generator-sapling-pc来阅读我们PC端的脚手架">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack实践最后一篇">
+<meta property="og:url" content="https://mulgore.github.io/2016/04/14/issues-4/index.html">
+<meta property="og:site_name" content="Mulgore">
+<meta property="og:description" content="温故而知新
+
+这应该是目前这个阶段最后一篇关于webpack的实践经验，也许你会学习到该用怎样的思想去使用webpack，也许你会认为这是一坨屎一样的文字。不过，我会尽量的描述，我们的实践以及给出一份在Mac和Win下的Demo，这个项目也是我们应用在PC端的实践，访问https://github.com/sapling-team/generator-sapling-pc来阅读我们PC端的脚手架">
+<meta property="og:updated_time" content="2016-06-14T05:31:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack实践最后一篇">
+<meta name="twitter:description" content="温故而知新
+
+这应该是目前这个阶段最后一篇关于webpack的实践经验，也许你会学习到该用怎样的思想去使用webpack，也许你会认为这是一坨屎一样的文字。不过，我会尽量的描述，我们的实践以及给出一份在Mac和Win下的Demo，这个项目也是我们应用在PC端的实践，访问https://github.com/sapling-team/generator-sapling-pc来阅读我们PC端的脚手架">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+    
+    
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mulgore</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">首页</a>
+                
+                    <a class="main-nav-link" href="/archives/index.html">温故而知新</a>
+                
+                    <a class="main-nav-link" href="/weekly/index.html">课多周刊</a>
+                
+                    <a class="main-nav-link" href="/lesson/index.html">实战课程</a>
+                
+                    <a class="main-nav-link" href="/contribute/index.html">投稿渠道</a>
+                
+                    <a class="main-nav-link" href="/about">关于我们</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">首页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives/index.html">温故而知新</a></td>
+                
+                    <td><a class="main-nav-link" href="/weekly/index.html">课多周刊</a></td>
+                
+                    <td><a class="main-nav-link" href="/lesson/index.html">实战课程</a></td>
+                
+                    <td><a class="main-nav-link" href="/contribute/index.html">投稿渠道</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于我们</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" />
+            <h2 id="name">Mulgore</h2>
+            <h3 id="title">欢迎关注mulgore组织运营的 [前端Talk] 公众号 -- 内容起于前端而不止于前端，探索技术深邃的灵光。</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Beijing, China</span>
+            <a id="follow" target="_blank" href="https://github.com/mulgore/">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                32
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                8
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/mulgore" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="http://weibo.com/2455876310/" target="_blank" title="weibo"><i class="fa fa-weibo"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-issues-4" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            webpack实践最后一篇
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/04/14/issues-4/">
+            <time datetime="2016-04-14T10:20:07.000Z" itemprop="datePublished">2016-04-14</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/webpack/">webpack</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <blockquote>
+<p>温故而知新</p>
+</blockquote>
+<p>这应该是目前这个阶段最后一篇关于webpack的实践经验，也许你会学习到该用怎样的思想去使用webpack，也许你会认为这是一坨屎一样的文字。不过，我会尽量的描述，我们的实践以及给出一份在Mac和Win下的Demo，这个项目也是我们应用在PC端的实践，访问<a href="https://github.com/sapling-team/generator-sapling-pc" target="_blank" rel="external">https://github.com/sapling-team/generator-sapling-pc</a>来阅读我们PC端的脚手架吧。（完美兼容IE8+）</p>
+<p>我们对<code>backbone</code>也提供了一份有用的扩展，可访问：<a href="https://github.com/sapling-team/base-extend-backbone" target="_blank" rel="external">https://github.com/sapling-team/base-extend-backbone</a></p>
+<p>更多基础的配置信息，建议大家阅读<a href="https://github.com/icepy/_posts/issues/25" target="_blank" rel="external">《webpack在PC项目中的应用》</a></p>
+<a id="more"></a>
+<h2 id="该用什么样的思想来使用"><a href="#该用什么样的思想来使用" class="headerlink" title="该用什么样的思想来使用"></a>该用什么样的思想来使用</h2><blockquote>
+<p>你用的始终还是Node.js环境</p>
+</blockquote>
+<p>我觉得你应该要忘记webpack，因为你使用的终归还是Node.js。为什么这么说，因为如果只使用简单的配置，你可能只把它做为一个模块加载器。如果你熟练的使用了Node.Js那么恭喜你，我们将用环境的思维来使用它，并用Node.Js来驱动你的构建流程。（NPM可以使用的模块，你都可以在构建环境中使用）</p>
+<p>首先，我们应该将脚本文件放置在bin目录下，这是unix编程的常识。接着，对于你的产品，定义两个环境：dev和product，在NPM Scripts中使用<code>NODE_ENV=dev webpack --config bin/webpack.config</code>，然后在脚本文件中使用<code>process.env.NODE_ENV</code>来获取环境变量并区分执行。（很不幸的是，Win用户无法获取ENV，所以你需要建立两个文件来做dev和product）</p>
+<h2 id="抽象dir"><a href="#抽象dir" class="headerlink" title="抽象dir"></a>抽象dir</h2><p>抽象你的目录资源，设计一定的规则，可以进行批处理配置信息。</p>
+<pre><code>npm install glob --save-dev --verbose
+</code></pre><p>我们的入口文件都放置在src中，根据业务特点来命名，比如：<code>index.js</code>，<code>code.js</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> glob = <span class="built_in">require</span>(<span class="string">'glob'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = getEntry;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getEntry</span>(<span class="params">sourcePath</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> entrys = &#123;&#125;;</span><br><span class="line">    <span class="keyword">var</span> basename;</span><br><span class="line">    glob.sync(sourcePath).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">entry</span>)</span>&#123;</span><br><span class="line">        basename = path.basename(entry,path.extname(entry));</span><br><span class="line">        entrys[basename] = entry;</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span> entrys;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>webpack.dev.config.js</code>文件，可以通过getEntry函数来统一处理入口，并得到<code>entry</code>配置对象。如果你是多页面多入口的项目，建议你使用统一的命名规则，比如页面叫<code>index.html</code>，那么你的js和css入口文件也应该叫<code>index.js</code>和<code>index.css</code>。</p>
+<h2 id="include"><a href="#include" class="headerlink" title="include"></a>include</h2><blockquote>
+<p>在编译期来决定最终呈现什么样的HTML</p>
+</blockquote>
+<p>在后端语言的模板中<code>include</code>是一个非常有用的特性，因为它可以抽象分离不同的HTML结构，来达到复用的目的。</p>
+<pre><code>npm install jade-loader --save-dev --verbose
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">doctype html</span><br><span class="line">html(lang=&quot;en&quot;)</span><br><span class="line">    head</span><br><span class="line">        - var titleValue = htmlWebpackPlugin.options.title</span><br><span class="line">        title=titleValue</span><br><span class="line">        meta(charset=&quot;UTF-8&quot;)</span><br><span class="line">    body</span><br><span class="line">        include common/header</span><br><span class="line">        include index/container</span><br><span class="line">        include common/footer</span><br><span class="line">        include common/lib</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- var src;</span><br><span class="line">- var map = [&apos;jquery/dist/jquery.min.js&apos;,&apos;underscore/underscore-min.js&apos;,&apos;backbone/backbone-min.js&apos;]</span><br><span class="line">if htmlWebpackPlugin.options.cdn</span><br><span class="line">    - src = &apos;http://127.0.0.1:3000/www/link/&apos;</span><br><span class="line">else</span><br><span class="line">    - src = &apos;/link/&apos;</span><br><span class="line">each val in map</span><br><span class="line">    script(type=&quot;text/javascript&quot;,src=src+val)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    test:<span class="regexp">/.jade$/</span>,</span><br><span class="line">    loader:<span class="string">'jade-loader'</span>,</span><br><span class="line">    exclude:<span class="regexp">/(node_modules)/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>不仅如此<code>jade</code>还可以做更高灵活的配置。</p>
+<h2 id="html-webpack-plugin"><a href="#html-webpack-plugin" class="headerlink" title="html-webpack-plugin"></a>html-webpack-plugin</h2><p>如果你是多页面，或者单页应用都需要这个插件来帮忙处理HTML的内容，比如上述的jade模板的<code>include</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> pages = getEntry(<span class="string">'./app/web/*.jade'</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> chunkname <span class="keyword">in</span> pages)&#123;</span><br><span class="line">    <span class="keyword">var</span> conf = &#123;</span><br><span class="line">        cdn:<span class="literal">false</span>,</span><br><span class="line">        filename:chunkname+<span class="string">'.html'</span>,</span><br><span class="line">        template:pages[chunkname],</span><br><span class="line">        inject:<span class="literal">true</span>,</span><br><span class="line">        minify:&#123;</span><br><span class="line">            removeComments:<span class="literal">true</span>,</span><br><span class="line">            collapseWhitespace: <span class="literal">false</span></span><br><span class="line">        &#125;,</span><br><span class="line">        chunks:[<span class="string">'common'</span>,chunkname],</span><br><span class="line">        hash:<span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    plugins.push(<span class="keyword">new</span> HtmlWebpackPlugin(conf));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>根据<code>抽象dir</code>的方法，我们可以通过<code>getEntry</code>来获取一个pages对象，并使用chunks来处理每一个入口页面的依赖。</p>
+<p>如果你是单页应用，你只需要添加一次HtmlWebpackPlugin插件即可。</p>
+<h2 id="如何优化"><a href="#如何优化" class="headerlink" title="如何优化"></a>如何优化</h2><blockquote>
+<p>优化，但不要过度的优化</p>
+</blockquote>
+<p>运行<code>npm run product</code>来构建你的发布资源。</p>
+<p>过度优化的结果：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">margin-left</span>: auto;</span><br><span class="line">  <span class="attribute">margin-right</span>: auto;</span><br><span class="line">  <span class="selector-class">.size</span>(margin-top, <span class="number">15px</span>);</span><br><span class="line">  <span class="selector-class">.size</span>(margin-bottom, <span class="number">15px</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后经过webpack的优化变成了：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">2.6408vh</span> auto <span class="number">2.6408vh</span>;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">1.5rem</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">1.5rem</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么问题来了Android4.3以下版本是不支持vw,vh单位的。</p>
+<p>我认为对于一个项目，优化的方式应该可以从下列的几个点中去挖掘：</p>
+<p><strong>externals 分离</strong></p>
+<p>善用<code>externals</code>将过大的文件分离出去，然后再用<code>script</code>标签引用即可。</p>
+<p><strong>alias机制</strong></p>
+<p>给一些模块启用别名，来提高webpack的搜索速度。</p>
+<p><strong>将某些对象暴露在全局</strong></p>
+<ul>
+<li>在loader中使用<code>expose</code>将对象暴露出去<code>loader: &#39;expose?jQuery&#39;</code></li>
+<li>使用<code>ProvidePlugin</code>插件的帮助</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> webpack.ProvidePlugin(&#123;</span><br><span class="line">    <span class="string">"M"</span>: <span class="string">"mock"</span>,</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+<p>假设<code>mock</code>对象中有<code>set</code>，<code>get</code>方法，那么此刻你可以在使用<code>M.set</code>，<code>M.get</code>方式来调用。</p>
+<p><strong>启用热替换</strong></p>
+<ul>
+<li>将代码内敛到入口js文件中，然后启动<code>webpack.HotModuleReplacementPlugin</code>插件</li>
+<li>使用自带的<code>webpack-dev-server</code>启动一个服务器</li>
+<li>直接在<code>webpack.config.js</code>文件中配置</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//配置</span></span><br><span class="line"></span><br><span class="line">devServer:&#123;</span><br><span class="line">	port:<span class="number">4000</span>,</span><br><span class="line">	contentBase:<span class="string">'./app'</span>,</span><br><span class="line">	historyApiFallback:<span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>合理的使用CommonsChunkPlugin将每一个chunk分割开，并提取</strong></p>
+<p><code>CommonsChunkPlugin</code>有一些属性，比如<code>minChunks</code>可以设置如果<code>require</code>几次再提取的问题。</p>
+<p><strong>个别项目环境变量优化</strong></p>
+<p>定义你的<code>process.env.NODE_ENV</code>变量，启用<code>DefinePlugin</code>插件来优化警告信息，很多框架，比如react都带有警告，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(process.env.NODE_ENV !== <span class="string">'production'</span>)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在prodcut期，我们可以通过<code>DefinePlugin</code>来打入环境变量来将这些剔除。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins.push(<span class="keyword">new</span> webpack.DefinePlugin(&#123;</span><br><span class="line">    <span class="string">'process.env'</span>:&#123;</span><br><span class="line">        <span class="string">'NODE_ENV'</span>:<span class="built_in">JSON</span>.stringify(process.env.NODE_ENV)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+<p>构建期间<code>process.env.NODE_ENV !== &#39;production&#39;</code>会变成：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="literal">false</span>)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>压缩工具，会忽略false内的内容，你会发现体积将减少了很多。</p>
+<h2 id="清理工作"><a href="#清理工作" class="headerlink" title="清理工作"></a>清理工作</h2><p>每次<code>npm run product</code>之后，因为设置了<code>hash</code>属性，所以会生成不同的文件，那么问题来了，我无法清理www目录，那么这时候，就可以换到Node.js的文件系统上了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">'fs'</span>);</span><br><span class="line"><span class="keyword">var</span> path = <span class="built_in">require</span>(<span class="string">'path'</span>);</span><br><span class="line"><span class="keyword">var</span> containerPath = path.resolve(<span class="string">'./'</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = rmdir;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">rmdir</span>(<span class="params">dirPath</span>)</span>&#123;</span><br><span class="line">    dirPath = path.resolve(containerPath,dirPath);</span><br><span class="line">    <span class="keyword">var</span> dirs = [];</span><br><span class="line">    collection(dirPath,dirs);</span><br><span class="line">    dirs.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">v</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">var</span> status = fs.rmdirSync(v);</span><br><span class="line">        <span class="keyword">if</span>(status)&#123;</span><br><span class="line">            <span class="built_in">console</span>.log(status);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">collection</span>(<span class="params">url,dirs</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> stat = fs.statSync(url);</span><br><span class="line">    <span class="keyword">if</span>(stat.isDirectory())&#123;</span><br><span class="line">        dirs.unshift(url);</span><br><span class="line">        recursion(url,dirs);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(stat.isFile())&#123;</span><br><span class="line">            fs.unlinkSync(url);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">recursion</span>(<span class="params">url,dirs</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> arr = fs.readdirSync(url);</span><br><span class="line">    <span class="keyword">var</span> i = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">var</span> le = arr.length;</span><br><span class="line">    <span class="keyword">for</span>(;i&lt;le;i++)&#123;</span><br><span class="line">        <span class="keyword">var</span> v = path.resolve(url,arr[i]);</span><br><span class="line">        collection(v,dirs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="运行脚手架Demo"><a href="#运行脚手架Demo" class="headerlink" title="运行脚手架Demo"></a>运行脚手架Demo</h2><p>你可以下载脚手架项目跑一跑：<a href="https://github.com/sapling-team/generator-sapling-pc" target="_blank" rel="external">https://github.com/sapling-team/generator-sapling-pc</a></p>
+<p>最终的发布可能还是需要gulp的一些辅助，不过这不要紧了，它只是帮助我们挪动了一些文件，最终成为了一个<code>www</code>目录。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+    <div class="jiathis_style">
+    <span class="jiathis_txt">分享到：</span>
+    <a class="jiathis_button_qzone">QQ空间</a>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_tqq">腾讯微博</a>
+    <a class="jiathis_button_weixin">微信</a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<style>
+    .jiathis_style div:first-child:not(.jiadiv_01) {
+        width: auto !important;
+        border: none !important;
+    }
+    .jiathis_style .jiadiv_01 {
+        margin: 10px 0;
+        border-radius: 4px;
+        border: #e1e1e1 solid 1px;
+    }
+    .jiathis_style .jiadiv_01 div:first-child {
+        display: none;
+    }
+    .jiathis_style .jiadiv_02 {
+        padding: 7px 0 !important;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle {
+        width: 85px;
+        border: none;
+        height: auto;
+        margin: 3px 10px;
+        padding: 6px 10px;
+        border-radius: 4px;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:hover {
+        border: none;
+    }
+    .jiathis_style .jiadiv_02 .jiatitle:nth-child(even) {
+        margin-left: 0;
+    }
+    .jiathis_style .jtico:hover {
+        opacity: 1;
+    }
+    .jiathis_style .ckepopBottom,
+    .jiathis_style .centerBottom {
+        width: auto !important;
+        padding: 5px;
+        background: #f7f7f7;
+    }
+</style>
+
+
+
+</div>
+
+            
+    
+        <a href="https://mulgore.github.io/2016/04/14/issues-4/#comments" class="article-comment-link ds-thread-count" data-thread-key="https://mulgore.github.io/2016/04/14/issues-4/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/04/16/issues-3/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Swift的期待
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/04/07/issues-5/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">使用Travis-CI+Coveralls让你的Github开源项目持续集成</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div class="ds-thread" data-thread-key="2016/04/14/issues-4/" data-title="webpack实践最后一篇" data-url="https://mulgore.github.io/2016/04/14/issues-4/"></div>
+    <style>
+        #ds-thread #ds-reset .ds-textarea-wrapper {
+            background: none;
+        }
+        #ds-reset .ds-avatar img {
+            box-shadow: none;
+        }
+        #ds-reset .ds-gradient-bg {
+            background: #f7f7f7;
+        }
+        #ds-thread #ds-reset li.ds-tab a {
+            border-radius: 3px;
+        }
+        #ds-thread #ds-reset .ds-post-button {
+            color: white;
+            border: none;
+            box-shadow: none;
+            background: #d32;
+            text-shadow: none;
+            font-weight: normal;
+            font-family: 'Microsoft Yahei';
+        }
+        #ds-thread #ds-reset .ds-post-button:hover {
+            color: white;
+            background: #DE594C;
+        }
+        #ds-thread #ds-reset .ds-post-button:active {
+            background: #d32;
+        }
+        #ds-smilies-tooltip ul.ds-smilies-tabs li a.ds-current {
+            color: white;
+            background: #d32;
+            box-shadow: none;
+            text-shadow: none;
+            font-weight: normal;
+        }
+    </style>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/06/11/keduo-weekly-2/" class="title">课多周刊第2期</a></p>
+                            <p class="item-date"><time datetime="2016-06-11T04:07:02.000Z" itemprop="datePublished">2016-06-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/06/02/keduo-weekly-1/" class="title">课多周刊第1期</a></p>
+                            <p class="item-date"><time datetime="2016-06-02T02:02:25.000Z" itemprop="datePublished">2016-06-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/06/01/used-CNodeAPI-for-development-of-react-webapp/" class="title">基于CNodeAPI使用react开发一个完整的Web应用</a></p>
+                            <p class="item-date"><time datetime="2016-06-01T12:39:17.000Z" itemprop="datePublished">2016-06-01</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/23/follow-react-lesson/" class="title">和我一起实战react</a></p>
+                            <p class="item-date"><time datetime="2016-05-23T07:24:24.000Z" itemprop="datePublished">2016-05-23</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2016/05/16/issues-1/" class="title">我是这样学习前端的</a></p>
+                            <p class="item-date"><time datetime="2016-05-16T07:49:38.000Z" itemprop="datePublished">2016-05-16</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">三月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/12/">十二月 2015</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/11/">十一月 2015</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaScript/">JavaScript</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Node-js/">Node.js</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">14</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端漫谈/">前端漫谈</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/实战课程/">实战课程</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/课多周刊/">课多周刊</a><span class="tag-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/JavaScript/" style="font-size: 15px;">JavaScript</a> <a href="/tags/Node-js/" style="font-size: 10px;">Node.js</a> <a href="/tags/Swift/" style="font-size: 20px;">Swift</a> <a href="/tags/webpack/" style="font-size: 12.5px;">webpack</a> <a href="/tags/前端漫谈/" style="font-size: 15px;">前端漫谈</a> <a href="/tags/实战课程/" style="font-size: 12.5px;">实战课程</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/课多周刊/" style="font-size: 17.5px;">课多周刊</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2016 icepy,yuanxj1024<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script type="text/javascript">
+    var duoshuoQuery = {short_name:'icepy'};
+    (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
