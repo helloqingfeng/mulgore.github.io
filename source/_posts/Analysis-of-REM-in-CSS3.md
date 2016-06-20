@@ -12,7 +12,7 @@ CSS开发中，时常会遇到em、rem、vh等等一些单位，在项目实践�
 
 先看一下[维基百科][1]对CSS中的REM定义，在CSS样式表中，单位em是作为字体高度的单位来使用的，但实际字体大小的高度显示是用户对DPI的定义来决定的。为了改善这种样式规则，单位rem则是直接取决于文档根元素字体默认大小，也可以理解为root em，跟em有所不同的是使用rem单位的字体大小在整个文档中都是恒定不变的
 
-> <strong>Font-relative lengths: the em, ex, ch, rem units</strong>
+> Font-relative lengths: the em, ex, ch, rem units
 Aside from rem (which refers to the font-size of the root element), the font-relative lengths refer to the font metrics of the element on which they are used. The exception is when they occur in the value of the font-size property itself, in which case they refer to the computed font metrics of the parent element (or the computed font metrics corresponding to the initial values of the font property, if the element has no parent).
 
 看看[W3C][2]的定义，rem指的是根元素的字体大小，[MDN][3]对rem的解释也是一样。REM在CSS中基本概念是字体相对大小的长度单位，同EM、PX相似，但又有着千丝万缕的关系
@@ -47,8 +47,7 @@ h1 {
     font-size: 2.4rem;
 }
 ```
-<p data-height="265" data-theme-id="dark" data-slug-hash="ZOYVLY" data-default-tab="html" data-user="darcyWang" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/darcyWang/pen/ZOYVLY/">ZOYVLY</a> by TianbaoWang (<a href="http://codepen.io/darcyWang">@darcyWang</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+[参考这里][13]
 ### REM 深入
 
 使用em的好处，响应式布局下的字体大小变化
@@ -86,9 +85,24 @@ small { font-size: 0.833em; }
 上面展示了单位em在媒体查询中的使用，代码量相当于单位px的一半！用到的是单位em的继承和
 相对父级(例子里面的html)字体大小。当单位em字体大小是相对直接或者是最近的父级，但单位rem的大小则是相对于html(根元素)字体大小，也可以把它理解为一种样式重置。那为什么要使用rem呢，这就像问你Less、Sass和Postcss到底哪个更好一样，举个栗子：margin: 50px 0;和margin: 5rem 0;在很多国外程序员写出的css中，不管是写sass或者是stylus的，他们更偏向于后一种写法，还有当看到别人的样式表中用着不同的单位，会不会有一种逼格的赶脚。
 对em、rem和px的使用也不是绝对孰好孰坏，最好的方式就是同时使用，在对的地方使用对的单位，之前有人在[stackoverflow][11]问过使用相对单位，个人推荐多使用单位em，可以用px来写border，rem则可以用margin或者padding之类的，不过还是需要慎用[IE9,10][8]都不完全支持rem，给大家推荐一个sublime的[插件][15]
+实际项目里面的Sass文件_font.scss
+```css
+@mixin font-size($size: $normal) {
+  font-size: $size + px;
+  font-size: ($size/10) + rem;
+}
 
-<p data-height="265" data-theme-id="dark" data-slug-hash="XKJxxY" data-default-tab="html" data-user="darcyWang" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/darcyWang/pen/XKJxxY/">CSS rem</a> by TianbaoWang (<a href="http://codepen.io/darcyWang">@darcyWang</a>) on <a href="http://codepen.io">CodePen</a>.</p>
-<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: $normal + px;
+  line-height: 140%;
+}
+```
+
+最后给大家看一下单位em、rem和px混合使用的例子，[参考这里][14]
 [1]: https://en.wikipedia.org/wiki/Em_(typography)#CSS
 [2]: https://www.w3.org/TR/css3-values/#font-relative-lengths
 [3]: https://developer.mozilla.org/en-US/docs/Web/CSS/length
@@ -102,8 +116,8 @@ small { font-size: 0.833em; }
 [10]: http://snook.ca/archives/html_and_css/font-size-with-rem
 [11]: http://stackoverflow.com/questions/11799236/should-i-use-px-or-rem-value-units-in-my-css
 [12]: http://css3files.com/2012/10/11/relative-is-the-new-absolute-the-rem-unit/
-[13]: https://en.wikipedia.org/wiki/Em_(typography)#CSS
-[14]: https://en.wikipedia.org/wiki/Em_(typography)#CSS
+[13]: http://codepen.io/darcyWang/pen/ZOYVLY/
+[14]: http://codepen.io/darcyWang/pen/XKJxxY/
 [15]: https://github.com/flashlizi/cssrem
 
 
