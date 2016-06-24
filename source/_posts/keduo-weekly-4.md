@@ -75,3 +75,11 @@ tags: 课多周刊
 - [Node-Style-Guide](https://github.com/felixge/node-style-guide)
 
 *Node.js风格指南，值得团队中去借鉴*
+
+## 关注我们
+
+**扫二维码** 或搜索 **fed-talk** ，关注我们的微信公众号。
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/icepy/_posts/master/img/weixin.jpg" alt=""/><br>
+</div>
