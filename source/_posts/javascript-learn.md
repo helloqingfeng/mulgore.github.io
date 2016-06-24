@@ -1,6 +1,6 @@
 title: 前端开发基础－JavaScript
 date: 2015-12-16 12:11:15
-tags: JavaScript
+tags: JavaScript专栏
 ---
 
 这是很久很久之前想写的东西，拖了五六个月，没有动笔，现今补齐，内容有些多，对初学者有用，错误之处，望指出。

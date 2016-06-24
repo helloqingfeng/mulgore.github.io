@@ -1,6 +1,6 @@
 title: 上传图片攻略全解
 date: 2016-03-27 12:08:08
-tags: JavaScript
+tags: JavaScript专栏
 ---
 
 ## 上传图片攻略全解
