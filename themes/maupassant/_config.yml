@@ -24,6 +24,9 @@ menu:
   - page: 实战课程
     directory: /lesson/index.html
     icon: fa-hand-rock-o
+  - page: Mulgore Pro 计划
+    directory: /pro/index.html
+    icon: fa-american-sign-language-interpreting
   - page: about
     directory: about/
     icon: fa-user
